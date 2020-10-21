@@ -6,7 +6,11 @@
 
     <groupId>groupId</groupId>
     <artifactId>SP</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>Backend</module>
+    </modules>
 
-    
+
 </project>
