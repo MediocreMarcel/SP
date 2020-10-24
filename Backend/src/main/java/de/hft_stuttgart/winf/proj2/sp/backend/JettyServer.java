@@ -1,9 +1,13 @@
 package de.hft_stuttgart.winf.proj2.sp.backend;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.servlet.ServletContainer;
+
+import javax.servlet.DispatcherType;
+import java.util.EnumSet;
 
 /**
  * Hello world!
@@ -22,6 +26,9 @@ public class JettyServer {
         serHol.setInitOrder(1);
         serHol.setInitParameter("jersey.config.server.provider.packages",
                 "de.hft_stuttgart.winf.proj2.sp.backend.handler");
+
+        FilterHolder filterHolder = ctx.addFilter(org.eclipse.jetty.servlets.CrossOriginFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
+        filterHolder.setInitParameter("allowedOrigins", "http://localhost:4200");
 
         try {
             server.start();

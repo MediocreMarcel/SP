@@ -11,6 +11,6 @@ public class PingHandler {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String ping() {
-        return "pong";
+        return "erfolgreich eingeloggt.";
     }
 }

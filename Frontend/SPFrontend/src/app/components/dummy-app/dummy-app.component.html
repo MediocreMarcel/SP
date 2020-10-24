@@ -1,0 +1,31 @@
+<div class="center">
+  <mat-card id="card">
+    <mat-card-title>
+      Login
+    </mat-card-title>
+    <br/>
+
+    <mat-card-content>
+      <p>
+        <mat-form-field appearance="legacy">
+          <mat-label>Username eingeben</mat-label>
+          <input matInput placeholder="Username" [(ngModel)]="username">
+          <mat-icon matSuffix>account_circle</mat-icon>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field appearance="legacy">
+          <mat-label>Passwort eingeben</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" placeholder="Passwort" [(ngModel)]="password">
+          <mat-icon matSuffix>lock</mat-icon>
+        </mat-form-field>
+      </p>
+      <button mat-raised-button color="basic" style="margin-right:5px;" (click)="login()">login</button>
+      <button mat-raised-button color="basic" style="margin-right:5px;" (click)="click()">Passwort vergessen?</button>
+      <br/>
+      <br/>
+      <div>{{result}}</div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
