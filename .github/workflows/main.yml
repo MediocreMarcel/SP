@@ -35,5 +35,5 @@ jobs:
       - name: 'Publish JAR'
         uses: actions/upload-artifact@v2-preview
         with:
-          name: ‘cicd-demo-${{env.VERSION}}-all.jar'
-          path: build/libs/*-all.jar
+          name: ‘SP-Backend-1.0-SNAPSHOT-jar-with-dependencies.jar'
+          path: target/SP-Backend-1.0-SNAPSHOT-jar-with-dependencies.jar
