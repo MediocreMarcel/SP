@@ -40,5 +40,5 @@ jobs:
           # Artifact name
           name: SP-Backend.jar # optional, default is artifact
           # A file, directory or wildcard pattern that describes what to upload
-          path: /target/*jar-with-dependencies.jar
+          path: Backend/target/*jar-with-dependencies.jar
 
