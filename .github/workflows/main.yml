@@ -37,6 +37,9 @@ jobs:
         runs-on: ubuntu-latest
         needs: [build]
         steps:
+          - name: 'Assemble JAR'
+            run: |
+             mvn clean package
           - name: ls
             run: ls
           - name: Upload a Build Artifact
