@@ -1,6 +1,7 @@
 /.idea
 SP.iml
 /Backend/target/
-/Backend/Backend.iml
+/Backend/SP-Backend.iml
 .classpath
 .project
+.settings
