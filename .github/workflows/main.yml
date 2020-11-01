@@ -45,6 +45,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.OC_HOST }}
+          username: opc
           key: ${{ secrets.OC_PRIVATE_KEY }}
           port: 22
           script: scp Backend/target/SP-Backend-1.0-SNAPSHOT-jar-with-dependencies.jar ocp@${{ secrets.OC_HOST }}:/home/ocp/SP-Backend
