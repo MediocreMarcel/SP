@@ -29,11 +29,12 @@ jobs:
       - name: 'Check Java Version'
         run: |
           java --version
+      - name: Test with Maven
+        run: |
+          mvn -B test --file pom.xml
       - name: 'Assemble JAR'
         run: |
           mvn clean package
-      - name: ls
-        run: ls
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.0
         with:
