@@ -41,17 +41,10 @@ jobs:
           name: SP-Backend.jar # optional, default is artifact
           # A file, directory or wildcard pattern that describes what to upload
           path: Backend/target/*jar-with-dependencies.jar
-      - name: upload via ssh
-        uses: garygrossgarten/github-action-ssh@release
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
         with:
-          command: scp Backend/target/SP-Backend-1.0-SNAPSHOT-jar-with-dependencies.jar ocp@${{ secrets.OC_HOST }}:/home/ocp/SP-Backend
           host: ${{ secrets.OC_HOST }}
-          username: opc
-          privateKey: ${{ secrets.OC_PRIVATE_KEY}}
-      - name: run via ssh
-        uses: garygrossgarten/github-action-ssh@release
-        with:
-          command: java -jar /home/ocp/SP-Backend/SP-Backend-1.0-SNAPSHOT-jar-with-dependencies.jar
-          host: ${{ secrets.OC_HOST }}
-          username: opc
-          privateKey: ${{ secrets.OC_PRIVATE_KEY}}
+          key: ${{ secrets.OC_PRIVATE_KEY }}
+          port: 22
+          script: scp Backend/target/SP-Backend-1.0-SNAPSHOT-jar-with-dependencies.jar ocp@${{ secrets.OC_HOST }}:/home/ocp/SP-Backend
