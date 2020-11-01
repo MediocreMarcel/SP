@@ -49,9 +49,9 @@ jobs:
           username: opc
           privateKey: ${{ secrets.OC_PRIVATE_KEY}}
       - name: run via ssh
-          uses: garygrossgarten/github-action-ssh@release
-          with:
-            command: java -jar /home/ocp/SP-Backend/SP-Backend-1.0-SNAPSHOT-jar-with-dependencies.jar
-            host: ${{ secrets.OC_HOST }}
-            username: opc
-            privateKey: ${{ secrets.OC_PRIVATE_KEY}}
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: java -jar /home/ocp/SP-Backend/SP-Backend-1.0-SNAPSHOT-jar-with-dependencies.jar
+          host: ${{ secrets.OC_HOST }}
+          username: opc
+          privateKey: ${{ secrets.OC_PRIVATE_KEY}}
