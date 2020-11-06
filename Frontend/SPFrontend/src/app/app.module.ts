@@ -5,13 +5,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TestComponent } from './components/test/test.component';
+import {InfoUserDialogComponent, NavbarComponent} from './components/navbar/navbar.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
-import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { TestComponent } from './components/test/test.component';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   declarations: [
     AppComponent,
+    NavbarComponent,
+    InfoUserDialogComponent,
     HomePageComponent,
     TestComponent
   ],
@@ -19,8 +26,12 @@ import {MatFormFieldModule} from "@angular/material/form-field";
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatDialogModule,
+    MatToolbarModule,
+    MatIconModule,
     MatButtonModule,
     MatFormFieldModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

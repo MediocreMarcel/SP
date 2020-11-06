@@ -1,16 +1,17 @@
+<app-navbar></app-navbar>
 <div class="top">
   <h1 class="frage">Was möchten sie wählen?
   </h1>
 </div>
 
 <div class="mid">
-<button class="buttons" (click)="klausurErstellenNav()" color="primary" id="1" mat-flat-button
+<button class="buttons" (click)="createExam()" color="primary" id="1" mat-flat-button
         type="button" title="Hier können Sie eine neue Prüfung erstellen">Klausur erstellen</button>
-<button class="buttons" (click)="klausurKorrigierenNav()" color="primary" id="2" mat-flat-button
+<button class="buttons" (click)="correctExam()" color="primary" id="2" mat-flat-button
         type="button" title="Beginnen Sie mit der Korrektur von vorliegenden Klausuren"> Klausur korrigieren </button>
-<button class="buttons" title="Hier finden Sie Ihre archivierten Klausuren" (click)="archivierteKlausurenNav()" color="primary" id="3" mat-flat-button
+<button class="buttons" title="Hier finden Sie Ihre archivierten Klausuren" (click)="archiveExam()" color="primary" id="3" mat-flat-button
         type="button"> Archivierte Klausuren</button>
-<button class="buttons" title="Fügen Sie neue Fragen Ihrem Fragenpool hinzu" (click)="fragenHinzufuegenNav()" color="primary" id="4" mat-flat-button
+<button class="buttons" title="Fügen Sie neue Fragen Ihrem Fragenpool hinzu" (click)="addQuestions()" color="primary" id="4" mat-flat-button
         type="button"> Fragen hinzufügen </button>
   </div>
 
