@@ -59,10 +59,10 @@ jobs:
           user: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
       - name: Run Backend in Background
-          uses: appleboy/ssh-action@master
-          with:
-            host: ${{ secrets.SSH_HOST }}
-            username: ${{ secrets.SSH_USER }}
-            key: ${{ secrets.SSH_KEY }}
-            port: ${{ secrets.SSH_PORT }}
-            script: nohup java -jar secrets.SSH_DIR/SP-Backend-1.0-SNAPSHOT-jar-with-dependencies.jar &
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: nohup java -jar secrets.SSH_DIR/SP-Backend-1.0-SNAPSHOT-jar-with-dependencies.jar &
