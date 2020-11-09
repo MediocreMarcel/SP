@@ -28,7 +28,7 @@ jobs:
         with:
           java-version: 14
       - name: 'mvn test'
-          run: |
+        run: |
             mvn test
       #- name: 'angular test'
       #   run: npm run --prefix Frontend/SPFrontend test
