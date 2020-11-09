@@ -44,7 +44,7 @@ jobs:
       - name: Publish to Oracle Cloud
         uses: nogsantos/scp-deploy@master
         with:
-          src: ./dist/*
+          src: Backend/target/*jar-with-dependencies.jar
           host: ${{ secrets.SSH_HOST }}
           remote: ${{ secrets.SSH_DIR }}
           port: ${{ secrets.SSH_PORT }}
