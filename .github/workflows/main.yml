@@ -65,4 +65,4 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          script: nohup java -jar secrets.SSH_DIR/SP-Backend-1.0-SNAPSHOT-jar-with-dependencies.jar &
+          script: nohup java -jar SP-Backend/SP-Backend-1.0-SNAPSHOT-jar-with-dependencies.jar &
