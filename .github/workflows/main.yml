@@ -90,7 +90,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          script: sudo rm -r /var/www/html
+          script: sudo rm -r /var/www/html/*
       - name: Publish to Oracle Cloud
         uses: nogsantos/scp-deploy@master
         with:
