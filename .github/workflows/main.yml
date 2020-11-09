@@ -94,7 +94,7 @@ jobs:
       - name: Publish to Oracle Cloud
         uses: nogsantos/scp-deploy@master
         with:
-          src: Frontend/SPFrontend/dist/SPFrontend
+          src: Frontend/SPFrontend/dist/SPFrontend/*
           host: ${{ secrets.SSH_HOST }}
           remote: /var/www/html
           port: ${{ secrets.SSH_PORT }}
