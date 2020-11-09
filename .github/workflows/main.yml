@@ -79,8 +79,8 @@ jobs:
       - name: Install dependencies
         run: npm install
         working-directory: Frontend/SPFrontend
-      - name: Test
-        run: npm run --prefix Frontend/SPFrontend test
+      #- name: Test
+      #  run: npm run --prefix Frontend/SPFrontend test
       - name: Build
         run: npm run --prefix Frontend/SPFrontend build
       - name: Clear directory
