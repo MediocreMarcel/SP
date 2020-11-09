@@ -41,6 +41,14 @@ jobs:
           name: SP-Backend.jar # optional, default is artifact
           # A file, directory or wildcard pattern that describes what to upload
           path: Backend/target/*jar-with-dependencies.jar
+      - name: kill Backend
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: ps -ef | grep 'SP-Backend' | grep -v grep | awk '{print $2}' | xargs -r kill -9
       - name: Publish to Oracle Cloud
         uses: nogsantos/scp-deploy@master
         with:
@@ -50,3 +58,11 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           user: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
+      - name: Run Backend in Background
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.SSH_HOST }}
+            username: ${{ secrets.SSH_USER }}
+            key: ${{ secrets.SSH_KEY }}
+            port: ${{ secrets.SSH_PORT }}
+            script: nohup java -jar secrets.SSH_DIR/SP-Backend-1.0-SNAPSHOT-jar-with-dependencies.jar &
