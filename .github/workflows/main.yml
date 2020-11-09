@@ -42,11 +42,11 @@ jobs:
           # A file, directory or wildcard pattern that describes what to upload
           path: Backend/target/*jar-with-dependencies.jar
       - name: Publish to Oracle Cloud
-          uses: nogsantos/scp-deploy@master
-          with:
-            src: ./dist/*
-            host: ${{ secrets.SSH_HOST }}
-            remote: ${{ secrets.SSH_DIR }}
-            port: ${{ secrets.SSH_PORT }}
-            user: ${{ secrets.SSH_USER }}
-            key: ${{ secrets.SSH_KEY }}
+        uses: nogsantos/scp-deploy@master
+        with:
+          src: ./dist/*
+          host: ${{ secrets.SSH_HOST }}
+          remote: ${{ secrets.SSH_DIR }}
+          port: ${{ secrets.SSH_PORT }}
+          user: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
