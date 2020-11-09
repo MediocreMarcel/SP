@@ -78,6 +78,7 @@ jobs:
           node-version: '12.x'
       - name: Install dependencies
         run: npm SPFrontend
+        working-directory: Frontend/SPFrontend
       - name: Test
         run: npm run --prefix Frontend/SPFrontend test
       - name: Build
