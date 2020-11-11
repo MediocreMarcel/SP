@@ -25,15 +25,20 @@ jobs:
       - name: 'Setup Java'
         uses: actions/setup-java@v1
         with:
-          java-version: 11
+          java-version: 14
       - name: 'Check Java Version'
         run: |
           java --version
+      - name: Test with Maven
+        run: |
+          mvn -B test --file pom.xml
       - name: 'Assemble JAR'
         run: |
           mvn clean package
-      - name: 'Publish JAR'
-        uses: actions/upload-artifact@v2-preview
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2.2.0
         with:
-          name: ‘SP-Backend-1.0-SNAPSHOT-jar-with-dependencies.jar'
-          path: target/SP-Backend-1.0-SNAPSHOT-jar-with-dependencies.jar
+          # Artifact name
+          name: SP-Backend.jar # optional, default is artifact
+          # A file, directory or wildcard pattern that describes what to upload
+          path: Backend/target/*jar-with-dependencies.jar
