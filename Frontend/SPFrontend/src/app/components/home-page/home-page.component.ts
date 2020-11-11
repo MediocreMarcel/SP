@@ -17,5 +17,14 @@ export class HomePageComponent implements OnInit {
   klausurErstellenNav(){
     this.router.navigate(['/test-page']);
   }
+  klausurKorrigierenNav(){
+    this.router.navigate(['/test-page']);
+  }
+  archivierteKlausurenNav(){
+    this.router.navigate(['/test-page']);
+  }
+  fragenHinzufuegenNav(){
+    this.router.navigate(['/test-page']);
+  }
 
 }
