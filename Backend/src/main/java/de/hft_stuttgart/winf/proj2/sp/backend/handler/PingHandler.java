@@ -13,4 +13,5 @@ public class PingHandler {
     public String ping() {
         return "pong";
     }
+
 }
