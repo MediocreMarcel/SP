@@ -1,62 +1,76 @@
-.top{  width:1700px;
+
+.top{
+  width:auto;
   margin: auto;
-  padding: 100px;
   border: 1px solid #4CAF50;
 }
 .frage {
   font-family: verdana;
   color: black;
-  text-align: center;
+  text-align: left;
   font-weight: bold;
-  font-size: 60px;
-
-  margin-top: 100px;
-  margin-bottom: 100px;
+  font-size: 50px;
+  padding: 30px;
 
 
 }
 .mid{
-  width:1700px;
+  width:auto;
   margin: auto;
-  padding: 50px;
   border: 1px solid #4CAF50;
+  display: flex;
+  justify-content: center
+
 }
 .buttons {
-  height: 200px;
-  margin-top: 100px;
-  margin-right: 50px;
-  margin-left: 50px;
-  margin-bottom: 100px;
-
-  color: white;
+  background-color: #F2B705;
+  height: auto;
+  min-height: 100px;
+  min-width: fit-content;
+  color: black;
   text-align: center;
   font-weight: lighter;
   font-size: 30px;
+  margin: 50px;
 }
+
+
 .bot{
-  width: auto;
-  margin: auto;
-
-  padding: 50px;
+  width: 300px;
+  min-height: 200px;
   border: 1px solid #4CAF50;
-
   position: fixed;
-  bottom: 50px;
-  right: 100px;
+  bottom: 25px;
+  right: 25px;
 }
 .news_title{
   color: black;
   font-size: 30px;
-  background-color: lightgray;
-  margin-top: 100px;
-  margin-bottom: 50px;
-  text-align: right;
+  padding: 10px;
+  text-align: left;
 }
 
 .news_text {
+  width: 290px; /* Bug-SP43 muss noch bearbeitet werden, laesst sich nicht and groesse von Container auto anpassen */
+  height: 110px;
+
+  resize: none;
   color: black;
   font-size: 16px;
   background-color: lightgray;
 
 }
 
+.copyright{
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+  border: 1px solid #4CAF50;
+}
+
+.copyrigt_text{
+  color: black;
+  font-size: 15px;
+  padding: 5px;
+  text-align: left;
+}
