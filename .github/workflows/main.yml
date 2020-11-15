@@ -82,7 +82,8 @@ jobs:
       #- name: Test
       #  run: npm run --prefix Frontend/SPFrontend test
       - name: Build
-        run: npm run --prefix Frontend/SPFrontend build
+        run: ng build --prod
+        working-directory: Frontend/SPFrontend
       - name: Clear directory
         uses: appleboy/ssh-action@master
         with:
