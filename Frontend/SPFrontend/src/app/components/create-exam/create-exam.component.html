@@ -1,0 +1,81 @@
+<mat-grid-list cols="3" rowHeight="2:1">
+  <mat-grid-tile>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Klausur erstellen</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <!--Input Titel der Klausur-->
+        <p>Titel*</p>
+        <input type="text">
+        <!-- Modul Input (Soll Value aus Component 'create-exam-overview' anzeigen) -->
+        <p>Modul*</p>
+        <input type="text">
+
+        <!--Input Gesamtpunkte-->
+        <p>Gesamtpunkte*</p>
+        <input size='3' type="number" required maxlength="3">
+
+        <!--Input Gesamtpunkte: Hier sollen die aktuell mit aufgaben vergebenen Punkte aufsummiert werden-->
+        <p>Bisher vergebene Punkte</p>
+        <input size='3' type="number">
+
+        <!-- Fortschrittsbalken für vergebene Punkte im Verhätnis zu Gesatmpunkte-->
+        <p>Fortschritt</p>
+        <mat-progress-bar value="50"></mat-progress-bar>
+      </mat-card-content>
+    </mat-card>
+
+  </mat-grid-tile>
+  <mat-grid-tile>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Themen
+    </mat-card-title>
+
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-expansion-panel *ngFor="let topic of topics">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{topic.title}}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{topic.description}}
+        </mat-panel-description>
+        <mat-panel-description>
+          {{topic.question}}
+        </mat-panel-description>
+        <mat-panel-description>
+          {{topic.points}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-action-row *ngFor="let question of questions">
+      <mat-panel-description> {{question.order}} </mat-panel-description>
+      <mat-panel-description> {{question.points}}</mat-panel-description>
+
+      </mat-action-row>
+      <mat-action-row>
+        <button type="button" mat-flat-button (click)="addQuestion()">Frage hinzufügen</button>
+      </mat-action-row>
+
+
+    </mat-expansion-panel>
+  </mat-card-content>
+
+  <mat-card-actions aling="end">
+    <button  type="button" mat-flat-button (click)="addTopic()">
+      <mat-icon>add</mat-icon> ADD
+    </button>
+  </mat-card-actions>
+
+</mat-card>
+  </mat-grid-tile>
+
+  <mat-grid-tile>3</mat-grid-tile>
+  <mat-grid-tile>4</mat-grid-tile>
+
+</mat-grid-list>
