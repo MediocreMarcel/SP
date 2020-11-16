@@ -28,7 +28,9 @@ import {MatGridListModule} from "@angular/material/grid-list";
     AppComponent,
     CreateExamOverviewComponent,
     CreateExamDialogOverview,
-    CreateExamComponent
+    CreateExamComponent,
+    HomePageComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,
