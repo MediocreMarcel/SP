@@ -11,6 +11,10 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import de.hft_stuttgart.winf.proj2.sp.backend.Pojo.QuestionsPojo;
+import de.hft_stuttgart.winf.proj2.sp.backend.dao.ModuleDao;
+import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbQuestions;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
@@ -66,5 +70,41 @@ public class QuestionsHandler {
         }
         return Response.ok().build();
     }
+
+    @Path("getQuestion")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<QuestionsPojo> getQuestions(ModuleDao module) {
+        try {
+            DbQuestions dbAccess = new DbQuestions();
+            return dbAccess.getQuestions(module);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Path("newQuestion")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public QuestionsPojo createNewQuestion(QuestionsPojo question) {
+        try {
+            DbQuestions dbAccess = new DbQuestions();
+             if (dbAccess.createNewQuestion(question) ){
+                 return question;
+
+             }
+             else {
+                 return null;
+             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 
 }

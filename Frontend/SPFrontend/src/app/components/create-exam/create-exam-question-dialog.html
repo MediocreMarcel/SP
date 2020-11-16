@@ -1,0 +1,24 @@
+<div mat-dialog-content>
+  <p>Add Question</p>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Question Name</mat-label>
+    <input matInput [(ngModel)]="questionName">
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>Question Points</mat-label>
+    <input matInput [(ngModel)]="questionPoints">
+  </mat-form-field>
+
+
+</div>
+<div>
+
+</div>
+<div>
+  <button mat-stroked-button (click)="addQuestion()"> save</button>
+  <button mat-stroked-button mat-dialog-close>cancel</button>
+</div>
+
+
