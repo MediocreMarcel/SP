@@ -3,10 +3,10 @@ import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-new-module',
-  templateUrl: './new-module.component.html',
-  styleUrls: ['./new-module.component.css']
+  templateUrl: './create-module.component.html',
+  styleUrls: ['./create-module.component.css']
 })
-export class NewModuleComponent implements OnInit {
+export class CreateModuleComponent implements OnInit {
 
   constructor(private router: Router ) {}
 
@@ -17,4 +17,9 @@ export class NewModuleComponent implements OnInit {
    /* this.router.navigate(['/test-page']); */
     console.log('Abort works');
   }
+  createNewModule(){
+    /* this.router.navigate(['/test-page']); */
+    console.log('create works');
+  }
+
 }

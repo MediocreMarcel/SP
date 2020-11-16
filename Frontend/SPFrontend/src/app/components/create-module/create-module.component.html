@@ -1,0 +1,39 @@
+  <mat-grid-list class="grid" cols="1" rowHeight="100px">
+  <mat-grid-tile >
+    <h1 class ="title">Create Module </h1>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <h2 class ="subtitle">Here you can create a new module for your module overview.
+                    Please pay attention to the mandatory fields marked with *.</h2>
+  </mat-grid-tile>
+  <mat-grid-tile>
+
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <label class="input_descriptions">Modulbezeichnung *</label>
+    <input class="input_field">
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <label class="input_descriptions">Studiengänge *</label>
+    <select class="input_field">
+     <option>Wirtschaftsinformatik (B.SC)</option>
+     <option>Informatik (B.SC)</option>
+     <option>Mathematik (B.SC)</option>
+    </select>
+  </mat-grid-tile>
+    <mat-grid-tile>
+      <button class="buttons" (click)="abortNewModule()" color="primary" id="1" mat-flat-button
+                           type="button" title="Hier können sie den Vorgang abbrechen">Abbrechen</button>
+      <button class="buttons" (click)="createNewModule()" color="primary" id="2" mat-flat-button
+              type="button" title="Hier können Sie ein neues Modul erstellen">Modul erstellen</button>
+    </mat-grid-tile>
+</mat-grid-list>
+
+
+
+
+
+<div class="copyright">
+  <label class="copyright_text">© SP GmbH, 2020 </label>
+</div>
+

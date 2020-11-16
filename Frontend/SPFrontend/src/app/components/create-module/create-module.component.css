@@ -1,0 +1,65 @@
+.grid{
+  border: 1px red;
+}
+
+.top{
+
+  width:auto;
+  margin: auto;
+   border: 1px solid #4CAF50;
+}
+
+.title {
+  font-family: verdana;
+  color: black;
+  text-align: left;
+  font-weight: bold;
+  font-size: 50px;
+  padding: 30px;
+}
+
+.subtitle{
+  font-family: verdana;
+  color: black;
+  text-align: left;
+  padding: 30px;
+}
+
+
+.input_descriptions{
+  text-align:center;
+  font-size: 30px;
+  margin-right: 25px;
+
+}
+.input_field{
+  text-align:center;
+  font-size: 30px;
+}
+
+.buttons {
+  background-color: #F2B705;
+  height: auto;
+  min-height: 50px;
+  min-width: fit-content;
+  color: black;
+  text-align: center;
+  font-weight: lighter;
+  font-size: 30px;
+  margin: 50px;
+
+}
+
+.copyright{
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+   border: 1px solid #4CAF50;
+}
+
+.copyright_text{
+  color: black;
+  font-size: 15px;
+  padding: 5px;
+  text-align: left;
+}

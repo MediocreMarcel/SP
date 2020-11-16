@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {NewModuleComponent} from "./components/new-module/new-module.component";
+import {CreateModuleComponent} from "./components/create-module/create-module.component";
 
 const routes: Routes = [
-  {path: 'New-Module', component: NewModuleComponent} /*http://localhost:4200/New-Module*/
+  {path: 'Create-Module', component: CreateModuleComponent} /*http://localhost:4200/Create-Module*/
 ];
 
 @NgModule({
