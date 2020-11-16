@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {NewModuleComponent} from "./components/new-module/new-module.component";
+import {CreateModuleComponent} from "./components/create-module/create-module.component";
 import {HomePageComponent } from "./components/home-page/home-page.component";
 import  {TestComponent} from "./components/test/test.component";
 
@@ -8,9 +8,10 @@ import  {TestComponent} from "./components/test/test.component";
 
 
 const routes: Routes = [
+  {path: 'Create-Module', component: CreateModuleComponent} /*http://localhost:4200/Create-Module*/
   {path: 'home-page', component: HomePageComponent},
   {path: 'test-page', component: TestComponent},
-  {path: 'New-Module', component: NewModuleComponent} /*http://localhost:4200/New-Module*/
+
 ];
 
 @NgModule({
