@@ -5,6 +5,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 import javax.servlet.DispatcherType;
@@ -32,8 +33,11 @@ public class JettyServer {
 
         ServletHolder serHol = ctx.addServlet(ServletContainer.class, "/rest/*");
         serHol.setInitOrder(1);
-        serHol.setInitParameter("jersey.config.server.provider.packages",
+        serHol.setInitParameter(ServerProperties.PROVIDER_PACKAGES,
                 "de.hft_stuttgart.winf.proj2.sp.backend.handler");
+        serHol.setInitParameter(ServerProperties.PROVIDER_CLASSNAMES, "com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider");
+
+
 
         FilterHolder filterHolder = ctx.addFilter(org.eclipse.jetty.servlets.CrossOriginFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
         filterHolder.setInitParameter("allowedOrigins", "http://localhost:4200");
