@@ -10,6 +10,7 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent implements OnInit {
   user: User = new User();
+  hide = true;
 
 
   constructor(private userService: UserService,
@@ -23,13 +24,23 @@ export class LoginComponent implements OnInit {
     console.log(this.user.user_id);
     console.log(this.user);
     this.userService.loginUser(this.user).subscribe(
-      (response) => {
-        console.log('ok');
-        console.log(response.body);
+      res => {
+        if (res.status === 200) {
+          this.router.navigate(['home']);
+          this.userService.setLoggedIn(true);
+          this.user.setUser(res.body.user_id,
+            res.body.password,
+            res.body.name,
+            res.body.surname,
+            res.body.mail
+          );
+          console.log(this.user);
+        }
       },
-      (error) => {
-        console.error('Falsche Benutzerdaten');
-
-      });
+      error => {
+        this.hide = false;
+        console.log(error);
+      }
+    );
   }
 }
