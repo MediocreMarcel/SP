@@ -14,17 +14,17 @@ export class HomePageComponent implements OnInit {
   }
 
 
-  klausurErstellenNav(){
-    this.router.navigate(['/test-page']);
+  createExam(){
+    this.router.navigate(['/test']);
   }
-  klausurKorrigierenNav(){
-    this.router.navigate(['/test-page']);
+  correctExam(){
+    this.router.navigate(['/test']);
   }
-  archivierteKlausurenNav(){
-    this.router.navigate(['/test-page']);
+  archiveExam(){
+    this.router.navigate(['/test']);
   }
-  fragenHinzufuegenNav(){
-    this.router.navigate(['/test-page']);
+  addQuestions(){
+    this.router.navigate(['/test']);
   }
 
 }

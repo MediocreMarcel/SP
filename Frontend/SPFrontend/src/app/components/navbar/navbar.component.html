@@ -1,0 +1,26 @@
+<mat-toolbar>
+  <span style="margin-right: 50px" (click)="redirectToHome()">
+    <img class="img-responsive" src="assets/img/SP-Logo.png">
+  </span>
+  <span>
+    <button id="createExamButton" class="navButton" [disabled]="disabeledButtonsArray[0]" (click)="createExam()" mat-button>Klausur erstellen</button>
+  </span>
+  <span>
+       <button id="correctExamButton" class="navButton" [disabled]="disabeledButtonsArray[1]" (click)="correctExam()" mat-button>Klausur korrigieren</button>
+  </span>
+  <span>
+      <button id="archiveExamButton" class="navButton" [disabled]="disabeledButtonsArray[2]" (click)="archiveExam()" mat-button>Archivierte Klausuren</button>
+  </span>
+  <span>
+     <button id="ceateQuestionButton" class="navButton" [disabled]="disabeledButtonsArray[3]" (click)="createQuestions()" mat-button>Fragen erstellen</button>
+    </span>
+  <span class="spacer"></span>
+  <button mat-icon-button (click)="openDialog()">
+    <mat-icon matSuffix>account_circle</mat-icon>
+  </button>
+  <button mat-icon-button>
+    <mat-icon matSuffix>login</mat-icon>
+  </button>
+</mat-toolbar>
+
+
