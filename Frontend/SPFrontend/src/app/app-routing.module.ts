@@ -3,12 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 import {CreateModuleComponent} from "./components/create-module/create-module.component";
 import {HomePageComponent } from "./components/home-page/home-page.component";
 import  {TestComponent} from "./components/test/test.component";
-
-
-
+import {HttpClientModule} from "@angular/common/http";
 
 const routes: Routes = [
-  {path: 'Create-Module', component: CreateModuleComponent} /*http://localhost:4200/Create-Module*/
+  {path: 'Create-Module', component: CreateModuleComponent}, /*http://localhost:4200/Create-Module*/
   {path: 'home-page', component: HomePageComponent},
   {path: 'test-page', component: TestComponent},
 
@@ -18,4 +16,6 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+
+}

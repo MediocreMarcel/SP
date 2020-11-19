@@ -10,12 +10,14 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {HomePageComponent } from './components/home-page/home-page.component';
 import {TestComponent } from './components/test/test.component';
 import {MatButtonModule} from '@angular/material/button';
+import {CreateModuleService} from "./services/create-module.service";
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CreateModuleComponent
+    CreateModuleComponent,
     HomePageComponent,
     TestComponent
   ],
@@ -24,10 +26,11 @@ import {MatButtonModule} from '@angular/material/button';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
-    MatGridListModule
+    MatGridListModule,
     MatButtonModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [CreateModuleService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

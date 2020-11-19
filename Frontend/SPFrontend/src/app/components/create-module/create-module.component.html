@@ -11,7 +11,7 @@
   </mat-grid-tile>
   <mat-grid-tile>
     <label class="input_descriptions">Modulbezeichnung *</label>
-    <input class="input_field">
+    <input #inputField1 class="input_field">
   </mat-grid-tile>
   <mat-grid-tile>
     <label class="input_descriptions">Studiengänge *</label>
@@ -24,7 +24,7 @@
     <mat-grid-tile>
       <button class="buttons" (click)="abortNewModule()" color="primary" id="1" mat-flat-button
                            type="button" title="Hier können sie den Vorgang abbrechen">Abbrechen</button>
-      <button class="buttons" (click)="createNewModule()" color="primary" id="2" mat-flat-button
+      <button class="buttons" (click)="createNewModule(inputField1.value)" color="primary" id="2" mat-flat-button
               type="button" title="Hier können Sie ein neues Modul erstellen">Modul erstellen</button>
     </mat-grid-tile>
 </mat-grid-list>
