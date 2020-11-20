@@ -52,7 +52,7 @@ export class NavbarComponent implements OnInit {
   }
 
   createQuestions(): void {
-    this.router.navigate(['/test']);
+    this.router.navigate(['/questions-overview']);
   }
 
   redirectToHome(): void {
