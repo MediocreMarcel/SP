@@ -6,13 +6,13 @@ import lombok.*;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class CreateModuleDao {
+public class ModuleDao {
 
     private String module_id;
     private String course;
     private String definition;
 
-    public CreateModuleDao(){
+    public ModuleDao(){
 
     }
 

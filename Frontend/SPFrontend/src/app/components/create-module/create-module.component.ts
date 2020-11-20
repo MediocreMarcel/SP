@@ -10,7 +10,7 @@ import {CreateModuleService} from "../../services/create-module.service";
   styleUrls: ['./create-module.component.css']
 })
 export class CreateModuleComponent implements OnInit {
-private postData: string = "course:";
+postDataArr: string[]= [];
 
   constructor(private router: Router, private cm: CreateModuleService ) {}
 
@@ -21,12 +21,12 @@ private postData: string = "course:";
    /* this.router.navigate(['/test-page']); */
     console.log('Abort works');
   }
-  createNewModule(inputField1: string){
 
+  createNewModule(iFC: string, iFD: string){
+    this.postDataArr.push(iFC, iFD);
 
-    this.cm.sendModuleToDB({"course": inputField1}, 'http://localhost:8080/rest/module/create');
-    /* this.router.navigate(['/test-page']); */
-    /*console.log('create works'); */
+    this.cm.sendModuleToDB(this.postDataArr, 'http://localhost:8080/rest/module/create');
+
   }
 
 }

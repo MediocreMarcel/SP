@@ -11,11 +11,11 @@
   </mat-grid-tile>
   <mat-grid-tile>
     <label class="input_descriptions">Modulbezeichnung *</label>
-    <input #inputField1 class="input_field">
+    <input #iFD class="input_field">
   </mat-grid-tile>
   <mat-grid-tile>
     <label class="input_descriptions">Studiengänge *</label>
-    <select class="input_field">
+    <select #iFC class="input_field">
      <option>Wirtschaftsinformatik (B.SC)</option>
      <option>Informatik (B.SC)</option>
      <option>Mathematik (B.SC)</option>
@@ -24,7 +24,7 @@
     <mat-grid-tile>
       <button class="buttons" (click)="abortNewModule()" color="primary" id="1" mat-flat-button
                            type="button" title="Hier können sie den Vorgang abbrechen">Abbrechen</button>
-      <button class="buttons" (click)="createNewModule(inputField1.value)" color="primary" id="2" mat-flat-button
+      <button class="buttons" (click)="createNewModule(iFC.value ,iFD.value)" color="primary" id="2" mat-flat-button
               type="button" title="Hier können Sie ein neues Modul erstellen">Modul erstellen</button>
     </mat-grid-tile>
 </mat-grid-list>

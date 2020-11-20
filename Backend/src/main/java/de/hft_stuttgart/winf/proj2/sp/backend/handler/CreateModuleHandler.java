@@ -1,6 +1,6 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.handler;
 
-import de.hft_stuttgart.winf.proj2.sp.backend.dao.CreateModuleDao;
+import de.hft_stuttgart.winf.proj2.sp.backend.dao.ModuleDao;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -16,7 +16,7 @@ public class CreateModuleHandler {
         @POST
         @Consumes(MediaType.APPLICATION_JSON)
         @Produces(MediaType.APPLICATION_JSON)
-        public CreateModuleDao test (CreateModuleDao module){
+        public ModuleDao test (ModuleDao module){
         System.out.println(module);
         return module;
     }
