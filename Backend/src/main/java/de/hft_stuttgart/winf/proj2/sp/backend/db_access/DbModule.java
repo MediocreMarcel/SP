@@ -16,6 +16,12 @@ public class DbModule extends DbConnector{
         super();
     }
 
+    /**
+     * Gets all Courses that a User has access to
+     * @param user the user for whom the courses should be searched
+     * @return List of all Courses
+     * @throws SQLException Exception if connection to db fails or an error accrues
+     */
     public List<ModuleDao> getCourses(UserDao user) throws SQLException {
         ResultSetMapper<ModuleDao> resultSetMapper = new ResultSetMapper<>();
 

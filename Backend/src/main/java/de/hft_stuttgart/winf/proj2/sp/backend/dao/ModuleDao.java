@@ -10,7 +10,7 @@ import lombok.*;
 public class ModuleDao {
 
     @Column("module_id")
-    private String module_id;
+    private Integer module_id;
     @Column("course")
     private String course;
     @Column("definition")

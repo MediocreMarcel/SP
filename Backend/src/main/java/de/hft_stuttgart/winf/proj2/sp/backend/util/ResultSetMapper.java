@@ -8,8 +8,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This Class will provide methods to extract values out of a ResultSet and put them into DTO Objects
+ * @param <T> Class of the DTO of which the Object should be created of
+ */
 public class ResultSetMapper<T> {
 
+    /**
+     *
+     * @param rs ResultSet that should be converted to DTOs
+     * @param objectClass Class of the DTO Object that should be created
+     * @return Generated DTO Object
+     * @throws SQLException
+     * @throws NoSuchMethodException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws InstantiationException
+     */
     public List<T> mapResultSetToObject(ResultSet rs, Class objectClass) throws SQLException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         List<T> list = new ArrayList<>();
         while (rs.next()) {
