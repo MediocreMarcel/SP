@@ -11,7 +11,7 @@ export class QuestionsOverviewService {
 
   sendModuleToDB(postData: object){
     const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-    return this.http.post<ModuleDTO[]>("http://localhost:8080/rest/questions", JSON.stringify(postData), {headers: headers});
+    return this.http.post<ModuleDTO[]>("http://localhost:8080/rest/questions/modules", JSON.stringify(postData), {headers: headers});
 
   }
 }
