@@ -1,29 +1,47 @@
 <app-navbar></app-navbar>
 <mat-card>
   <mat-card-header>
-    <mat-card-title style="font-size: xx-large">Fragenpool</mat-card-title>
-    <mat-card-subtitle style="font-size: x-large; margin-top: 2%">Hier können Sie Ihre Fragenpools und die dazugehörigen Fragen verwalten und bearbeiten.</mat-card-subtitle>
+    <mat-card-title style="font-size: xx-large; margin-top: 3%">Fragenpool</mat-card-title>
+    <mat-card-subtitle style="font-size: x-large; margin-top: 2%">Hier können Sie Ihre Fragenpools und die dazugehörigen
+      Fragen verwalten und bearbeiten.
+    </mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-content>
     <p style="text-align: center">
       Sortierung nach:
-      <mat-button-toggle-group name="sortBy" aria-label="Sort by"
-                               #sortGroup="matButtonToggleGroup" (change)="sortChanged($event.value)" value="definition">
-        <mat-button-toggle value="definition">Studiengang</mat-button-toggle>
-        <mat-button-toggle value="module">Modulen</mat-button-toggle>
+      <mat-button-toggle-group name="sortBy" aria-label="Sort by" (change)="sortBy=$event.value;sortChanged();"
+                               value="definition">
+        <mat-button-toggle value="module">Studiengang</mat-button-toggle>
+        <mat-button-toggle value="definition">Modulen</mat-button-toggle>
       </mat-button-toggle-group>
     </p>
 
-    <mat-grid-list cols="6" rowHeight="1:1">
-      <mat-grid-tile
-        *ngFor="let tile of tiles">
-        <mat-card class="tile" (click)="navigateToQuestionsCollection(tile.definition)">
-          <mat-card-title class="tileTitle">{{tile.definition}}</mat-card-title>
-          <mat-card-subtitle>{{tile.course}}</mat-card-subtitle>
-        </mat-card>
-      </mat-grid-tile>
-    </mat-grid-list>
+    <mat-card class="modules">
+      <mat-grid-list cols="6" rowHeight="1:1">
+
+        <mat-grid-tile>
+          <mat-card class="tile" (click)="openCreateDialog()">
+            <mat-card-title style="height: 80%;">
+            <span mat-align-tabs="center" class="material-icons centerIcon">
+              add_circle
+            </span>
+            </mat-card-title>
+            <mat-card-subtitle style="text-align: center" class="tileSubtitle">Neues Modul erstellen</mat-card-subtitle>
+          </mat-card>
+        </mat-grid-tile>
+
+        <mat-grid-tile
+          *ngFor="let tile of tiles">
+          <mat-card class="tile" (click)="navigateToQuestionsCollection(tile.definition)">
+            <mat-card-title class="tileTitle">{{tile.definition}}</mat-card-title>
+            <mat-card-subtitle class="tileSubtitle">{{tile.course}}</mat-card-subtitle>
+          </mat-card>
+        </mat-grid-tile>
+
+      </mat-grid-list>
+    </mat-card>
+
   </mat-card-content>
 
 </mat-card>
