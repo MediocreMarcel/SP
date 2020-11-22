@@ -7,6 +7,7 @@ import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbModule;
 import javax.print.attribute.standard.Media;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -34,6 +35,21 @@ public class QuestionsHandler {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Path("modules")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getModulesByUser(ModuleDao module) {
+        try {
+            DbModule dbAccess = new DbModule();
+            if (!dbAccess.createCourses(module, user)){
+                return Response.status(Response.Status.CONFLICT).build();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Response.ok().build();
     }
 
 }

@@ -7,11 +7,19 @@ import {ModuleDTO} from "../components/questions-overview/questions-overview.com
 })
 export class QuestionsOverviewService {
 
+  headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+
   constructor(private http: HttpClient) { }
 
-  sendModuleToDB(postData: object){
-    const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-    return this.http.post<ModuleDTO[]>("http://localhost:8080/rest/questions/modules", JSON.stringify(postData), {headers: headers});
 
+
+  getModulesForUser(user: object){//TODO Change User when Class is added
+    return this.http.post<ModuleDTO[]>("http://localhost:8080/rest/questions/modules", JSON.stringify(user), {headers: this.headers});
   }
+
+  createNewModule(module: ModuleDTO){//TODO Change User when Class is added
+    return this.http.post<ModuleDTO[]>("http://localhost:8080/rest/questions/new_module", JSON.stringify(module), {headers: this.headers});
+  }
+
+
 }

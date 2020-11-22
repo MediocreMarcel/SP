@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {QuestionsOverviewService} from "../../services/questions-overview-service.service";
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-questions-overview',
@@ -14,7 +14,15 @@ export class QuestionsOverviewComponent implements OnInit {
 
 
   constructor(private service: QuestionsOverviewService, public dialog: MatDialog) {
-    service.sendModuleToDB({
+    this.loadModules();
+  }
+
+  ngOnInit(): void {
+
+  }
+
+  loadModules(){
+    this.service.getModulesForUser({
       "username": "0",
       "password": "pw",
       "mail": "mail",
@@ -22,12 +30,10 @@ export class QuestionsOverviewComponent implements OnInit {
       "surname": "Mustermann"
     }).subscribe(u => {
       this.tiles = u;
-      this.sortChanged();
+      if (this.sortBy.length > 0){
+        this.sortChanged();
+      }
     });
-  }
-
-  ngOnInit(): void {
-    this.sortChanged()
   }
 
   public sortChanged() {
@@ -45,12 +51,14 @@ export class QuestionsOverviewComponent implements OnInit {
 
   openCreateDialog(){
     const dialogRef = this.dialog.open(CreateModuleDialog, {
-      width: '250px',
-
+      width: '50%',
+      height: '30%'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+    dialogRef.afterClosed().subscribe(create => {
+      if (create){
+        this.loadModules();
+      }
     });
   }
 }
@@ -59,4 +67,29 @@ export class ModuleDTO {
   module_id: number;
   course: string;
   definition: string;
+
+  constructor(module_id, course, definition) {
+    this.module_id = module_id;
+    this.course = course;
+    this.definition = definition;
+  }
+}
+
+@Component({
+  selector: 'app-create-module-dialog',
+  templateUrl: './question-overview.create_module_dialog.html',
+  styleUrls: ['./questions-overview.create_module_dialog.css']
+})
+export class CreateModuleDialog {
+  moduleName: string;
+  courseName: string;
+
+
+  constructor(private service: QuestionsOverviewService, private dialogRef: MatDialogRef<CreateModuleDialog>) {
+  }
+
+  createModule() {
+    this.service.createNewModule(new ModuleDTO(null, this.courseName, this.moduleName));
+    this.dialogRef.close();
+  }
 }
