@@ -25,7 +25,7 @@ public abstract class DbConnector {
             throw new IllegalArgumentException("ip, user or password not set");
         }
         if (conn == null) {
-            DbConnector.conn = DriverManager.getConnection("jdbc:mariadb://" + ip + "/schrpruef", user, password);
+            DbConnector.conn = DriverManager.getConnection("jdbc:mariadb://" + ip + "/schrpruef?allowMultiQueries=true", user, password);
         }
     }
 

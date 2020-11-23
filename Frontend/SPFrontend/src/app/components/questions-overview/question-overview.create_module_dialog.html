@@ -1,8 +1,7 @@
 <h1>Neues Modul erstellen</h1>
 <mat-form-field class="module-form-input">
   <mat-label>Modulname</mat-label>
-  <input matInput type="text" [(
-         )]="moduleName">
+  <input matInput type="text" [(ngModel)]="moduleName">
   <button mat-button *ngIf="moduleName" matSuffix mat-icon-button aria-label="Clear" (click)="moduleName=''">
     <mat-icon>close</mat-icon>
   </button>
@@ -13,10 +12,10 @@
 <mat-form-field class="course-form-input">
   <mat-label>Studiengang</mat-label>
   <mat-select [(ngModel)]="courseName">
-    <mat-option value="winf">Wirtschaftsinformatik (B.Sc.)</mat-option>
-    <mat-option value="m">Mathematik (B.Sc.)</mat-option>
-    <mat-option value="inf">Informatik (B.Sc.)</mat-option>
-    <mat-option value="arch">Architektur (B.A.)</mat-option>
+    <mat-option value="Wirtschaftsinformatik (B.Sc.)">Wirtschaftsinformatik (B.Sc.)</mat-option>
+    <mat-option value="Mathematik (B.Sc.)">Mathematik (B.Sc.)</mat-option>
+    <mat-option value="Informatik (B.Sc.)">Informatik (B.Sc.)</mat-option>
+    <mat-option value="Architektur (B.A.)">Architektur (B.A.)</mat-option>
   </mat-select>
 </mat-form-field>
 

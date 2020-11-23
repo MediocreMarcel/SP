@@ -37,13 +37,13 @@ public class QuestionsHandler {
         return null;
     }
 
-    @Path("modules")
+    @Path("new_module/{userId}")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response getModulesByUser(ModuleDao module) {
+    public Response getModulesByUser(ModuleDao module, @PathParam("userId") int userId) {
         try {
             DbModule dbAccess = new DbModule();
-            if (!dbAccess.createCourses(module, user)){
+            if (!dbAccess.createCourses(module, userId)){
                 return Response.status(Response.Status.CONFLICT).build();
             }
         } catch (SQLException e) {

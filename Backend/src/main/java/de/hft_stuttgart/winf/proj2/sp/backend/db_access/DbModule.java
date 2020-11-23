@@ -38,11 +38,11 @@ public class DbModule extends DbConnector{
         }
     }
 
-    public boolean createCourses(ModuleDao module, UserDao user) throws SQLException {
-        PreparedStatement insertModules = conn.prepareStatement("INSERT INTO modules (course, definition) VALUES (?, ?); INSERT INTO reads VALUES (last_insert_id(), ?);");
+    public boolean createCourses(ModuleDao module, int userId) throws SQLException {
+        PreparedStatement insertModules = conn.prepareStatement("INSERT INTO modules (course, definition) VALUES (?, ?); INSERT INTO `reads` VALUES (last_insert_id(), ?);");
         insertModules.setString(1, module.getCourse());
         insertModules.setString(2, module.getDefinition());
-        insertModules.setInt(3, Integer.valueOf(user.getUsername()));
+        insertModules.setInt(3, userId);
         return insertModules.executeUpdate()>0?true:false;
     }
 }

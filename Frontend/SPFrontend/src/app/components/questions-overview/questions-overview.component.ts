@@ -56,9 +56,7 @@ export class QuestionsOverviewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(create => {
-      if (create){
         this.loadModules();
-      }
     });
   }
 }
