@@ -30,7 +30,7 @@ export class QuestionsOverviewComponent implements OnInit {
       "surname": "Mustermann"
     }).subscribe(u => {
       this.tiles = u;
-      if (this.sortBy.length > 0){
+      if (this.tiles.length > 0){
         this.sortChanged();
       }
     });
