@@ -18,17 +18,17 @@ import {QuestionsCollectionComponent} from "./components/questions-collection/qu
 import {
   CreateModuleDialog,
   QuestionsOverviewComponent
-} from "./components/questions-overview/questions-overview.component";
+} from './components/questions-overview/questions-overview.component';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {HttpClientModule} from '@angular/common/http';
+import {FormsModule} from '@angular/forms';
+import {MatOptionModule} from '@angular/material/core';
+import {MatSelectModule} from '@angular/material/select';
+import {UserService} from './shared/user.service';
 import {GroupByPipe} from "./components/questions-collection/group-by.pipe";
-import {MatGridListModule} from "@angular/material/grid-list";
-import {HttpClientModule} from "@angular/common/http";
-import {MatButtonToggleModule} from "@angular/material/button-toggle";
-import {FormsModule} from "@angular/forms";
-import {MatOptionModule} from "@angular/material/core";
-import {MatSelectModule} from "@angular/material/select";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCheckboxModule} from "@angular/material/checkbox";
-import {UserService} from './shared/user.service';
 
 @NgModule({
   declarations: [
