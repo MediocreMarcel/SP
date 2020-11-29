@@ -26,9 +26,7 @@ export class LoginComponent implements OnInit {
       (response) => {
         console.log('ok');
         console.log(response.body);
-        this.user = {user_id,
-                    mail: response.body[1].toString(),
-                    };
+        //this.user = {user_id, mail: response.body[1].toString(),};
       },
       (error) => {
         console.error('Falsche Benutzerdaten');
