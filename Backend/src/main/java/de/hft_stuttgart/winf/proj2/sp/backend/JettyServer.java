@@ -30,6 +30,7 @@ public class JettyServer {
     private static Logger logger = LogManager.getLogger(JettyServer.class);
     public static void main(String[] args) {
         logger.error("logger is set up correctly");
+        logger.info("hallo");
 
         Server server = new Server(8080);
 
