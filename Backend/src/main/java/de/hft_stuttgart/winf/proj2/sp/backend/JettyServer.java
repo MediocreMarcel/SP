@@ -10,6 +10,11 @@ import org.glassfish.jersey.servlet.ServletContainer;
 
 import javax.servlet.DispatcherType;
 import java.util.EnumSet;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
+
 
 /**
  * This class sets up the server and the needed environment
@@ -22,7 +27,10 @@ public class JettyServer {
      * Main Method runs on start
      * @param args The starting parameters should be the the following values: ip_of_db user_of_db user_password_of_db
      */
+    private static Logger logger = LogManager.getLogger(JettyServer.class);
     public static void main(String[] args) {
+        logger.error("logger is set up correctly");
+
         Server server = new Server(8080);
 
         ServletContextHandler ctx =
@@ -41,6 +49,10 @@ public class JettyServer {
 
         FilterHolder filterHolder = ctx.addFilter(org.eclipse.jetty.servlets.CrossOriginFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
         filterHolder.setInitParameter("allowedOrigins", "http://localhost:4200");
+
+
+
+
 
         //Set DB Connection
         DbConnector.setConnectionParameter(args[0], args[1], args[2]);
