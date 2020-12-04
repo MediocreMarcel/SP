@@ -25,7 +25,7 @@ public class DbModule extends DbConnector{
     public List<ModuleDao> getCourses(UserDao user) throws SQLException {
         ResultSetMapper<ModuleDao> resultSetMapper = new ResultSetMapper<>();
 
-        PreparedStatement selectModules = conn.prepareStatement("SELECT m.course, m.definition, m.module_id FROM modules m inner join `reads` r on m.module_id = r.module_id inner join " +
+        PreparedStatement selectModules = conn.prepareStatement("SELECT m.course, m.definition, m.module_id FROM modules m inner join isReading r on m.module_id = r.module_id inner join " +
                 "users u on r.user_id = u.user_id WHERE u.user_id = ?");
         selectModules.setString(1,user.getUsername());
         ResultSet rs = selectModules.executeQuery();
@@ -39,7 +39,7 @@ public class DbModule extends DbConnector{
     }
 
     public boolean createCourses(ModuleDao module, int userId) throws SQLException {
-        PreparedStatement insertModules = conn.prepareStatement("INSERT INTO modules (course, definition) VALUES (?, ?); INSERT INTO `reads` VALUES (last_insert_id(), ?);");
+        PreparedStatement insertModules = conn.prepareStatement("INSERT INTO modules (course, definition) VALUES (?, ?); INSERT INTO isReading VALUES (last_insert_id(), ?);");
         insertModules.setString(1, module.getCourse());
         insertModules.setString(2, module.getDefinition());
         insertModules.setInt(3, userId);
