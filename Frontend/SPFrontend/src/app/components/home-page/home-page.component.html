@@ -1,24 +1,47 @@
 <app-navbar></app-navbar>
-<div class="top">
-  <h1 class="frage">Was möchten sie wählen?
-  </h1>
-</div>
+<mat-card>
+  <mat-card-content>
+    <mat-card class="content-card">
+      <mat-grid-list cols=5>
+        <mat-grid-tile>
+          <mat-card class="tile" (click)="createExam()">
+            <mat-card-title>
+              Klausur erstellen
+            </mat-card-title>
+            <mat-card-subtitle class="tileSubtitle">Hier können Sie eine neue Prüfung erstellen</mat-card-subtitle>
+          </mat-card>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-card class="tile" (click)="correctExam()">
+            <mat-card-title>
+              Klausur korrigieren
+            </mat-card-title>
+            <mat-card-subtitle class="tileSubtitle">Beginnen Sie mit der Korrektur von vorliegenden Klausuren
+            </mat-card-subtitle>
+          </mat-card>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-card class="tile" (click)="archiveExam()">
+            <mat-card-title>
+              Archivierte Klausuren
+            </mat-card-title>
+            <mat-card-subtitle class="tileSubtitle">Hier finden Sie Ihre archivierten Klausuren</mat-card-subtitle>
+          </mat-card>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-card class="tile" (click)="addQuestions()">
+            <mat-card-title>
+              Fragen hinzufügen
+            </mat-card-title>
+            <mat-card-subtitle class="tileSubtitle">Fügen Sie neue Fragen Ihrem Fragenpool hinzu</mat-card-subtitle>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card>
+  </mat-card-content>
 
-<div class="mid">
-<button class="buttons" (click)="createExam()" color="primary" id="1" mat-flat-button
-        type="button" title="Hier können Sie eine neue Prüfung erstellen">Klausur erstellen</button>
-<button class="buttons" (click)="correctExam()" color="primary" id="2" mat-flat-button
-        type="button" title="Beginnen Sie mit der Korrektur von vorliegenden Klausuren"> Klausur korrigieren </button>
-<button class="buttons" title="Hier finden Sie Ihre archivierten Klausuren" (click)="archiveExam()" color="primary" id="3" mat-flat-button
-        type="button"> Archivierte Klausuren</button>
-<button class="buttons" title="Fügen Sie neue Fragen Ihrem Fragenpool hinzu" (click)="addQuestions()" color="primary" id="4" mat-flat-button
-        type="button"> Fragen hinzufügen </button>
-  </div>
+</mat-card>
 
-<div class="bot">
-<h2 class="news_title">SP NEWS</h2>
-<textarea class="news_text">lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsumlorem ipsum lorem ipsum lorem ipsum</textarea>
-  </div>
 
 <p class="copyright">
   <label class="copyrigt_text">© SP GmbH, 2020 </label>

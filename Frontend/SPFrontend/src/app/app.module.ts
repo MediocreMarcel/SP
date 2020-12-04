@@ -11,6 +11,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { LoginComponent } from './components/login/login.component';
+import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
 import {
   CreateModuleDialog,
@@ -32,8 +34,10 @@ import {MatSelectModule} from "@angular/material/select";
     HomePageComponent,
     QuestionsOverviewComponent,
     CreateModuleDialog,
+    LoginComponent,
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
