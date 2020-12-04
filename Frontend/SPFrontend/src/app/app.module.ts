@@ -11,7 +11,11 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { LoginComponent } from './components/login/login.component';
+import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
+import {FormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCardModule} from "@angular/material/card";
 
@@ -21,8 +25,10 @@ import {MatCardModule} from "@angular/material/card";
     NavbarComponent,
     InfoUserDialogComponent,
     HomePageComponent,
+    LoginComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -31,9 +37,10 @@ import {MatCardModule} from "@angular/material/card";
     MatIconModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule,
-    MatGridListModule,
     MatCardModule,
+    MatInputModule,
+    FormsModule,
+    MatGridListModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
