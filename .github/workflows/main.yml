@@ -61,7 +61,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          script: nohup java -jar SP-Backend/SP-Backend-1.0-SNAPSHOT-jar-with-dependencies.jar < /dev/null > /dev/null 2> /dev/null &
+          script: nohup java -jar SP-Backend/SP-Backend-1.0-SNAPSHOT-jar-with-dependencies.jar ${{ secrets.DB_IP }} ${{ secrets.DB_USR }} ${{ secrets.DB_PW }} < /dev/null > /dev/null 2> /dev/null &
 
 
   buildAndDeployFrontend:
