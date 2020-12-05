@@ -9,6 +9,7 @@ const routes: Routes = [
   {path: 'home', component: HomePageComponent},
   {path:'questions-overview', component: QuestionsOverviewComponent},
   {path: 'login' , component: LoginComponent},
+]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

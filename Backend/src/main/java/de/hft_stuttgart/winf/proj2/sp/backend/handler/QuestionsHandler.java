@@ -1,10 +1,10 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.handler;
 
-import de.hft_stuttgart.winf.proj2.sp.backend.dao.ModuleDao;
-import de.hft_stuttgart.winf.proj2.sp.backend.dao.UserDao;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.CreateModuleDto;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.ModuleDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbModule;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.UserDto;
 
-import javax.print.attribute.standard.Media;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -27,7 +27,7 @@ public class QuestionsHandler {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<ModuleDao> getModulesByUser(UserDao user) {
+    public List<ModuleDto> getModulesByUser(UserDto user) {
         try {
             DbModule dbAccess = new DbModule();
             return dbAccess.getCourses(user);
@@ -37,13 +37,19 @@ public class QuestionsHandler {
         return null;
     }
 
-    @Path("new_module/{userId}")
+    /**
+     * Endpoint to create a Module for a user
+     *
+     * @param module module that should be crated. JSON must match CrateModuleDto.
+     * @return HTTP Status if insert was successful (200 OK) or did fail (409 Conflict)
+     */
+    @Path("new_module")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response getModulesByUser(ModuleDao module, @PathParam("userId") int userId) {
+    public Response createNewModule(CreateModuleDto module) {
         try {
             DbModule dbAccess = new DbModule();
-            if (!dbAccess.createCourses(module, userId)){
+            if (!dbAccess.createCourses(module)){
                 return Response.status(Response.Status.CONFLICT).build();
             }
         } catch (SQLException e) {

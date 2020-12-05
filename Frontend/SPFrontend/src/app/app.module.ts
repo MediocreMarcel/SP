@@ -19,7 +19,6 @@ import {
   QuestionsOverviewComponent
 } from './components/questions-overview/questions-overview.component';
 import {MatGridListModule} from "@angular/material/grid-list";
-import {MatCardModule} from "@angular/material/card";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";

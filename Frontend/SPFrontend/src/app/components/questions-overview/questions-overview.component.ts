@@ -23,7 +23,7 @@ export class QuestionsOverviewComponent implements OnInit {
 
   loadModules(){
     this.service.getModulesForUser({
-      "username": "0",
+      "user_id": "0",
       "password": "pw",
       "mail": "mail",
       "name": "Hans-Peter",
@@ -73,6 +73,18 @@ export class ModuleDTO {
   }
 }
 
+export class CreateModuleDTO {
+  course: string;
+  definition: string;
+  user_id: number;
+
+  constructor(course, definition, user_id) {
+    this.course = course;
+    this.definition = definition;
+    this.user_id = user_id;
+  }
+}
+
 @Component({
   selector: 'app-create-module-dialog',
   templateUrl: './question-overview.create_module_dialog.html',
@@ -87,7 +99,7 @@ export class CreateModuleDialog {
   }
 
   createModule() {
-    this.service.createNewModule(new ModuleDTO(null, this.courseName, this.moduleName));
+    this.service.createNewModule(new CreateModuleDTO(this.courseName, this.moduleName, 0));
     this.dialogRef.close();
   }
 }

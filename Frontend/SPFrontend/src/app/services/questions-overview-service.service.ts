@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {ModuleDTO} from "../components/questions-overview/questions-overview.component";
+import {CreateModuleDTO, ModuleDTO} from "../components/questions-overview/questions-overview.component";
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +17,10 @@ export class QuestionsOverviewService {
     return this.http.post<ModuleDTO[]>("http://localhost:8080/rest/questions/modules", JSON.stringify(user), {headers: this.headers});
   }
 
-  createNewModule(module: ModuleDTO){
+  createNewModule(module: CreateModuleDTO){
+    module.user_id = 0;
     console.log(module);
-    this.http.post("http://localhost:8080/rest/questions/new_module/0", JSON.stringify(module), {headers: this.headers}).subscribe();//TODO Change UserId (0) when Class is added
+    this.http.post("http://localhost:8080/rest/questions/new_module", JSON.stringify(module), {headers: this.headers}).subscribe();
   }
 
 

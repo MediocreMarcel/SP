@@ -1,7 +1,8 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.db_access;
 
-import de.hft_stuttgart.winf.proj2.sp.backend.dao.ModuleDao;
-import de.hft_stuttgart.winf.proj2.sp.backend.dao.UserDao;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.CreateModuleDto;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.ModuleDto;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.UserDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.util.ResultSetMapper;
 
 import java.lang.reflect.InvocationTargetException;
@@ -22,27 +23,33 @@ public class DbModule extends DbConnector{
      * @return List of all Courses
      * @throws SQLException Exception if connection to db fails or an error accrues
      */
-    public List<ModuleDao> getCourses(UserDao user) throws SQLException {
-        ResultSetMapper<ModuleDao> resultSetMapper = new ResultSetMapper<>();
+    public List<ModuleDto> getCourses(UserDto user) throws SQLException {
+        ResultSetMapper<ModuleDto> resultSetMapper = new ResultSetMapper<>();
 
-        PreparedStatement selectModules = conn.prepareStatement("SELECT m.course, m.definition, m.module_id FROM modules m inner join isReading r on m.module_id = r.module_id inner join " +
+        PreparedStatement selectModules = conn.prepareStatement("SELECT m.course, m.definition, m.module_id FROM modules m inner join is_reading r on m.module_id = r.module_id inner join " +
                 "users u on r.user_id = u.user_id WHERE u.user_id = ?");
-        selectModules.setString(1,user.getUsername());
+        selectModules.setInt(1,user.getUser_id());
         ResultSet rs = selectModules.executeQuery();
 
         try {
-            return resultSetMapper.mapResultSetToObject(rs, ModuleDao.class);
+            return resultSetMapper.mapResultSetToObject(rs, ModuleDto.class);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public boolean createCourses(ModuleDao module, int userId) throws SQLException {
-        PreparedStatement insertModules = conn.prepareStatement("INSERT INTO modules (course, definition) VALUES (?, ?); INSERT INTO isReading VALUES (last_insert_id(), ?);");
+    /**
+     * Creates a new Module in the DB for a user. The entry in isReading will automatically set.
+     * @param module module that should be crated
+     * @return boolean if the creation was successful
+     * @throws SQLException Exception if connection to db fails or an error accrues
+     */
+    public boolean createCourses(CreateModuleDto module) throws SQLException {
+        PreparedStatement insertModules = conn.prepareStatement("INSERT INTO modules (course, definition) VALUES (?, ?); INSERT INTO is_reading VALUES (last_insert_id(), ?);");
         insertModules.setString(1, module.getCourse());
         insertModules.setString(2, module.getDefinition());
-        insertModules.setInt(3, userId);
+        insertModules.setInt(3, module.getUserId());
         return insertModules.executeUpdate()>0?true:false;
     }
 }
