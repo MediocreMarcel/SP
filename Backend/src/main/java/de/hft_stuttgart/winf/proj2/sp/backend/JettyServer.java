@@ -46,7 +46,7 @@ public class JettyServer {
         serHol.setInitParameter(ServerProperties.PROVIDER_CLASSNAMES, "com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider");
 
         FilterHolder filterHolder = ctx.addFilter(org.eclipse.jetty.servlets.CrossOriginFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
-        filterHolder.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "http://localhost:4200, http://localhost");
+        filterHolder.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "http://localhost:4200, http://localhost, http://158.101.167.254");
 
         //Set DB Connection
         DbConnector.setConnectionParameter(args[0], args[1], args[2]);
