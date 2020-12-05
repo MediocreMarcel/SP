@@ -14,10 +14,16 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { LoginComponent } from './components/login/login.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
-import {FormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {
+  CreateModuleDialog,
+  QuestionsOverviewComponent
+} from './components/questions-overview/questions-overview.component';
 import {MatGridListModule} from "@angular/material/grid-list";
-import {MatCardModule} from "@angular/material/card";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {HttpClientModule} from "@angular/common/http";
+import {FormsModule} from "@angular/forms";
+import {MatOptionModule} from "@angular/material/core";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -25,7 +31,9 @@ import {MatCardModule} from "@angular/material/card";
     NavbarComponent,
     InfoUserDialogComponent,
     HomePageComponent,
-    LoginComponent
+    QuestionsOverviewComponent,
+    CreateModuleDialog,
+    LoginComponent,
   ],
   imports: [
     HttpClientModule,
@@ -37,10 +45,14 @@ import {MatCardModule} from "@angular/material/card";
     MatIconModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatCardModule,
     MatInputModule,
-    FormsModule,
     MatGridListModule,
+    MatCardModule,
+    MatButtonToggleModule,
+    HttpClientModule,
+    FormsModule,
+    MatOptionModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
