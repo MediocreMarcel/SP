@@ -12,12 +12,16 @@ public class QuestionsDto {
     private String question_id;
     @Column("name")
     private String questionName;
-    @Column("text")
+    @Column("short_name")
+    private String shortName;
+    @Column("question_text")
     private String questionText;
     @Column("default_points")
     private Float questionPoints;
     @Column("module_id")
     private Integer module_ID;
+    @Column("category")
+    private String category;
 
     public QuestionsDto(){
 

@@ -2,6 +2,8 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {QuestionsOverviewService} from "../../services/questions-overview-service.service";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {UserService} from "../../shared/user.service";
+import {Router} from "@angular/router";
+import {QuestionDto} from "../models/QuestionDto";
 
 @Component({
   selector: 'app-questions-overview',
@@ -14,7 +16,7 @@ export class QuestionsOverviewComponent implements OnInit {
   tiles: ModuleDTO[];
 
 
-  constructor(private service: QuestionsOverviewService, public dialog: MatDialog, private userService: UserService) {
+  constructor(private service: QuestionsOverviewService, public dialog: MatDialog, private userService: UserService, private router:Router) {
     this.loadModules();
   }
 
@@ -40,8 +42,8 @@ export class QuestionsOverviewComponent implements OnInit {
   }
 
 
-  navigateToQuestionsCollection(questionCollectionName: string) {
-
+  navigateToQuestionsCollection(module: ModuleDTO) {
+    this.router.navigate(['/questions-collection'], {state: module});
   }
 
   openCreateDialog(){

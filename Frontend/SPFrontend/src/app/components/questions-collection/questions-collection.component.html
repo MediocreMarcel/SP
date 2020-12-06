@@ -1,0 +1,77 @@
+<app-navbar></app-navbar>
+<mat-card>
+  <mat-card-title>Fragenpool: {{this.module.definition}}</mat-card-title>
+  <mat-card-subtitle>Verwalten Sie hier Ihre {{this.module.definition}}-Fragen. Bearbeiten, löschen oder hinzufügen.
+  </mat-card-subtitle>
+  <mat-card-content>
+    <mat-card class="content-card">
+      <mat-card-content>
+        <mat-card class="row header-accordion" (click)="createQuestion()">
+          <mat-card class="tile" style="width:25%; float: left;">
+            <mat-card-title>
+            <span mat-align-tabs="center" class="material-icons centerIcon" style="font-size: 25pt">
+              add_circle
+            </span>
+            </mat-card-title>
+            <mat-card-subtitle style="text-align: center;">
+              Neue Frage hinzufügen
+            </mat-card-subtitle>
+          </mat-card>
+          <mat-card class="tile" style="width:25%; float: right;"(click)="deleteSelection()">
+            <mat-card-title>
+            <span mat-align-tabs="center" class="material-icons centerIcon" style="font-size: 25pt">
+              delete
+            </span>
+            </mat-card-title>
+            <mat-card-subtitle style="text-align: center;">
+              Auswahl löschen
+            </mat-card-subtitle>
+          </mat-card>
+        </mat-card>
+
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let questionCategory of questions | groupBy: 'category'">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{questionCategory.key}}
+              </mat-panel-title>
+              <mat-panel-description>
+                Anzahl Fragen: {{questionCategory.value.length}}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <mat-card *ngFor="let question of questionCategory.value" style="background: #f5f5f6; margin-bottom: 0.7%;">
+              <div class="checkboxAndCardContainer">
+                <section>
+                  <mat-checkbox ng-change='checkboxChanged({{question.questionId}})'>
+                  </mat-checkbox>
+                </section>
+                <mat-card class="checkboxCard">
+                  <mat-card-title>
+                    {{question.name}}
+                  </mat-card-title>
+                  <mat-card-subtitle>
+                    {{question.shortName}}
+                  </mat-card-subtitle>
+                  <mat-card-content>
+                    <p>{{question.questionText}}</p>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </mat-card>
+
+          </mat-expansion-panel>
+        </mat-accordion>
+
+      </mat-card-content>
+      <mat-card-footer>
+
+      </mat-card-footer>
+    </mat-card>
+
+  </mat-card-content>
+  <mat-card-footer> copyright
+
+  </mat-card-footer>
+
+</mat-card>

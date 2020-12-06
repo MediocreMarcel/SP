@@ -52,3 +52,7 @@ body {
   margin-left: auto;
   margin-right: auto;
 }
+
+mat-card {
+  background-color: #ffffff;
+}
