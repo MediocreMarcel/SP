@@ -35,3 +35,19 @@
   border-top-right-radius: 0 !important;
   border-top-left-radius: 0 !important;
 }
+
+.checkboxAndCardContainer{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.checkboxCard{
+  width: 100%;
+  margin-left: 0.7%;
+}
+
+.mat-expansion-panel:first-of-type{
+  border-top-right-radius: 0px !important;
+  border-top-left-radius: 0px !important;
+}

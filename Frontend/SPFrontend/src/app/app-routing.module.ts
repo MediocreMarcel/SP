@@ -7,7 +7,7 @@ import {QuestionsOverviewComponent} from './components/questions-overview/questi
 import {QuestionsCollectionComponent} from "./components/questions-collection/questions-collection.component";
 
 const routes: Routes = [
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
+  {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: 'home', component: HomePageComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent},
   {path:'questions-overview', component: QuestionsOverviewComponent, canActivate: [AuthGuard]},
