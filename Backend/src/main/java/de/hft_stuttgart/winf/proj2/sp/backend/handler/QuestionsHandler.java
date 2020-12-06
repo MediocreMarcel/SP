@@ -11,8 +11,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import de.hft_stuttgart.winf.proj2.sp.backend.Pojo.QuestionsPojo;
-import de.hft_stuttgart.winf.proj2.sp.backend.dao.ModuleDao;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.QuestionsDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbQuestions;
 
 import javax.ws.rs.core.MediaType;
@@ -71,36 +70,48 @@ public class QuestionsHandler {
         return Response.ok().build();
     }
 
+
+    /**
+     * Gets all questions from a Module
+     * @param module module of which the questions should be searched
+     * @return List of questions
+     */
     @Path("getQuestion")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<QuestionsPojo> getQuestions(ModuleDao module) {
+    public List<QuestionsDto> getQuestions(ModuleDto module) {
         try {
             DbQuestions dbAccess = new DbQuestions();
             return dbAccess.getQuestions(module);
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error(e);
         }
         return null;
     }
 
+    /**
+     * Creates Question in the database
+     * @param question question that should be stored
+     * @return returns question if insert was successful
+     */
     @Path("newQuestion")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public QuestionsPojo createNewQuestion(QuestionsPojo question) {
+    public QuestionsDto createNewQuestion(QuestionsDto question) {
         try {
             DbQuestions dbAccess = new DbQuestions();
              if (dbAccess.createNewQuestion(question) ){
                  return question;
-
              }
              else {
                  return null;
              }
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error(e);
         }
         return null;
     }

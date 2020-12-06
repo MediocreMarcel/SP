@@ -1,4 +1,4 @@
-package de.hft_stuttgart.winf.proj2.sp.backend.Pojo;
+package de.hft_stuttgart.winf.proj2.sp.backend.dto;
 import de.hft_stuttgart.winf.proj2.sp.backend.util.Column;
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class QuestionsPojo {
+public class QuestionsDto {
     @Column("question_id")
     private String question_id;
     @Column("name")
@@ -19,7 +19,7 @@ public class QuestionsPojo {
     @Column("module_id")
     private Integer module_ID;
 
-    public QuestionsPojo(){
+    public QuestionsDto(){
 
     }
 
