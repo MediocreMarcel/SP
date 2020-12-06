@@ -30,7 +30,7 @@ public class DbQuestions extends DbConnector {
      */
     public List<QuestionsDto> getQuestions(ModuleDto module) throws SQLException {
         ResultSetMapper<QuestionsDto> resultSetMapper = new ResultSetMapper<>();
-        PreparedStatement selectQuestions = conn.prepareStatement("SELECT qs.name , qs.default_points FROM questions qs INNER JOIN modules m  ON qs.module_id = m.module_id WHERE m.module_id = ?");
+        PreparedStatement selectQuestions = conn.prepareStatement("SELECT * FROM questions qs INNER JOIN modules m  ON qs.module_id = m.module_id WHERE m.module_id = ?");
         selectQuestions.setInt(1, module.getModule_id());
         ResultSet rs = selectQuestions.executeQuery();
 

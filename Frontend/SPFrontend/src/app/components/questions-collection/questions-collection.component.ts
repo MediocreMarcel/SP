@@ -23,8 +23,10 @@ export class QuestionsCollectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.module =history.state;
-    this.examService.getQuestionsFromDb(history.state).subscribe(u => {
+    let state = history.state;
+    delete state.navigationId;
+    this.module = history.state;
+    this.examService.getQuestionsFromDb(this.module).subscribe(u => {
       this.questions = u;
     });
   }
