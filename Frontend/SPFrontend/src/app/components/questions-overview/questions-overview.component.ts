@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {QuestionsOverviewService} from "../../services/questions-overview-service.service";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {UserService} from "../../shared/user.service";
 
 @Component({
   selector: 'app-questions-overview',
@@ -13,7 +14,7 @@ export class QuestionsOverviewComponent implements OnInit {
   tiles: ModuleDTO[];
 
 
-  constructor(private service: QuestionsOverviewService, public dialog: MatDialog) {
+  constructor(private service: QuestionsOverviewService, public dialog: MatDialog, private userService: UserService) {
     this.loadModules();
   }
 
@@ -22,13 +23,7 @@ export class QuestionsOverviewComponent implements OnInit {
   }
 
   loadModules(){
-    this.service.getModulesForUser({
-      "user_id": "0",
-      "password": "pw",
-      "mail": "mail",
-      "name": "Hans-Peter",
-      "surname": "Mustermann"
-    }).subscribe(u => {
+    this.service.getModulesForUser(this.userService.getUser()).subscribe(u => {
       this.tiles = u;
       if (this.tiles.length > 0){
         this.sortChanged();
@@ -95,11 +90,11 @@ export class CreateModuleDialog {
   courseName: string;
 
 
-  constructor(private service: QuestionsOverviewService, private dialogRef: MatDialogRef<CreateModuleDialog>) {
+  constructor(private service: QuestionsOverviewService, private dialogRef: MatDialogRef<CreateModuleDialog>, private userService: UserService) {
   }
 
   createModule() {
-    this.service.createNewModule(new CreateModuleDTO(this.courseName, this.moduleName, 0));
+    this.service.createNewModule(new CreateModuleDTO(this.courseName, this.moduleName, this.userService.getUser().user_id));
     this.dialogRef.close();
   }
 }

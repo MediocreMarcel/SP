@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
             res.body.surname,
             res.body.mail
           );
+          this.userService.setUser(this.user);
           console.log(this.user);
         }
       },
