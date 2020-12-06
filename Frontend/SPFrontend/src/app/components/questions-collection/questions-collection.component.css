@@ -16,8 +16,8 @@
 }
 
 .header-accordion{
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .checkboxAndCardContainer{
@@ -32,6 +32,6 @@
 }
 
 .mat-expansion-panel:first-of-type{
-  border-top-right-radius: 0px !important;
-  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
 }

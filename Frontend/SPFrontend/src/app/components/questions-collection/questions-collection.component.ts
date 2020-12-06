@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {QuestionDto} from "../dto/questionDto";
+import {QuestionDto} from "../models/QuestionDto";
+import {CreateExamService} from "../../services/create-exam.service";
+import {ModuleDTO} from "../questions-overview/questions-overview.component";
 
 @Component({
   selector: 'app-questions-collection',
@@ -12,32 +14,39 @@ export class QuestionsCollectionComponent implements OnInit {
 
   selectedQuestions: number[];
 
-  constructor() {
-    var cat1 = [new QuestionDto(2, "name2", "text", 5, "shortname2", "cat2"), new QuestionDto(3, "name2", "text", 5, "shortname2", "cat2"), new QuestionDto(1, "name", "text", 5, "shortname", "cat1")];
-    this.questions = cat1;
+  examService: CreateExamService;
+
+  module: ModuleDTO;
+
+  constructor(examService: CreateExamService) {
+    this.examService = examService;
   }
 
   ngOnInit(): void {
+    this.module =history.state;
+    this.examService.getQuestionsFromDb(history.state).subscribe(u => {
+      this.questions = u;
+    });
   }
 
   checkboxChanged(id: number) {
     let deleted = false;
-    this.selectedQuestions.forEach( (element, index) => {
+    this.selectedQuestions.forEach((element, index) => {
       if (element == id) {
         this.selectedQuestions.splice(index, 1);
         deleted = true;
       }
     });
-    if (!deleted){
+    if (!deleted) {
       this.selectedQuestions.push(id);
     }
   }
 
-  deleteSelection(){
+  deleteSelection() {
     //TODO call service with array
   }
 
-  createQuestion(){
+  createQuestion() {
     //TODO call dialog from other task once merged
   }
 
