@@ -1,5 +1,8 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.util;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
@@ -13,6 +16,8 @@ import java.util.List;
  * @param <T> Class of the DTO of which the Object should be created of
  */
 public class ResultSetMapper<T> {
+
+    private static Logger logger = LogManager.getLogger(ResultSetMapper.class);
 
     /**
      *
@@ -40,6 +45,7 @@ public class ResultSetMapper<T> {
                         extractColumn(rs, dto, field, name);
                     } catch (Exception e) {
                         e.printStackTrace();
+                        this.logger.error(e);
                     }
                 }
             }

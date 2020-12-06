@@ -4,6 +4,8 @@ import de.hft_stuttgart.winf.proj2.sp.backend.dto.CreateModuleDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.ModuleDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.UserDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.util.ResultSetMapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.PreparedStatement;
@@ -11,7 +13,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class DbModule extends DbConnector{
+public class DbModule extends DbConnector {
+
+    private static Logger logger = LogManager.getLogger(DbModule.class);
 
     public DbModule() throws IllegalArgumentException, SQLException {
         super();
@@ -34,6 +38,7 @@ public class DbModule extends DbConnector{
         try {
             return resultSetMapper.mapResultSetToObject(rs, ModuleDto.class);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+            this.logger.error(e);
             e.printStackTrace();
             return null;
         }

@@ -1,11 +1,16 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.handler;
 
+import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbModule;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.CreateModuleDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.ModuleDto;
-import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbModule;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.UserDto;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
@@ -16,6 +21,8 @@ import java.util.List;
  */
 @Path("questions")
 public class QuestionsHandler {
+
+    private static Logger logger = LogManager.getLogger(QuestionsHandler.class);
 
     /**
      * Endpoint to get all modules a user has Access to
@@ -33,6 +40,7 @@ public class QuestionsHandler {
             return dbAccess.getCourses(user);
         } catch (SQLException e) {
             e.printStackTrace();
+            this.logger.error(e);
         }
         return null;
     }
@@ -54,6 +62,7 @@ public class QuestionsHandler {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            this.logger.error(e);
         }
         return Response.ok().build();
     }

@@ -2,6 +2,8 @@ package de.hft_stuttgart.winf.proj2.sp.backend.db_access;
 
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.UserDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.util.ResultSetMapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.PreparedStatement;
@@ -9,6 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DBUser extends DbConnector {
+
+    private static Logger logger = LogManager.getLogger(DBUser.class);
+
     /**
      * This constructor needs to be called
      *
@@ -42,6 +47,7 @@ public class DBUser extends DbConnector {
             }
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | IndexOutOfBoundsException e) {
             e.printStackTrace();
+            this.logger.error(e);
             return null;
         }
     }

@@ -3,6 +3,9 @@ package de.hft_stuttgart.winf.proj2.sp.backend.handler;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.UserDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DBUser;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -11,12 +14,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 
-
 /**
  * Class provides endpoints for the Usermanagement of the application
  */
 @Path("user")
 public class UserHandler {
+
+    private static Logger logger = LogManager.getLogger(UserHandler.class);
+
     /**
      * Endpoint to check login authentication of a User
      *
@@ -42,8 +47,9 @@ public class UserHandler {
                         .entity(user)
                         .build();
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.logger.error(e);
         }
         return null;
     }

@@ -24,11 +24,12 @@ import org.apache.logging.log4j.Logger;
  */
 public class JettyServer {
 
+    private static Logger logger = LogManager.getLogger(JettyServer.class);
+
     /**
      * Main Method runs on start
      * @param args The starting parameters should be the the following values: ip_of_db user_of_db user_password_of_db
      */
-    private static Logger logger = LogManager.getLogger(JettyServer.class);
     public static void main(String[] args) {
 
         Server server = new Server(8080);
@@ -55,9 +56,9 @@ public class JettyServer {
             server.start();
             server.join();
 
-        } catch (Exception ex) {
-            System.err.println(ex);
-            //TODO LOG
+        } catch (Exception e) {
+            System.err.println(e);
+            logger.error(e);
         } finally {
             server.destroy();
         }
