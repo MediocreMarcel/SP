@@ -26,7 +26,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {QuestionsCollectionComponent} from "./components/questions-collection/questions-collection.component";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCheckboxModule} from "@angular/material/checkbox";
-import {GroupByPipe} from "./components/questions-collection/group-by.pipe";
+import {GroupByPipe} from "./components/pipes/group-by.pipe";
 import {LoginComponent} from "./components/login/login.component";
 import {UserService} from "./shared/user.service";
 
@@ -40,7 +40,7 @@ import {UserService} from "./shared/user.service";
     CreateModuleDialog,
     LoginComponent,
     HomePageComponent,
-    GroupByPipe
+    GroupByPipe,
   ],
   imports: [
     BrowserModule,

@@ -9,7 +9,7 @@ import lombok.*;
 @EqualsAndHashCode
 public class QuestionsDto {
     @Column("question_id")
-    private String question_id;
+    private Integer question_id;
     @Column("name")
     private String questionName;
     @Column("short_name")

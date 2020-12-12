@@ -7,10 +7,8 @@ import de.hft_stuttgart.winf.proj2.sp.backend.dto.UserDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
+
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.QuestionsDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbQuestions;
 
@@ -25,7 +23,7 @@ import java.util.List;
 @Path("questions")
 public class QuestionsHandler {
 
-    private static Logger logger = LogManager.getLogger(QuestionsHandler.class);
+    private static final Logger logger = LogManager.getLogger(QuestionsHandler.class);
 
     /**
      * Endpoint to get all modules a user has Access to
@@ -43,7 +41,7 @@ public class QuestionsHandler {
             return dbAccess.getCourses(user);
         } catch (SQLException e) {
             e.printStackTrace();
-            this.logger.error(e);
+            logger.error(e);
         }
         return null;
     }
@@ -65,7 +63,7 @@ public class QuestionsHandler {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            this.logger.error(e);
+            logger.error(e);
         }
         return Response.ok().build();
     }
@@ -114,6 +112,31 @@ public class QuestionsHandler {
             logger.error(e);
         }
         return null;
+    }
+
+
+    /**
+     * Deletes questions from the database. Deletes all questions. If something goes wrong there will be a rollback.
+     * @param questions A list of questions that should be deleted
+     * @return HTTP 204 if successful, HTTP 500 if something went wrong
+     */
+    @Path("deleteQuestions")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteQuestions(List<QuestionsDto> questions){
+        try {
+            DbQuestions dbAccess = new DbQuestions();
+            if (dbAccess.deleteQuestions(questions) ){
+                return Response.status(Response.Status.NO_CONTENT).build();
+            }
+            else {
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error(e);
+        }
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
     }
 
 

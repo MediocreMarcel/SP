@@ -14,7 +14,7 @@ import java.util.List;
 
 public class DbQuestions extends DbConnector {
 
-    private static Logger logger = LogManager.getLogger(DbModule.class);
+    private static final Logger logger = LogManager.getLogger(DbModule.class);
 
     public DbQuestions() throws IllegalArgumentException, SQLException {
         super();
@@ -29,6 +29,11 @@ public class DbQuestions extends DbConnector {
      * @throws SQLException thrown if server is unavailable or some problem with the server accrues
      */
     public List<QuestionsDto> getQuestions(ModuleDto module) throws SQLException {
+
+        if(module == null || module.getModule_id() == null){
+            return null;
+        }
+
         ResultSetMapper<QuestionsDto> resultSetMapper = new ResultSetMapper<>();
         PreparedStatement selectQuestions = conn.prepareStatement("SELECT * FROM questions qs INNER JOIN modules m  ON qs.module_id = m.module_id WHERE m.module_id = ?");
         selectQuestions.setInt(1, module.getModule_id());
@@ -45,9 +50,10 @@ public class DbQuestions extends DbConnector {
 
     /**
      * Creates a new Question
+     *
      * @param question question that should be created
      * @return boolean showing if the insertion was completed
-     * @throws SQLException  thrown if server is unavailable or some problem with the server accrues
+     * @throws SQLException thrown if server is unavailable or some problem with the server accrues
      */
     public boolean createNewQuestion(QuestionsDto question) throws SQLException {
         PreparedStatement insertQuestion = conn.prepareStatement("INSERT INTO questions (name, default_points,module_id) VALUES (?, ?,?); ");
@@ -55,7 +61,36 @@ public class DbQuestions extends DbConnector {
         insertQuestion.setFloat(2, question.getQuestionPoints());
         insertQuestion.setInt(3, question.getModule_ID());
 
-        return insertQuestion.executeUpdate() > 0 ? true : false;
+        return insertQuestion.executeUpdate() > 0;
+
+    }
+
+    /**
+     * Deletes a List of questions from the Database. Will only delete all questions or no question
+     * @param questions List of questions that should be deleted
+     * @return boolean weather the deletion was successful
+     * @throws SQLException hrown if server is unavailable or some problem with the server accrues
+     */
+    public boolean deleteQuestions(List<QuestionsDto> questions) throws SQLException {
+        conn.setAutoCommit(false);
+
+        for (QuestionsDto question : questions) {
+
+            PreparedStatement insertQuestion = conn.prepareStatement("DELETE FROM questions WHERE question_id = ? ");
+            insertQuestion.setInt(1, question.getQuestion_id());
+
+            if (insertQuestion.executeUpdate() <= 0) {
+                logger.warn("Could not delete element : " + question);
+                System.err.println("Could not delete element : " + question);
+                conn.rollback();
+                conn.setAutoCommit(true);
+                return false;
+            }
+
+        }
+        conn.commit();
+        conn.setAutoCommit(true);
+        return true;
 
     }
 
