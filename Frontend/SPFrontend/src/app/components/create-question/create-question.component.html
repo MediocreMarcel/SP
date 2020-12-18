@@ -1,0 +1,57 @@
+<app-navbar></app-navbar>
+<!--Default value = "Unbenannte Klausur" - Titel soll anpassbar & nach Speichern ausgegraut werden -->
+<mat-card>
+<mat-card-header>
+  <input type = "text" [value]="ExamTitle">
+</mat-card-header>
+<mat-card-content>
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <mat-label>Gesamtpunkte</mat-label>
+      <input matInput type="number" min="0">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Studiengang</mat-label>
+      <input matInput input="text">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Semester</mat-label>
+      <input matInput input="text">
+    </mat-form-field>
+  </form>
+  <p>Fortschritt</p>
+  <!-- Progress Bar soll prozentuele Abhänigkeit zu Gesamtpunkte darstellen -- currentPercentage = (currentPoints/maxPoints)*100-->
+  <mat-progress-bar mode="determinate" value="50"></mat-progress-bar>
+
+  <!-- Buttons Vorschau + Speichern + Verwerfen: Pop-ups für Speichern + Verwerfen?! -->
+  <button mat-raised-button>Vorschau</button>
+  <button mat-raised-button>Speichern</button>
+  <button mat-raised-button>Verwerfen</button>
+
+
+
+</mat-card-content>
+</mat-card>
+
+<!-- Mid layer 3 cols: Fragenpool, Klausur, Vorschau?-->
+<mat-grid-list cols=3>
+  <mat-grid-tile>
+    <mat-card-title>Fragenpool</mat-card-title>
+    <mat-card-content> </mat-card-content>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <mat-card-title>UNBENANNTE KLAUSUR</mat-card-title>
+    <mat-card-content> </mat-card-content>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <mat-card-title>Vorschau</mat-card-title>
+    <mat-card-content> </mat-card-content>
+  </mat-grid-tile>
+</mat-grid-list>
+
+<!-- Copyright -->
+<p class="copyright">
+  <label class="copyright_text">© SP GmbH, 2020 </label>
+</p>

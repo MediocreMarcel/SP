@@ -1,10 +1,10 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HomePageComponent } from './components/home-page/home-page.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {HomePageComponent} from './components/home-page/home-page.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {InfoUserDialogComponent, NavbarComponent} from './components/navbar/navbar.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -31,7 +31,8 @@ import {LoginComponent} from "./components/login/login.component";
 import {UserService} from "./shared/user.service";
 import {CreateExamDialog, ExamOverviewComponent} from './components/exam-overview/exam-overview.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
-
+import {CreateQuestionComponent} from './components/create-question/create-question.component';
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 @NgModule({
   declarations: [
@@ -46,9 +47,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
     GroupByPipe,
     ExamOverviewComponent,
     CreateExamDialog,
-
-
-
+    CreateQuestionComponent
   ],
   imports: [
     BrowserModule,
@@ -69,10 +68,13 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
     MatSelectModule,
     MatExpansionModule,
     MatCheckboxModule,
+    MatProgressBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
   ],
-  providers: [UserService, {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},],
+  providers: [UserService,
+    {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

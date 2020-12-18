@@ -5,6 +5,7 @@ import {LoginComponent} from './components/login/login.component';
 import {AuthGuard} from './auth.guard';
 import {QuestionsOverviewComponent} from './components/questions-overview/questions-overview.component';
 import {QuestionsCollectionComponent} from "./components/questions-collection/questions-collection.component";
+import {CreateQuestionComponent} from "./components/create-question/create-question.component";
 import {ExamOverviewComponent} from "./components/exam-overview/exam-overview.component";
 
 const routes: Routes = [
@@ -14,7 +15,7 @@ const routes: Routes = [
   {path:'questions-overview', component: QuestionsOverviewComponent, canActivate: [AuthGuard]},
   {path: 'questions-collection', component: QuestionsCollectionComponent,canActivate: [AuthGuard]},
   {path: 'exam-overview', component: ExamOverviewComponent, canActivate: [AuthGuard]},
-
+  {path: 'create-question', component: CreateQuestionComponent}
 ];
 
 @NgModule({
