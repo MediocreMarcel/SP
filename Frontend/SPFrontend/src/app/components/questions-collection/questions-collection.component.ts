@@ -15,7 +15,6 @@ export class QuestionsCollectionComponent implements OnInit {
 
   selectedQuestions: QuestionDto[] = [];
 
-  examService: CreateExamService;
 
   module: ModuleDTO;
 

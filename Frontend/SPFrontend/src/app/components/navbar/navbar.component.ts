@@ -40,7 +40,7 @@ export class NavbarComponent implements OnInit {
   }
 
   createExam(): void {
-    this.router.navigate(['/test']);
+    this.router.navigate(['/exam-overview']);
   }
 
   correctExam(): void {
