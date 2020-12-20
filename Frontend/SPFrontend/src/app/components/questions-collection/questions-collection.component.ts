@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {QuestionDto} from "../models/QuestionDto";
-import {CreateExamService} from "../../services/create-exam.service";
-import {ModuleDTO} from "../questions-overview/questions-overview.component";
+import {CreateQuestionService} from "../../services/question/create-question.service";
+import {ModuleDTO} from "../models/ModuleDTO";
 
 @Component({
   selector: 'app-questions-collection',
@@ -14,12 +14,10 @@ export class QuestionsCollectionComponent implements OnInit {
 
   selectedQuestions: number[];
 
-  examService: CreateExamService;
 
   module: ModuleDTO;
 
-  constructor(examService: CreateExamService) {
-    this.examService = examService;
+  constructor(private examService: CreateQuestionService) {
   }
 
   ngOnInit(): void {

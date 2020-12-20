@@ -13,7 +13,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path:'questions-overview', component: QuestionsOverviewComponent, canActivate: [AuthGuard]},
   {path: 'questions-collection', component: QuestionsCollectionComponent},
-  {path: 'exam-overview', component: ExamOverviewComponent}
+  {path: 'exam-overview', component: ExamOverviewComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

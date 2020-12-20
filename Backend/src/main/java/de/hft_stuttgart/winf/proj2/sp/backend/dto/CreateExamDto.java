@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 /**
- * This Class is for defining a Module which should be crated
+ * This Class is for defining a Exam which should be crated
  */
 @AllArgsConstructor
 @Getter
@@ -19,5 +19,6 @@ public class CreateExamDto extends ExamDto {
     private int userId;
 
     public CreateExamDto(){}
+
 
 }

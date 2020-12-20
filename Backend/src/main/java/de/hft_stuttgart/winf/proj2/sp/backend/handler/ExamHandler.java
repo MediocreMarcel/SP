@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 import java.util.List;
 
+@Path("exams")
 public class ExamHandler {
     private static Logger logger = LogManager.getLogger(ExamHandler.class);
 
@@ -27,7 +28,7 @@ public class ExamHandler {
      * @param user user for whom the search should be performed for. Passed as JSON in the request.
      * @return List of exams. Returned in the endpoint as JSON with an array. If something goes wrong null will be returned
      */
-    @Path("exams")
+    @Path("getExams")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

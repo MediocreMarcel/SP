@@ -1,9 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {QuestionsOverviewService} from "../../services/questions-overview-service.service";
+import {ModuleService} from "../../services/module/module.service";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {UserService} from "../../shared/user.service";
 import {Router} from "@angular/router";
 import {QuestionDto} from "../models/QuestionDto";
+import {CreateModuleDTO, ModuleDTO} from "../models/ModuleDTO";
 
 @Component({
   selector: 'app-questions-overview',
@@ -16,7 +17,7 @@ export class QuestionsOverviewComponent implements OnInit {
   tiles: ModuleDTO[];
 
 
-  constructor(private service: QuestionsOverviewService, public dialog: MatDialog, private userService: UserService, private router:Router) {
+  constructor(private service: ModuleService, public dialog: MatDialog, private userService: UserService, private router:Router) {
     this.loadModules();
   }
 
@@ -58,41 +59,17 @@ export class QuestionsOverviewComponent implements OnInit {
   }
 }
 
-export class ModuleDTO {
-  module_id: number;
-  course: string;
-  definition: string;
-
-  constructor(module_id, course, definition) {
-    this.module_id = module_id;
-    this.course = course;
-    this.definition = definition;
-  }
-}
-
-export class CreateModuleDTO {
-  course: string;
-  definition: string;
-  user_id: number;
-
-  constructor(course, definition, user_id) {
-    this.course = course;
-    this.definition = definition;
-    this.user_id = user_id;
-  }
-}
-
 @Component({
   selector: 'app-create-module-dialog',
-  templateUrl: './question-overview.create_module_dialog.html',
-  styleUrls: ['./questions-overview.create_module_dialog.css']
+  templateUrl: './create_module/question-overview.create_module_dialog.html',
+  styleUrls: ['./create_module/questions-overview.create_module_dialog.css']
 })
 export class CreateModuleDialog {
   moduleName: string;
   courseName: string;
 
 
-  constructor(private service: QuestionsOverviewService, private dialogRef: MatDialogRef<CreateModuleDialog>, private userService: UserService) {
+  constructor(private service: ModuleService, private dialogRef: MatDialogRef<CreateModuleDialog>, private userService: UserService) {
   }
 
   createModule() {

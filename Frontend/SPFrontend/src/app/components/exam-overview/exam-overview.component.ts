@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {UserService} from "../../shared/user.service";
-import {CreateOverviewExamService} from "../../services/create-overview-exam.service";
+import {CreateOverviewExamService} from "../../services/exam/create-overview-exam.service";
 import {Router} from "@angular/router";
+import {CreateExamDTO, ExamDTO} from "../models/ExamDTO";
+import {ModuleDTO} from "../models/ModuleDTO";
+import {CreateQuestionService} from "../../services/question/create-question.service";
+import {ModuleService} from "../../services/module/module.service";
 
 
 @Component({
@@ -14,16 +18,18 @@ export class ExamOverviewComponent implements OnInit {
   sortBy: string = "name";
   tiles: ExamDTO[];
 
-  constructor(private service: CreateOverviewExamService, public dialog: MatDialog, private userService: UserService, private router:Router) { }
+  constructor(private service: CreateOverviewExamService, public dialog: MatDialog, private userService: UserService, private router: Router) {
+    this.loadExams();
+  }
 
   ngOnInit(): void {
   }
 
-
-  loadModules(){
+  loadExams() {
     this.service.getExamsForUser(this.userService.getUser()).subscribe(u => {
+      console.log(u);
       this.tiles = u;
-      if (this.tiles.length > 0){
+      if (this.tiles.length > 0) {
         this.sortChanged();
       }
     });
@@ -35,86 +41,49 @@ export class ExamOverviewComponent implements OnInit {
 
   public sortChanged() {
     if (this.sortBy === "name") {
-      this.tiles.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (this.sortBy === "platzhalter") {
-      this.tiles.sort((a, b) => a.name.localeCompare(b.name));
+      this.tiles.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (this.sortBy === "module") {
+      this.tiles.sort((a, b) => a.module.definition.localeCompare(b.module.definition));
     }
   }
 
-  openCreateDialog(){
-    const dialogRef = this.dialog.open( CreateExamDialog, {
+  openCreateDialog() {
+    const dialogRef = this.dialog.open(CreateExamDialog, {
       width: '50%',
       height: '30%'
     });
 
     dialogRef.afterClosed().subscribe(create => {
-      this.loadModules();
+      this.loadExams();
     });
   }
 
- 
 }
 
-
-
-
-export class ExamDTO {
-  exam_id: number;
-  name: string;
-  creation_date: string;
-  exam_date:string;
-  status: any;
-
-  constructor(exam_id, name) {
-    this.exam_id = exam_id;
-    this.name = name;
-
-
-  }
-}
-  export class CreateExamDTO{
-  exam_id: number;
-  name: string;
-  creation_date: string ;
-  exam_date: string;
-  status: any;
-
-  constructor(exam_id,name,creation_date,exam_date ,status) {
-    this.exam_id = exam_id;
-    this.name = name;
-  this.creation_date = creation_date;
-  this.exam_date = exam_date;
-  this.status = status;
-  }
-
-
-}
 
 @Component({
   selector: 'app-create-module-dialog',
-  templateUrl: './exam-overview.create_exam_dialog.html',
-  styleUrls: ['./exam-overview.create_exam_dialog.css']
+  templateUrl: './create_exam/exam-overview.create_exam_dialog.html',
+  styleUrls: ['./create_exam/exam-overview.create_exam_dialog.css']
 })
 export class CreateExamDialog {
-  name:string;
-  creation_date: string;
+
+  title: string;
   exam_date: string;
   status: any;
+  selectedModule: string;
+  available_modules: ModuleDTO[];
+  JSON: JSON;
 
 
-
-  constructor(private service: CreateOverviewExamService, private dialogRef: MatDialogRef<CreateExamDialog>, private userService: UserService) {
+  constructor(private service: CreateOverviewExamService, private dialogRef: MatDialogRef<CreateExamDialog>, private userService: UserService, private moduleService: ModuleService) {
+    this.JSON = JSON;
+    moduleService.getModulesForUser(this.userService.getUser()).subscribe(modules => this.available_modules = modules);
   }
 
-
-
   createExam() {
-    this.service.createNewExam(new CreateExamDTO(this.name,today,this.exam_date,this.status, this.userService.getUser().user_id));
+    this.service.createNewExam(new CreateExamDTO(this.title, new Date().getTime(), this.exam_date, this.userService.getUser(), JSON.parse(this.selectedModule)));
     this.dialogRef.close();
   }
 
-
-
 }
-
-

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {User} from "../components/models/User";
-import {CreateExamDTO, ExamDTO} from "../components/exam-overview/exam-overview.component";
+import {User} from "../../components/models/User";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {environment} from "../../environments/environment";
+import {environment} from "../../../environments/environment";
+import {CreateExamDTO, ExamDTO} from "../../components/models/ExamDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +15,12 @@ export class CreateOverviewExamService {
   constructor(private http: HttpClient) { }
 
   getExamsForUser(user: User){
-    return this.http.post<ExamDTO[]>(this.url + "questions/modules", JSON.stringify(user), {headers: this.headers});
+    return this.http.post<ExamDTO[]>(this.url + "exams/getExams", JSON.stringify(user), {headers: this.headers});
   }
 
   createNewExam(module: CreateExamDTO){
     console.log(module);
-    this.http.post(this.url + "questions/new_module", JSON.stringify(module), {headers: this.headers}).subscribe();
+    this.http.post(this.url + "exams/new_exam", JSON.stringify(module), {headers: this.headers}).subscribe();
   }
 
 

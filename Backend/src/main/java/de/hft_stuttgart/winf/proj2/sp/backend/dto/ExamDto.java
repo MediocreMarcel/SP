@@ -1,10 +1,8 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.dto;
 
 import de.hft_stuttgart.winf.proj2.sp.backend.util.Column;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
+
 import java.util.Date;
 
 
@@ -16,16 +14,21 @@ import java.util.Date;
 @ToString
 @EqualsAndHashCode
 public class ExamDto {
+
     @Column("exam_id")
     private Integer exam_id;
     @Column("name")
-    private String name;
+    private String title;
     @Column("creation_date")
     private Date creation_date;
     @Column("exam_date")
     private Date exam_date;
     @Column("status")
-    private  String status;
+    private String status;
+    @Column("module_id")
+    private Integer moduleId;
+    @Setter
+    private ModuleDto module;
 
     public ExamDto(){
 
