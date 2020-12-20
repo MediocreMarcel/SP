@@ -12,7 +12,7 @@ export class QuestionsCollectionComponent implements OnInit {
 
   questions: QuestionDto[];
 
-  selectedQuestions: number[];
+  selectedQuestions: QuestionDto[] = [];
 
   examService: CreateExamService;
 
@@ -31,25 +31,32 @@ export class QuestionsCollectionComponent implements OnInit {
     });
   }
 
-  checkboxChanged(id: number) {
+  checkboxChanged(question: QuestionDto) {
     let deleted = false;
     this.selectedQuestions.forEach((element, index) => {
-      if (element == id) {
+      if (element.module_ID == question.module_ID) {
         this.selectedQuestions.splice(index, 1);
         deleted = true;
       }
     });
     if (!deleted) {
-      this.selectedQuestions.push(id);
+      this.selectedQuestions.push(question);
     }
   }
 
   deleteSelection() {
-    //TODO call service with array
+    this.examService.deleteQuestions(this.selectedQuestions).subscribe( response => {
+      this.loadQuestions();
+    });
   }
 
   createQuestion() {
     //TODO call dialog from other task once merged
   }
 
+  loadQuestions(){
+    this.examService.getQuestionsFromDb(this.module).subscribe(response => {
+      this.questions = response;
+    });
+  }
 }

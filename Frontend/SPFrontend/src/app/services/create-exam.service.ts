@@ -15,7 +15,6 @@ export class CreateExamService {
   constructor(private http: HttpClient) { }
 
   getQuestionsFromDb(postData: ModuleDTO){
-    console.log(postData);
     const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     return this.http.post<QuestionDto[]>(this.url + 'questions/getQuestion', JSON.stringify(postData), {headers: headers});
   }
@@ -24,5 +23,10 @@ export class CreateExamService {
     const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     console.log(postData);
     return this.http.post<QuestionDto>(this.url + 'questions/newQuestion', JSON.stringify(postData), {headers: headers});
+  }
+
+  deleteQuestions(questions: QuestionDto[]){
+    const headers = new HttpHeaders().set('Content-Type', 'application/json;');
+    return this.http.post(this.url + 'questions/deleteQuestions', JSON.stringify(questions), { headers: headers });//http request, since http delete does not work with a body
   }
 }
