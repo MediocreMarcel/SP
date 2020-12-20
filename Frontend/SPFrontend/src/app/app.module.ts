@@ -29,6 +29,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {GroupByPipe} from "./components/pipes/group-by.pipe";
 import {LoginComponent} from "./components/login/login.component";
 import {UserService} from "./shared/user.service";
+import {CreateExamDialog, ExamOverviewComponent} from './components/exam-overview/exam-overview.component';
+
 
 @NgModule({
   declarations: [
@@ -41,6 +43,9 @@ import {UserService} from "./shared/user.service";
     LoginComponent,
     HomePageComponent,
     GroupByPipe,
+    ExamOverviewComponent,
+    CreateExamDialog
+
   ],
   imports: [
     BrowserModule,
