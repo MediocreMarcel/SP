@@ -1,0 +1,26 @@
+<h1>Neue Klausur erstellen</h1>
+<mat-form-field class="module-form-input">
+  <mat-label>Examname</mat-label>
+  <input matInput type="text" [(ngModel)]="name">
+
+  <button mat-button *ngIf="name" matSuffix mat-icon-button aria-label="Clear" (click)=" name =''">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
+
+<br>
+
+<mat-form-field class="course-form-input">
+  <mat-label>Studiengang</mat-label>
+  <mat-select [(ngModel)]="name">
+    <mat-option value="Wirtschaftsinformatik (B.Sc.)">Wirtschaftsinformatik (B.Sc.)</mat-option>
+    <mat-option value="Mathematik (B.Sc.)">Mathematik (B.Sc.)</mat-option>
+    <mat-option value="Informatik (B.Sc.)">Informatik (B.Sc.)</mat-option>
+    <mat-option value="Architektur (B.A.)">Architektur (B.A.)</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-dialog-actions align="end">
+  <button mat-flat-button mat-dialog-close >Abbrechen</button>
+  <button mat-flat-button (click)="createExam();" color="primary">Erstellen</button>
+</mat-dialog-actions>

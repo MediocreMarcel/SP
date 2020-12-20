@@ -8,7 +8,7 @@ import {environment} from "../../environments/environment";
 @Injectable({
   providedIn: 'root'
 })
-export class CreateExamService {
+export class CreateQuestionService {
 
   url = environment.BaseUrl;
 
