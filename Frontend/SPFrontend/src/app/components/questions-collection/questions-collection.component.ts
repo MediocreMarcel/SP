@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {QuestionDto} from "../models/QuestionDto";
 import {CreateExamService} from "../../services/create-exam.service";
 import {ModuleDTO} from "../questions-overview/questions-overview.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-questions-collection',
@@ -18,14 +19,27 @@ export class QuestionsCollectionComponent implements OnInit {
 
   module: ModuleDTO;
 
-  constructor(examService: CreateExamService) {
+  constructor(examService: CreateExamService, private router: Router) {
     this.examService = examService;
   }
 
   ngOnInit(): void {
+
     let state = history.state;
     delete state.navigationId;
-    this.module = history.state;
+    this.module = state;
+    if (this.module.module_id == undefined) {
+      let moduleJSON = localStorage.getItem("currentModuleQuestionsCollection");
+      if (moduleJSON == null) {
+        this.router.navigate(["/questions-overview"]);
+        return;
+      }
+      this.module = JSON.parse(moduleJSON);
+    } else {
+      localStorage.setItem("currentModuleQuestionsCollection", JSON.stringify(this.module));
+    }
+
+
     this.examService.getQuestionsFromDb(this.module).subscribe(u => {
       this.questions = u;
     });
@@ -45,7 +59,7 @@ export class QuestionsCollectionComponent implements OnInit {
   }
 
   deleteSelection() {
-    this.examService.deleteQuestions(this.selectedQuestions).subscribe( response => {
+    this.examService.deleteQuestions(this.selectedQuestions).subscribe(response => {
       this.loadQuestions();
     });
   }
@@ -54,7 +68,7 @@ export class QuestionsCollectionComponent implements OnInit {
     //TODO call dialog from other task once merged
   }
 
-  loadQuestions(){
+  loadQuestions() {
     this.examService.getQuestionsFromDb(this.module).subscribe(response => {
       this.questions = response;
     });
