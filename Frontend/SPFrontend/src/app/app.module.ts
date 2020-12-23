@@ -33,6 +33,7 @@ import {CreateExamDialog, ExamOverviewComponent} from './components/exam-overvie
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {CreateQuestionComponent} from './components/create-question/create-question.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 @NgModule({
   declarations: [
@@ -49,29 +50,30 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     CreateExamDialog,
     CreateQuestionComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatDialogModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatGridListModule,
-    MatCardModule,
-    MatButtonToggleModule,
-    HttpClientModule,
-    FormsModule,
-    MatOptionModule,
-    MatSelectModule,
-    MatExpansionModule,
-    MatCheckboxModule,
-    MatProgressBarModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatDialogModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatGridListModule,
+        MatCardModule,
+        MatButtonToggleModule,
+        HttpClientModule,
+        FormsModule,
+        MatOptionModule,
+        MatSelectModule,
+        MatExpansionModule,
+        MatCheckboxModule,
+        MatProgressBarModule,
+        DragDropModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+    ],
   providers: [UserService,
     {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},],
   bootstrap: [AppComponent]

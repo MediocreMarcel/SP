@@ -35,11 +35,44 @@
 </mat-card-content>
 </mat-card>
 
-<!-- Mid layer 3 cols: Fragenpool, Klausur, Vorschau?-->
+<!-- Mid layer 3 cols: Fragenpool, Klausur, Preview?-->
 <mat-grid-list cols=3>
   <mat-grid-tile>
     <mat-card-title>Fragenpool</mat-card-title>
-    <mat-card-content> </mat-card-content>
+    <mat-card-content>
+      <!--anderung -->
+      <div class="example-container">
+        <h2>Fragenpool</h2>
+
+        <div
+          cdkDropList
+          #questionList="cdkDropList"
+          [cdkDropListData]="questionPool"
+          [cdkDropListConnectedTo]="[examList]"
+          class="example-list"
+          (cdkDropListDropped)="drop($event)">
+          <div class="example-box" *ngFor="let item of questionPool" cdkDrag>{{item}}</div>
+        </div>
+      </div>
+
+      <div class="example-container">
+        <h2>Klausur</h2>
+
+        <div
+          cdkDropList
+          #examList="cdkDropList"
+          [cdkDropListData]="examContent"
+          [cdkDropListConnectedTo]="[questionList]"
+          class="example-list"
+          (cdkDropListDropped)="drop($event)">
+          <div class="example-box" *ngFor="let item of examContent" cdkDrag>{{item}}</div>
+        </div>
+      </div>
+
+
+<!-- anderung -->
+
+    </mat-card-content>
   </mat-grid-tile>
   <mat-grid-tile>
     <mat-card-title>UNBENANNTE KLAUSUR</mat-card-title>
