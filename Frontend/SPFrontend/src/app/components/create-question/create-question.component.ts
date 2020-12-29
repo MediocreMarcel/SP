@@ -8,7 +8,7 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag
   styleUrls: ['./create-question.component.css']
 })
 export class CreateQuestionComponent implements OnInit {
-  ExamTitle: string;
+  examTitle = "Unbenannte Klausur";
 
   constructor() { }
 
