@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <!--Default value = "Unbenannte Klausur" - Titel soll anpassbar & nach Speichern ausgegraut werden -->
 <form>
-  <mat-form-field style="width:100%">
+  <mat-form-field style="width:100%; margin-top: 10px;">
     <mat-label>Klausurname</mat-label>
     <input matInput input="text" [value]="examTitle" class="examTitleInput">
   </mat-form-field>
@@ -43,7 +43,7 @@
           <!-- Buttons Vorschau + Speichern + Verwerfen: Pop-ups für Speichern + Verwerfen?! -->
           <button mat-raised-button class="infoHeaderButton">Vorschau</button>
           <button mat-raised-button class="infoHeaderButton">Speichern</button>
-          <button mat-raised-button class="infoHeaderButton">Verwerfen</button>
+          <button mat-raised-button class="infoHeaderButton" color="warn">Verwerfen</button>
         </mat-grid-tile>
       </mat-grid-list>
 
@@ -60,15 +60,17 @@
           <mat-card>
             <mat-card-title>Fragenpool</mat-card-title>
             <mat-card-content>
-              <div cdkDropListGroup>
+              <div cdkDropListGroup *ngFor="let questionsByCategory of questionPoolByCategory">
                 <div
                   cdkDropList
-                  #questionList="cdkDropList"
-                  [cdkDropListData]="questionPool"
+                  cdkDropListSortingDisabled
+                  id="{{questionsByCategory[0].questionName}}"
+                  [cdkDropListData]=questionsByCategory
                   [cdkDropListConnectedTo]="[examList]"
                   class="question-drag-n-drop-list"
                   (cdkDropListDropped)="drop($event)">
-                  <div class="question-holder" *ngFor="let item of questionPool" cdkDrag>{{item}}</div>
+                  <div class="question-holder" cdkDrag [cdkDragDisabled]="question.isDisabled"
+                       *ngFor="let question of questionsByCategory">{{question.questionName}}</div>
                 </div>
               </div>
 
@@ -88,10 +90,10 @@
               cdkDropList
               #examList="cdkDropList"
               [cdkDropListData]="examContent"
-              [cdkDropListConnectedTo]="[questionList]"
+              [cdkDropListConnectedTo]='questionCategories'
               class="question-drag-n-drop-list"
               (cdkDropListDropped)="drop($event)">
-              <div class="question-holder" *ngFor="let item of examContent" cdkDrag>{{item}}</div>
+              <div class="question-holder" *ngFor="let item of examContent" cdkDrag>{{item.questionName}}</div>
             </div>
           </mat-card>
         </div>
@@ -108,8 +110,3 @@
     </mat-grid-list>
   </mat-card-content>
 </mat-card>
-
-<!-- Copyright -->
-<p class="copyright">
-  <label class="copyright_text">© SP GmbH, 2020 </label>
-</p>
