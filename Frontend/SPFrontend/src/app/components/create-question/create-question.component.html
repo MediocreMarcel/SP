@@ -12,21 +12,21 @@
         <mat-grid-tile>
           <mat-form-field class="infoHeaderInput">
             <mat-label>Gesamtpunkte</mat-label>
-            <input matInput type="number" min="0">
+            <input matInput type="number" min="0" [(ngModel)]="totalExamPoints">
           </mat-form-field>
         </mat-grid-tile>
 
         <mat-grid-tile>
           <mat-form-field class="infoHeaderInput">
             <mat-label>Studiengang</mat-label>
-            <input matInput input="text">
+            <input matInput input="text" [(ngModel)]="course">
           </mat-form-field>
         </mat-grid-tile>
 
         <mat-grid-tile>
           <mat-form-field class="infoHeaderInput">
             <mat-label>Semester</mat-label>
-            <input matInput input="text">
+            <input matInput input="text" [(ngModel)]="semester">
           </mat-form-field>
         </mat-grid-tile>
 

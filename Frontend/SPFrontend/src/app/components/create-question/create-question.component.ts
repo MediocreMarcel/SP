@@ -11,8 +11,7 @@ import {GroupByPipe} from "../questions-collection/group-by.pipe";
   styleUrls: ['./create-question.component.css']
 })
 export class CreateQuestionComponent implements OnInit {
-  examTitle = "Unbenannte Klausur"
-
+  //working variables
   module: ModuleDTO;
 
   questionPoolByCategoryUnchanged: any[] = [];
@@ -21,6 +20,12 @@ export class CreateQuestionComponent implements OnInit {
   examContent: QuestionDto[] = [];
 
   questionCategories: string[] = [];
+
+  //header variables
+  examTitle = "Unbenannte Klausur"
+  totalExamPoints: number;
+  course: any;
+  semester: string;
 
   constructor(private examService: CreateExamService) {
     this.module = new ModuleDTO(1, "WI", "Prog 2"); //Needs to be changed to get the current Module
@@ -32,8 +37,7 @@ export class CreateQuestionComponent implements OnInit {
           //push name of category in corresponding array
           this.questionCategories.push(u.key);
         });
-        this.questionPoolByCategoryUnchanged = JSON.parse(JSON.stringify(this.questionPoolByCategory));//Copy Array without reference
-        console.log(this.questionPoolByCategory);
+        this.questionPoolByCategoryUnchanged = JSON.parse(JSON.stringify(this.questionPoolByCategory));//Copy Array without reference. Yes this is the best method for it (according to best stackoverflow answer).
       }
     )
   }
@@ -57,7 +61,7 @@ export class CreateQuestionComponent implements OnInit {
           if (u.some(question => ((question.questionId != undefined) && (question.questionId == event.previousContainer.data[event.previousIndex].questionId)))) {
             return index;//returns index if fitting otherwise the result will be undefined
           }
-        }).filter(u => u!=undefined)[0];//remove undefined and get first element
+        }).filter(u => u != undefined)[0];//remove undefined and get first element
 
         //find the old index from this element to sort it right
         let indexOfElement = this.questionPoolByCategoryUnchanged[indexOfCategory].findIndex(question => question.questionId == event.previousContainer.data[event.previousIndex].questionId)
