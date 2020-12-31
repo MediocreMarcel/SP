@@ -15,20 +15,16 @@ export class CreateQuestionComponent implements OnInit {
 
   module: ModuleDTO;
 
-  questionPool: QuestionDto[] = [];
+  questionPoolByCategoryUnchanged: any[] = [];
   questionPoolByCategory: any[] = [];
 
   examContent: QuestionDto[] = [];
 
   questionCategories: string[] = [];
 
-  JSON = JSON;
-
   constructor(private examService: CreateExamService) {
-    this.module = new ModuleDTO(1, "WI", "Prog 2")
+    this.module = new ModuleDTO(1, "WI", "Prog 2"); //Needs to be changed to get the current Module
     examService.getQuestionsFromDb(this.module).subscribe(retVal => {
-        this.questionPool = retVal;
-
         let pipe = new GroupByPipe();
         pipe.transform(retVal, "category").forEach(u => {
           //crete array with dummy object at first position. This dummy object represents the name of the category
@@ -36,6 +32,7 @@ export class CreateQuestionComponent implements OnInit {
           //push name of category in corresponding array
           this.questionCategories.push(u.key);
         });
+        this.questionPoolByCategoryUnchanged = JSON.parse(JSON.stringify(this.questionPoolByCategory));//Copy Array without reference
         console.log(this.questionPoolByCategory);
       }
     )
@@ -45,20 +42,38 @@ export class CreateQuestionComponent implements OnInit {
   }
 
 
-  //called if something has been dropped between questions and exam
+  /**
+   * Called if something is moved between DragBoxes. Moves the corresponding Values in the arrays
+   * @param event Angular drop event
+   */
   drop(event: CdkDragDrop<QuestionDto[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else if(this.questionCategories.includes(event.container.id) && event.currentIndex == 0) {
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.container.data.length);
     } else {
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
+      if (this.questionCategories.includes(event.container.id)) { //if id of drgBox is a name of a question category
+
+        //search in which array the question is located
+        let indexOfCategory = this.questionPoolByCategoryUnchanged.map((u, index) => {
+          if (u.some(question => ((question.questionId != undefined) && (question.questionId == event.previousContainer.data[event.previousIndex].questionId)))) {
+            return index;//returns index if fitting otherwise the result will be undefined
+          }
+        }).filter(u => u!=undefined)[0];//remove undefined and get first element
+
+        //find the old index from this element to sort it right
+        let indexOfElement = this.questionPoolByCategoryUnchanged[indexOfCategory].findIndex(question => question.questionId == event.previousContainer.data[event.previousIndex].questionId)
+
+        transferArrayItem(event.previousContainer.data,
+          this.questionPoolByCategory[indexOfCategory],
+          event.previousIndex,
+          indexOfElement);
+
+
+      } else { //if something is moved into a DrgBox without a fitting id
+        transferArrayItem(event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex);
+      }
     }
   }
 
