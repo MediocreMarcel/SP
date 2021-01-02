@@ -5,7 +5,7 @@ export class ExamDTO {
   exam_id: number;
   title: string;
   creation_date: string ;
-  exam_date: string;
+  exam_date: number;
   status: any;
   module: ModuleDTO;
 
@@ -23,11 +23,11 @@ export class ExamDTO {
 export class CreateExamDTO {
   title: string;
   creation_date: number ;
-  exam_date: string;
+  exam_date: number;
   status: string;
   module: ModuleDTO;
 
-  constructor(title:string,creation_date:number,exam_date:string,user:User,module:ModuleDTO) {
+  constructor(title:string,creation_date:number,exam_date:number,user:User,module:ModuleDTO) {
     this.title = title;
     this.creation_date = creation_date;
     this.exam_date = exam_date;

@@ -57,12 +57,12 @@ public class DbExam extends DbConnector {
      * @throws SQLException Exception if connection to db fails or an error accrues
      */
     public boolean createExams(CreateExamDto exam) throws SQLException {
-        PreparedStatement insertExams = conn.prepareStatement("INSERT INTO exams (name,creation_date,status,module_id) VALUES (?, ?, ?, ?); ");
+        PreparedStatement insertExams = conn.prepareStatement("INSERT INTO exams (name,creation_date,status,module_id, exam_date) VALUES (?, ?, ?, ?,?); ");
         insertExams.setString(1, exam.getTitle());
         insertExams.setDate(2, new Date(exam.getCreation_date().getTime()));
         insertExams.setString(3, exam.getStatus());
         insertExams.setInt(4, exam.getModule().getModule_id());
-
+        insertExams.setDate(5, new Date(exam.getExam_date().getTime()));
         return insertExams.executeUpdate()>0?true:false;
     }
 }
