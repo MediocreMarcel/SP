@@ -5,6 +5,7 @@ import lombok.*;
 
 @AllArgsConstructor
 @Getter
+@Setter
 @ToString
 @EqualsAndHashCode
 public class QuestionsDto {

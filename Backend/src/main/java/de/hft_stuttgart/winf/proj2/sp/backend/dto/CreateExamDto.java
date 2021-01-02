@@ -11,7 +11,7 @@ import lombok.ToString;
  */
 @AllArgsConstructor
 @Getter
-@ToString
+@ToString(callSuper = true)
 @EqualsAndHashCode
 public class CreateExamDto extends ExamDto {
 

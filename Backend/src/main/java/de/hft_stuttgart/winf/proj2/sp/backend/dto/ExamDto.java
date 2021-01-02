@@ -11,6 +11,7 @@ import java.util.Date;
  */
 @AllArgsConstructor
 @Getter
+@Setter
 @ToString
 @EqualsAndHashCode
 public class ExamDto {

@@ -82,8 +82,11 @@ export class CreateExamDialog {
   }
 
   createExam() {
-    this.service.createNewExam(new CreateExamDTO(this.title, new Date().getTime(), this.exam_date, this.userService.getUser(), JSON.parse(this.selectedModule)));
+    console.log(this.exam_date);
+    this.service.createNewExam(new CreateExamDTO(this.title, new Date().getTime(), Date.parse(this.exam_date), this.userService.getUser(), JSON.parse(this.selectedModule)));
     this.dialogRef.close();
   }
 
 }
+
+

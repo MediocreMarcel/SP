@@ -53,6 +53,7 @@ public class ExamHandler {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createNewExam(CreateExamDto exam) {
+        System.out.println(exam);
         try {
             DbExam dbAccess = new DbExam();
             if (!dbAccess.createExams(exam)){
