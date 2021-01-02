@@ -19,7 +19,7 @@ export class CreateOverviewExamService {
   }
 
   createNewExam(module: CreateExamDTO){
-    console.log(module);
+
     this.http.post(this.url + "exams/new_exam", JSON.stringify(module), {headers: this.headers}).subscribe();
   }
 
