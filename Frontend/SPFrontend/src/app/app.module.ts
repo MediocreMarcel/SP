@@ -21,7 +21,7 @@ import {MatCardModule} from "@angular/material/card";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
-import {MatOptionModule} from "@angular/material/core";
+import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {QuestionsCollectionComponent} from "./components/questions-collection/questions-collection.component";
 import {MatExpansionModule} from "@angular/material/expansion";
@@ -29,6 +29,9 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {GroupByPipe} from "./components/pipes/group-by.pipe";
 import {LoginComponent} from "./components/login/login.component";
 import {UserService} from "./shared/user.service";
+import {CreateExamDialog, ExamOverviewComponent} from './components/exam-overview/exam-overview.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+
 
 @NgModule({
   declarations: [
@@ -41,6 +44,10 @@ import {UserService} from "./shared/user.service";
     LoginComponent,
     HomePageComponent,
     GroupByPipe,
+    ExamOverviewComponent,
+    CreateExamDialog,
+
+
   ],
   imports: [
     BrowserModule,
@@ -61,8 +68,10 @@ import {UserService} from "./shared/user.service";
     MatSelectModule,
     MatExpansionModule,
     MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
-  providers: [UserService],
+  providers: [UserService, {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

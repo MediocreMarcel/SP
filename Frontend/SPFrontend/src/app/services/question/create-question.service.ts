@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {ModuleDTO} from '../components/questions-overview/questions-overview.component';
-import {QuestionDto} from "../components/models/QuestionDto";
-import {environment} from "../../environments/environment";
+import {QuestionDto} from "../../components/models/QuestionDto";
+import {environment} from "../../../environments/environment";
+import {ModuleDTO} from "../../components/models/ModuleDTO";
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class CreateExamService {
+export class CreateQuestionService {
 
   url = environment.BaseUrl;
 
