@@ -1,5 +1,6 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.db_access;
 
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.ExamDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.ModuleDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.QuestionsDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.util.ResultSetMapper;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class DbQuestions extends DbConnector {
 
-    private static final Logger logger = LogManager.getLogger(DbModule.class);
+    private static final Logger logger = LogManager.getLogger(DbQuestions.class);
 
     public DbQuestions() throws IllegalArgumentException, SQLException {
         super();
@@ -30,7 +31,7 @@ public class DbQuestions extends DbConnector {
      */
     public List<QuestionsDto> getQuestions(ModuleDto module) throws SQLException {
 
-        if(module == null || module.getModule_id() == null){
+        if (module == null || module.getModule_id() == null) {
             return null;
         }
 
@@ -67,6 +68,7 @@ public class DbQuestions extends DbConnector {
 
     /**
      * Deletes a List of questions from the Database. Will only delete all questions or no question
+     *
      * @param questions List of questions that should be deleted
      * @return boolean weather the deletion was successful
      * @throws SQLException hrown if server is unavailable or some problem with the server accrues
@@ -94,6 +96,20 @@ public class DbQuestions extends DbConnector {
 
     }
 
+    public static List<QuestionsDto> getQuestionsFromExam(ExamDto exam) throws SQLException {
+        ResultSetMapper<QuestionsDto> resultSetMapper = new ResultSetMapper<>();
+        PreparedStatement selectExamQuestions = conn.prepareStatement("SELECT * " +
+                "FROM contains a Inner JOIN questions q ON a.question_id = q.question_id WHERE exam_id = (?)");
+        selectExamQuestions.setInt(1, exam.getExam_id());
+        ResultSet rs2 = selectExamQuestions.executeQuery();
+        try {
+            return resultSetMapper.mapResultSetToObject(rs2, QuestionsDto.class);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | SQLException e) {
+            e.printStackTrace();
+            logger.error(e);
+            return null;
+        }
+    }
 }
 
 

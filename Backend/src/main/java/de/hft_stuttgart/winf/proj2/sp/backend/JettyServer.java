@@ -1,6 +1,7 @@
 package de.hft_stuttgart.winf.proj2.sp.backend;
 
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbConnector;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -10,20 +11,15 @@ import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 import javax.servlet.DispatcherType;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-
-
 /**
  * This class sets up the server and the needed environment
  * It also starts the server on Port 8080
- *
  */
 public class JettyServer {
 
@@ -31,6 +27,7 @@ public class JettyServer {
 
     /**
      * Main Method runs on start
+     *
      * @param args The starting parameters should be the the following values: ip_of_db user_of_db user_password_of_db
      */
     public static void main(String[] args) {
