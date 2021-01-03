@@ -4,9 +4,8 @@ import {UserService} from "../../shared/user.service";
 import {CreateOverviewExamService} from "../../services/exam/create-overview-exam.service";
 import {Router} from "@angular/router";
 import {CreateExamDTO, ExamDTO} from "../models/ExamDTO";
-import {ModuleDTO} from "../models/ModuleDTO";
-import {CreateQuestionService} from "../../services/question/create-question.service";
 import {ModuleService} from "../../services/module/module.service";
+import {ModuleDTO} from "../models/ModuleDTO";
 
 
 @Component({
@@ -27,7 +26,7 @@ export class ExamOverviewComponent implements OnInit {
 
   loadExams() {
     this.service.getExamsForUser(this.userService.getUser()).subscribe(u => {
-      console.log(u);
+
       this.tiles = u;
       if (this.tiles.length > 0) {
         this.sortChanged();
@@ -69,7 +68,7 @@ export class ExamOverviewComponent implements OnInit {
 export class CreateExamDialog {
 
   title: string;
-  exam_date: string;
+  exam_date: any;
   status: any;
   selectedModule: string;
   available_modules: ModuleDTO[];
@@ -82,7 +81,7 @@ export class CreateExamDialog {
   }
 
   createExam() {
-    console.log(this.exam_date);
+
     this.service.createNewExam(new CreateExamDTO(this.title, new Date().getTime(), Date.parse(this.exam_date), this.userService.getUser(), JSON.parse(this.selectedModule)));
     this.dialogRef.close();
   }
