@@ -50,6 +50,7 @@ import {DeleteExamDialog} from "./components/exam-editor/deleteExam/delete-exame
     GroupByPipe,
     ExamOverviewComponent,
     CreateExamDialog,
+    CreateQuestionDialog,
     ExamEditorComponent,
     DeleteExamDialog,
   ],

@@ -58,10 +58,14 @@ public class DbQuestions extends DbConnector {
      * @throws SQLException thrown if server is unavailable or some problem with the server accrues
      */
     public boolean createNewQuestion(QuestionsDto question) throws SQLException {
-        PreparedStatement insertQuestion = conn.prepareStatement("INSERT INTO questions (name, default_points,module_id) VALUES (?, ?,?); ");
+        PreparedStatement insertQuestion = conn.prepareStatement("INSERT INTO questions (name, question_text, default_points, short_name, module_id, category) VALUES (?,?,?,?,?,?); ");
         insertQuestion.setString(1, question.getQuestionName());
-        insertQuestion.setFloat(2, question.getQuestionPoints());
-        insertQuestion.setInt(3, question.getModule_ID());
+        insertQuestion.setString(2, question.getQuestionText());
+        insertQuestion.setFloat(3, question.getQuestionPoints());
+        insertQuestion.setString(4, question.getShortName());
+        insertQuestion.setInt(5, question.getModule_ID());
+        insertQuestion.setString(6, question.getCategory());
+
 
         return insertQuestion.executeUpdate() > 0;
 

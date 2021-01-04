@@ -1,6 +1,6 @@
 export class QuestionDto {
 
-  questionId: number;
+  //questionId: number;
   questionName: string;
   questionText: string;
   questionPoints: number;
@@ -8,8 +8,7 @@ export class QuestionDto {
   category: string;
   module_ID: number;
 
-  constructor(questionId:number, questionName:string, questionText:string,questionPoints:number,shortName:string, category:string, module_ID:number) {
-    this.questionId = questionId;
+  constructor(questionName: string, questionText: string, questionPoints: number, shortName: string, category: string, module_ID: number) {
     this.questionName = questionName;
     this.questionText = questionText;
     this.questionPoints = questionPoints;
@@ -17,5 +16,5 @@ export class QuestionDto {
     this.category = category;
     this.module_ID = module_ID;
   }
-
 }
+
