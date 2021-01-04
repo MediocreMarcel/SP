@@ -3,6 +3,7 @@ import {QuestionDto} from "../models/QuestionDto";
 import {Router} from "@angular/router";
 import {ModuleDTO} from "../models/ModuleDTO";
 import {CreateQuestionService} from "../../services/question/create-question.service";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-questions-collection',
@@ -18,7 +19,7 @@ export class QuestionsCollectionComponent implements OnInit {
 
   module: ModuleDTO;
 
-  constructor(private examService: CreateQuestionService, private router: Router) {
+  constructor(private examService: CreateQuestionService, private router: Router, public dialog: MatDialog) {
 
   }
 
@@ -64,12 +65,44 @@ export class QuestionsCollectionComponent implements OnInit {
   }
 
   createQuestion() {
-    //TODO call dialog from other task once merged
+    const dialogRef = this.dialog.open(CreateQuestionDialog, {
+      width: '50%',
+      height: '50%'
+    });
+
+    dialogRef.afterClosed().subscribe(create => {
+      this.loadQuestions();
+      console.log(this.questions);
+    });
   }
 
   loadQuestions() {
     this.examService.getQuestionsFromDb(this.module).subscribe(response => {
       this.questions = response;
     });
+  }
+}
+
+@Component({
+  selector: 'app-questions-createcollection',
+  templateUrl: './questions-collection.create_question_dialog.html',
+  styleUrls: ['./questions-collection.create_question_dialog.css']
+})
+
+export class CreateQuestionDialog {
+  questionName: string;
+  shortName: string;
+  questionText: string;
+  questionPoints: number;
+  category: string;
+  module: ModuleDTO;
+
+  constructor(private service: CreateQuestionService, private dialogRef: MatDialogRef<CreateQuestionDialog>) {
+  }
+
+  writeQuestion() {
+    this.module = history.state;
+    this.service.writeQuestionToDb(new QuestionDto(this.questionName, this.questionText, this.questionPoints, this.shortName, this.category, this.module.module_id));
+    this.dialogRef.close();
   }
 }

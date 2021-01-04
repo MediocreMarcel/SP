@@ -23,7 +23,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
-import {QuestionsCollectionComponent} from "./components/questions-collection/questions-collection.component";
+import {QuestionsCollectionComponent, CreateQuestionDialog} from "./components/questions-collection/questions-collection.component";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {GroupByPipe} from "./components/pipes/group-by.pipe";
@@ -46,9 +46,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
     GroupByPipe,
     ExamOverviewComponent,
     CreateExamDialog,
-
-
-
+    CreateQuestionDialog
   ],
   imports: [
     BrowserModule,
@@ -72,7 +70,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
     MatDatepickerModule,
     MatNativeDateModule,
   ],
-  providers: [UserService, {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},],
+  providers: [UserService, {provide: MAT_DATE_LOCALE, useValue: 'de-DE'} ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
