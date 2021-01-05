@@ -2,7 +2,7 @@
 <!--Default value = "Unbenannte Klausur" - Titel soll anpassbar & nach Speichern ausgegraut werden -->
 <mat-form-field style="width:100%; margin-top: 10px;">
   <mat-label>Klausurname</mat-label>
-  <input matInput input="text" [value]="examTitle" class="examTitleInput">
+  <input matInput input="text" [value]="exam.title" class="examTitleInput">
 </mat-form-field>
 
 <mat-card>
@@ -11,21 +11,21 @@
       <mat-grid-tile>
         <mat-form-field class="infoHeaderInput">
           <mat-label>Gesamtpunkte</mat-label>
-          <input matInput type="number" min="0" [(ngModel)]="totalExamPoints">
+          <input matInput type="number" min="0" [(ngModel)]="exam.points" (ngModelChange)="exam.points = $event">
         </mat-form-field>
       </mat-grid-tile>
 
       <mat-grid-tile>
         <mat-form-field class="infoHeaderInput">
           <mat-label>Studiengang</mat-label>
-          <input matInput input="text" [(ngModel)]="course">
+          <input matInput input="text" [(ngModel)]="exam.module.definition">
         </mat-form-field>
       </mat-grid-tile>
 
       <mat-grid-tile>
         <mat-form-field class="infoHeaderInput">
           <mat-label>Semester</mat-label>
-          <input matInput input="text" [(ngModel)]="semester">
+          <input matInput input="text" [(ngModel)]="exam.exam_date">
         </mat-form-field>
       </mat-grid-tile>
 
@@ -35,7 +35,7 @@
 
       <mat-grid-tile class="infoHeaderInput">
         <!-- Progress Bar soll prozentuele Abhänigkeit zu Gesamtpunkte darstellen -- currentPercentage = (currentPoints/maxPoints)*100-->
-        <mat-progress-bar mode="determinate" value="50"></mat-progress-bar>
+        <mat-progress-bar mode="determinate" value="{{10/exam.points*100}}"></mat-progress-bar>
       </mat-grid-tile>
 
       <mat-grid-tile>

@@ -4,17 +4,19 @@ import {ModuleDTO} from "./ModuleDTO";
 export class ExamDTO {
   exam_id: number;
   title: string;
-  creation_date: string ;
+  creation_date: string;
   exam_date: number;
   status: any;
+  points: number;
   module: ModuleDTO;
 
-  constructor(exam_id,title,creation_date,exam_date,status,module) {
+  constructor(exam_id,title,creation_date,exam_date,status,points,module) {
     this.exam_id = exam_id;
     this.title = title;
     this.creation_date = creation_date;
     this.exam_date = exam_date;
     this.status = status;
+    this.points = points;
     this.module = module;
   }
 

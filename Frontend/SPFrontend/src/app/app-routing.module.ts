@@ -15,7 +15,7 @@ const routes: Routes = [
   {path:'questions-overview', component: QuestionsOverviewComponent, canActivate: [AuthGuard]},
   {path: 'questions-collection', component: QuestionsCollectionComponent,canActivate: [AuthGuard]},
   {path: 'exam-overview', component: ExamOverviewComponent, canActivate: [AuthGuard]},
-  {path: 'create-question', component: CreateQuestionComponent}
+  {path: 'create-question', component: CreateQuestionComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

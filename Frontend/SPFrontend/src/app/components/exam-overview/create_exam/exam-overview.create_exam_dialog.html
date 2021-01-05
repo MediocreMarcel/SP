@@ -11,7 +11,7 @@
 <br>
 
 <mat-form-field class="course-form-input">
-  <mat-label>Studiengang</mat-label>
+  <mat-label>Modul</mat-label>
   <mat-select [(ngModel)]="selectedModule">
 
     <mat-option *ngFor="let module of available_modules" value="{{JSON.stringify(module)}}">{{module.definition}}</mat-option>
@@ -20,7 +20,8 @@
 </mat-form-field>
 
 <mat-form-field appearance="fill">
-  <mat-label>Datepicker</mat-label>
+  <mat-label>Datum der Klausur
+  </mat-label>
   <input matInput [matDatepicker]="mydate" [(ngModel)]="exam_date" >
   <mat-datepicker-toggle matSuffix [for]="mydate"></mat-datepicker-toggle>
   <mat-datepicker #mydate>

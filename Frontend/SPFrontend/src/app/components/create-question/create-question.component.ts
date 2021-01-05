@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {CreateExamService} from "../../services/create-exam.service";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
-import {ModuleDTO} from "../questions-overview/questions-overview.component";
 import {QuestionDto} from "../models/QuestionDto";
-import {GroupByPipe} from "../questions-collection/group-by.pipe";
+import {CreateQuestionService} from "../../services/question/create-question.service";
+import {GroupByPipe} from "../pipes/group-by.pipe";
+import {ExamDTO} from "../models/ExamDTO";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-question',
@@ -12,7 +13,7 @@ import {GroupByPipe} from "../questions-collection/group-by.pipe";
 })
 export class CreateQuestionComponent implements OnInit {
   //working variables
-  module: ModuleDTO;
+  exam: ExamDTO;
 
   questionPoolByCategoryUnchanged: any[] = [];
   questionPoolByCategory: any[] = [];
@@ -27,9 +28,33 @@ export class CreateQuestionComponent implements OnInit {
   course: any;
   semester: string;
 
-  constructor(private examService: CreateExamService) {
-    this.module = new ModuleDTO(1, "WI", "Prog 2"); //Needs to be changed to get the current Module
-    examService.getQuestionsFromDb(this.module).subscribe(retVal => {
+  /**
+   * creates object, is loading needed data
+   * @param examService service to load exam data from db
+   * @param router angular router to navigate between pages
+   */
+  constructor(private examService: CreateQuestionService, private router: Router) {
+  }
+
+  /**
+   * NgOnInit is used to get the current exam from the previous page
+   */
+  ngOnInit(): void {
+    let state = history.state;
+    delete state.navigationId;
+    this.exam = state;
+    if (this.exam.exam_id == undefined) {
+      let examJson = localStorage.getItem("currentExamForExamEditor");
+      if (examJson == null) {
+        this.router.navigate(["/exam-overview"]);
+        return;
+      }
+      this.exam = JSON.parse(examJson);
+    } else {
+      localStorage.setItem("currentExamForExamEditor", JSON.stringify(this.exam));
+    }
+
+    this.examService.getQuestionsFromDb(this.exam.module).subscribe(retVal => {
         let pipe = new GroupByPipe();
         pipe.transform(retVal, "category").forEach(u => {
           //crete array with dummy object at first position. This dummy object represents the name of the category
@@ -40,9 +65,6 @@ export class CreateQuestionComponent implements OnInit {
         this.questionPoolByCategoryUnchanged = JSON.parse(JSON.stringify(this.questionPoolByCategory));//Copy Array without reference. Yes this is the best method for it (according to best stackoverflow answer).
       }
     )
-  }
-
-  ngOnInit(): void {
   }
 
 
