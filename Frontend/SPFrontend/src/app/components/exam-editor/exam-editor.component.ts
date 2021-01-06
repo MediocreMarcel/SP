@@ -8,10 +8,10 @@ import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-question',
-  templateUrl: './create-question.component.html',
-  styleUrls: ['./create-question.component.css']
+  templateUrl: './exam-editor.component.html',
+  styleUrls: ['./exam-editor.component.css']
 })
-export class CreateQuestionComponent implements OnInit {
+export class ExamEditorComponent implements OnInit {
   //working variables
   exam: ExamDTO;
 

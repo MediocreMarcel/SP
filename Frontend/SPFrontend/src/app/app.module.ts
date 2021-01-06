@@ -31,7 +31,7 @@ import {LoginComponent} from "./components/login/login.component";
 import {UserService} from "./shared/user.service";
 import {CreateExamDialog, ExamOverviewComponent} from './components/exam-overview/exam-overview.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {CreateQuestionComponent} from './components/create-question/create-question.component';
+import {ExamEditorComponent} from './components/exam-editor/exam-editor.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 
@@ -48,7 +48,7 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
     GroupByPipe,
     ExamOverviewComponent,
     CreateExamDialog,
-    CreateQuestionComponent
+    ExamEditorComponent
   ],
     imports: [
         BrowserModule,
