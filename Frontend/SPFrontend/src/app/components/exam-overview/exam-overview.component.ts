@@ -35,7 +35,7 @@ export class ExamOverviewComponent implements OnInit {
   }
 
   navigateToExamEditor(exam: ExamDTO) {
-    this.router.navigate(['/create-question'], {state: exam});
+    this.router.navigate(['/exam-editor'], {state: exam});
   }
 
   public sortChanged() {
