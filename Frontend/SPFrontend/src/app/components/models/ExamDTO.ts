@@ -1,5 +1,6 @@
 import {User} from "./User";
 import {ModuleDTO} from "./ModuleDTO";
+import {QuestionDto} from "./QuestionDto";
 
 export class ExamDTO {
   exam_id: number;
@@ -7,16 +8,16 @@ export class ExamDTO {
   creation_date: string;
   exam_date: number;
   status: any;
-  points: number;
+  totalPoints: number;
   module: ModuleDTO;
 
-  constructor(exam_id,title,creation_date,exam_date,status,points,module) {
+  constructor(exam_id,title,creation_date,exam_date,status,totalPoints,module) {
     this.exam_id = exam_id;
     this.title = title;
     this.creation_date = creation_date;
     this.exam_date = exam_date;
     this.status = status;
-    this.points = points;
+    this.totalPoints = totalPoints;
     this.module = module;
   }
 
@@ -27,14 +28,16 @@ export class CreateExamDTO {
   creation_date: number ;
   exam_date: number;
   status: string;
+  totalPoints: number;
   module: ModuleDTO;
 
-  constructor(title:string,creation_date:number,exam_date:number,user:User,module:ModuleDTO) {
+  constructor(title:string,creation_date:number,exam_date:number,user:User,totalPoints: number, module:ModuleDTO) {
     this.title = title;
     this.creation_date = creation_date;
     this.exam_date = exam_date;
     this.module = module;
     this.status = "in_creation";
+    this.totalPoints = totalPoints;
   }
 
 }

@@ -1,5 +1,7 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.db_access;
 
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.SaveExamAndQuestionsDTO;
+
 import java.sql.*;
 
 /**
@@ -40,6 +42,5 @@ public abstract class DbConnector {
         DbConnector.user = user;
         DbConnector.password = password;
     }
-
 
 }

@@ -1,15 +1,12 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.handler;
 
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbModule;
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.CreateModuleDto;
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.ModuleDto;
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.UserDto;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.ws.rs.*;
 
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.QuestionsDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbQuestions;
 
 import javax.ws.rs.core.MediaType;
@@ -139,6 +136,24 @@ public class QuestionsHandler {
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
     }
 
-
+    /**
+     * Gets all questions from a exam
+     * @param exam module of which the questions should be searched
+     * @return List of questions
+     */
+    @Path("getQuestionExam")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<QuestionsDto> getQuestions(ExamDto exam) {
+        try {
+            DbQuestions dbAccess = new DbQuestions();
+            return dbAccess.getQuestionsFromExam(exam);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error(e);
+        }
+        return null;
+    }
 
 }

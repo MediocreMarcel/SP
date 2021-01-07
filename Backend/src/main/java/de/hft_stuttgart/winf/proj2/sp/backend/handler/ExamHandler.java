@@ -2,10 +2,7 @@ package de.hft_stuttgart.winf.proj2.sp.backend.handler;
 
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbExam;
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbModule;
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.CreateExamDto;
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.CreateModuleDto;
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.ExamDto;
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.UserDto;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -66,7 +63,26 @@ public class ExamHandler {
         return Response.ok().build();
     }
 
-
-
-
+    /**
+     * Endpoint to save a Exam and the questions it contains
+     *
+     * @param examAndQuestions exam and questions that should be saved
+     * @return HTTP Status if insert/update was successful (200 OK) or did fail (409 Conflict)
+     */
+    @Path("save_exam")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response saveExamen(SaveExamAndQuestionsDTO examAndQuestions){
+        try {
+            DbExam dbAccess = new DbExam();
+            if (!dbAccess.saveExams(examAndQuestions)){
+                return Response.status(Response.Status.CONFLICT).build();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.logger.error(e);
+            return Response.status(Response.Status.CONFLICT).build();
+        }
+        return Response.ok().build();
+    }
 }

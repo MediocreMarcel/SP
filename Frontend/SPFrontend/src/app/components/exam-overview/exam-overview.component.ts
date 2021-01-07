@@ -73,6 +73,7 @@ export class CreateExamDialog {
   selectedModule: string;
   available_modules: ModuleDTO[];
   JSON: JSON;
+  examPoints: number;
 
 
   constructor(private service: CreateOverviewExamService, private dialogRef: MatDialogRef<CreateExamDialog>, private userService: UserService, private moduleService: ModuleService) {
@@ -81,7 +82,7 @@ export class CreateExamDialog {
   }
 
   createExam() {
-    this.service.createNewExam(new CreateExamDTO(this.title, new Date().getTime(), Date.parse(this.exam_date), this.userService.getUser(), JSON.parse(this.selectedModule)));
+    this.service.createNewExam(new CreateExamDTO(this.title, new Date().getTime(), Date.parse(this.exam_date), this.userService.getUser(), this.examPoints, JSON.parse(this.selectedModule)));
     this.dialogRef.close();
   }
 

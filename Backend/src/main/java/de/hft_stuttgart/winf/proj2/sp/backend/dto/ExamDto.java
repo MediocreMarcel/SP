@@ -28,6 +28,8 @@ public class ExamDto {
     private String status;
     @Column("module_id")
     private Integer moduleId;
+    @Column("total_points")
+    private Integer totalPoints;
     @Setter
     private ModuleDto module;
 

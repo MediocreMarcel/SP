@@ -31,7 +31,7 @@ public class DbExam extends DbConnector {
     public List<ExamDto> getExams(UserDto user) throws SQLException {
         ResultSetMapper<ExamDto> resultSetMapper = new ResultSetMapper<>();
 
-        PreparedStatement selectModules = conn.prepareStatement("SELECT e.exam_id, e.name, e.creation_date, e.exam_date, e.status, e.module_id FROM exams e inner join modules m on m.module_id = e.module_id " +
+        PreparedStatement selectModules = conn.prepareStatement("SELECT e.exam_id, e.name, e.creation_date, e.exam_date, e.status, e.module_id, e.total_points FROM exams e inner join modules m on m.module_id = e.module_id " +
                 "inner join is_reading r on m.module_id = r.module_id inner join users u on r.user_id = u.user_id WHERE u.user_id = ?");
         selectModules.setInt(1,user.getUser_id());
         ResultSet rs = selectModules.executeQuery();
@@ -57,13 +57,44 @@ public class DbExam extends DbConnector {
      * @throws SQLException Exception if connection to db fails or an error accrues
      */
     public boolean createExams(CreateExamDto exam) throws SQLException {
-        PreparedStatement insertExams = conn.prepareStatement("INSERT INTO exams (name,creation_date,status,module_id, exam_date) VALUES (?, ?, ?, ?,?); ");
+        PreparedStatement insertExams = conn.prepareStatement("INSERT INTO exams (name,creation_date,status,module_id,exam_date,total_points) VALUES (?, ?, ?, ?, ?, ?); ");
         insertExams.setString(1, exam.getTitle());
         insertExams.setDate(2, new Date(exam.getCreation_date().getTime()));
         insertExams.setString(3, exam.getStatus());
         insertExams.setInt(4, exam.getModule().getModule_id());
         insertExams.setDate(5, new Date(exam.getExam_date().getTime()));
+        insertExams.setInt(6, exam.getTotalPoints());
         return insertExams.executeUpdate()>0?true:false;
+    }
+
+    /**
+     * Saves a Examen together with the questions that it contains
+     * @param examAndQuestions exam and questions which should be saved
+     * @return true if save is successful
+     * @throws SQLException Exception if connection to db fails or an error accrues
+     */
+    public boolean saveExams(SaveExamAndQuestionsDTO examAndQuestions) throws SQLException {
+        PreparedStatement updateExams = conn.prepareStatement("UPDATE exams SET name = ?, exam_date = ?, total_points = ?, module_id = ? WHERE exam_id = ?;");
+        updateExams.setString(1, examAndQuestions.getExam().getTitle());
+        updateExams.setDate(2, new Date(examAndQuestions.getExam().getExam_date().getTime()));
+        updateExams.setInt(3, examAndQuestions.getExam().getTotalPoints());
+        updateExams.setInt(4, examAndQuestions.getExam().getModuleId());
+        updateExams.setInt(5, examAndQuestions.getExam().getExam_id());
+        if (updateExams.executeUpdate()<=0){
+            return false;
+        }
+
+        for (QuestionsDto question: examAndQuestions.getQuestions()) {
+            PreparedStatement updateQuestion = conn.prepareStatement("REPLACE INTO contains (exam_id, question_id, points) VALUES (?,?,?)");
+            updateQuestion.setInt(1, examAndQuestions.getExam().getExam_id());
+            updateQuestion.setInt(2, question.getQuestionId());
+            updateQuestion.setFloat(3, question.getQuestionPoints());
+            if (updateQuestion.executeUpdate()<=0){
+                return false;
+            }
+        }
+
+        return true;
     }
 }
 

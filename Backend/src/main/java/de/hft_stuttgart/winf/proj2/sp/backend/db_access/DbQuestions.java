@@ -1,5 +1,6 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.db_access;
 
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.ExamDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.ModuleDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.QuestionsDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.util.ResultSetMapper;
@@ -10,6 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DbQuestions extends DbConnector {
@@ -92,6 +94,41 @@ public class DbQuestions extends DbConnector {
         conn.setAutoCommit(true);
         return true;
 
+    }
+
+    /**
+     * Gets all questions from a exam
+     *
+     * @param exam exam of which the questions should be searched
+     * @return list of all questions in the exam
+     * @throws SQLException thrown if server is unavailable or some problem with the server accrues
+     */
+    public List<QuestionsDto> getQuestionsFromExam(ExamDto exam) throws SQLException {
+        List<QuestionsDto> questions = new ArrayList<>();
+
+        PreparedStatement selectQuestionIds = conn.prepareStatement("SELECT question_id FROM contains WHERE exam_id = ?");
+        selectQuestionIds.setInt(1, exam.getExam_id());
+        ResultSet questionIds = selectQuestionIds.executeQuery();
+        while(questionIds.next()) {
+            int id = questionIds.getInt("question_id");
+            questions.add(getQuestionFromId(id));
+        }
+        return questions;
+    }
+
+    private QuestionsDto getQuestionFromId(int id) throws SQLException{
+        ResultSetMapper<QuestionsDto> resultSetMapper = new ResultSetMapper<>();
+        PreparedStatement selectQuestions = conn.prepareStatement("SELECT * FROM questions WHERE question_id = ?");
+        selectQuestions.setInt(1, id);
+        ResultSet rs = selectQuestions.executeQuery();
+
+        try {
+            return resultSetMapper.mapResultSetToObject(rs, QuestionsDto.class).get(0);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+            e.printStackTrace();
+            logger.error(e);
+            return null;
+        }
     }
 
 }

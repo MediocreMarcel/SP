@@ -20,7 +20,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {HttpClientModule} from "@angular/common/http";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {QuestionsCollectionComponent} from "./components/questions-collection/questions-collection.component";
@@ -34,6 +34,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {ExamEditorComponent} from './components/exam-editor/exam-editor.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import {DatePipe} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -50,32 +51,36 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
     CreateExamDialog,
     ExamEditorComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatDialogModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatGridListModule,
-        MatCardModule,
-        MatButtonToggleModule,
-        HttpClientModule,
-        FormsModule,
-        MatOptionModule,
-        MatSelectModule,
-        MatExpansionModule,
-        MatCheckboxModule,
-        MatProgressBarModule,
-        DragDropModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-    ],
-  providers: [UserService,
-    {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatGridListModule,
+    MatCardModule,
+    MatButtonToggleModule,
+    HttpClientModule,
+    FormsModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatExpansionModule,
+    MatCheckboxModule,
+    MatProgressBarModule,
+    DragDropModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    ReactiveFormsModule,
+  ],
+  providers: [
+    UserService,
+    {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},
+    DatePipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -14,24 +14,28 @@
   <mat-label>Modul</mat-label>
   <mat-select [(ngModel)]="selectedModule">
 
-    <mat-option *ngFor="let module of available_modules" value="{{JSON.stringify(module)}}">{{module.definition}}</mat-option>
+    <mat-option *ngFor="let module of available_modules"
+                value="{{JSON.stringify(module)}}">{{module.definition}}</mat-option>
 
   </mat-select>
+</mat-form-field>
+
+<mat-form-field class="infoHeaderInput">
+  <mat-label>Gesamtpunkte</mat-label>
+  <input matInput type="number" min="0" [(ngModel)]="examPoints">
 </mat-form-field>
 
 <mat-form-field appearance="fill">
   <mat-label>Datum der Klausur
   </mat-label>
-  <input matInput [matDatepicker]="mydate" [(ngModel)]="exam_date" >
+  <input matInput [matDatepicker]="mydate" [(ngModel)]="exam_date">
   <mat-datepicker-toggle matSuffix [for]="mydate"></mat-datepicker-toggle>
   <mat-datepicker #mydate>
   </mat-datepicker>
 </mat-form-field>
 
 
-
-
 <mat-dialog-actions align="end">
-  <button mat-flat-button mat-dialog-close >Abbrechen</button>
+  <button mat-flat-button mat-dialog-close>Abbrechen</button>
   <button mat-flat-button (click)="createExam();" color="primary">Erstellen</button>
 </mat-dialog-actions>
