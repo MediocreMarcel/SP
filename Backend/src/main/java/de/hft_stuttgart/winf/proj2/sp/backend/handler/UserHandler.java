@@ -3,9 +3,14 @@ package de.hft_stuttgart.winf.proj2.sp.backend.handler;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.UserDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DBUser;
 
+import io.jsonwebtoken.security.Keys;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
+
+import javax.crypto.SecretKey;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -35,22 +40,34 @@ public class UserHandler {
     @Produces(MediaType.APPLICATION_JSON)
     public Response loginUser(UserDto user) {
         try {
+            user = authenticate(user);
+            String token = issueToken(user.getName());
+            user.setToken(token);
+            return Response.ok(user).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+    }
+
+    private UserDto authenticate(UserDto user) {
+        try {
             DBUser userAccess = new DBUser();
             user = userAccess.loginUser(user);
-            if (user == null) {
-                return Response
-                        .status(Response.Status.UNAUTHORIZED)
-                        .build();
-            } else {
-                return Response
-                        .status(Response.Status.OK)
-                        .entity(user)
-                        .build();
-            }
         } catch (SQLException e) {
             e.printStackTrace();
             this.logger.error(e);
         }
-        return null;
+        return user;
+    }
+
+    private String issueToken(String username) {
+
+        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+        String jwt = Jwts.builder()
+                .setSubject(username)
+                .signWith(key)
+                .compact();
+        return jwt;
     }
 }
