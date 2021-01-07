@@ -1,6 +1,5 @@
 import {User} from "./User";
 import {ModuleDTO} from "./ModuleDTO";
-import {QuestionDto} from "./QuestionDto";
 
 export class ExamDTO {
   exam_id: number;
