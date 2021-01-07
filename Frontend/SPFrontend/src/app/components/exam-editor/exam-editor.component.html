@@ -1,5 +1,4 @@
 <app-navbar></app-navbar>
-<!--Default value = "Unbenannte Klausur" - Titel soll anpassbar & nach Speichern ausgegraut werden -->
 <mat-form-field style="width:100%; margin-top: 10px;">
   <mat-label>Klausurname</mat-label>
   <input matInput input="text" [(ngModel)]="exam.title" (ngModelChange)="exam.title = $event" class="examTitleInput">
@@ -11,7 +10,8 @@
       <mat-grid-tile>
         <mat-form-field class="infoHeaderInput">
           <mat-label>Gesamtpunkte</mat-label>
-          <input matInput type="number" min="0" [(ngModel)]="exam.totalPoints" (ngModelChange)="exam.totalPoints = $event">
+          <input matInput type="number" min="0" [(ngModel)]="exam.totalPoints"
+                 (ngModelChange)="exam.totalPoints = $event">
         </mat-form-field>
       </mat-grid-tile>
 
@@ -24,25 +24,30 @@
 
       <mat-grid-tile>
         <mat-form-field class="infoHeaderInput">
-          <mat-label>Prüfungsdatum</mat-label>
-          <input matInput input="text" [(ngModel)]="examDateAsString" (ngModelChange)="exam.exam_date = $event">
+          <mat-label>Datum der Klausur</mat-label>
+          <input matInput [matDatepicker]="examDatePicker" [formControl]="dateOfExam">
+          <mat-datepicker-toggle matSuffix [for]="examDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #examDatePicker></mat-datepicker>
         </mat-form-field>
       </mat-grid-tile>
 
       <mat-grid-tile>
-        <p class="infoHeaderInput" style="text-align: right;">Fortschritt</p>
+        <div style="padding: 0 2.5% 0 2.5%; width: 100%">
+          <p class="bar-header">Fortschritt</p>
+
+          <!-- Progress Bar soll prozentuele Abhänigkeit zu Gesamtpunkte darstellen -- currentPercentage = (currentPoints/maxPoints)*100-->
+          <mat-progress-bar mode="determinate" value="{{currentExamPoints/exam.totalPoints*100}}"></mat-progress-bar>
+        </div>
+
       </mat-grid-tile>
 
-      <mat-grid-tile class="infoHeaderInput">
-        <!-- Progress Bar soll prozentuele Abhänigkeit zu Gesamtpunkte darstellen -- currentPercentage = (currentPoints/maxPoints)*100-->
-        <mat-progress-bar mode="determinate" value="{{currentExamPoints/exam.totalPoints*100}}"></mat-progress-bar>
-      </mat-grid-tile>
+      <mat-grid-tile></mat-grid-tile>
 
       <mat-grid-tile>
         <!-- Buttons Vorschau + Speichern + Verwerfen: Pop-ups für Speichern + Verwerfen?! -->
         <button mat-raised-button class="infoHeaderButton">Vorschau</button>
         <button mat-raised-button class="infoHeaderButton" (click)="saveExam()">Speichern</button>
-        <button mat-raised-button class="infoHeaderButton" color="warn">Verwerfen</button>
+        <button mat-raised-button class="infoHeaderButton" color="warn" (click)="deleteExam()">Verwerfen</button>
       </mat-grid-tile>
     </mat-grid-list>
 
@@ -106,7 +111,7 @@
               [cdkDropListConnectedTo]='questionCategories'
               class="question-drag-n-drop-list"
               (cdkDropListDropped)="drop($event)"
-              >
+            >
               <div cdkDrag
                    *ngFor="let question of examContent">
                 <mat-expansion-panel>

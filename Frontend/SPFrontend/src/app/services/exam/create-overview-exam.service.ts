@@ -4,6 +4,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {CreateExamDTO, ExamDTO} from "../../components/models/ExamDTO";
 import {SaveExamAndQuestionsDTO} from "../../components/models/SaveExamAndQuestionsDTO";
+import {DeleteExamDTO} from "../../components/models/DeleteExamDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +29,8 @@ export class CreateOverviewExamService {
     this.http.post(this.url + "exams/save_exam", JSON.stringify(examAndQuestions), {headers: this.headers}).subscribe();
   }
 
+  deleteExam(deleteExamDTO: DeleteExamDTO){
+    return this.http.post(this.url + "exams/delete", JSON.stringify(deleteExamDTO), {headers: this.headers});
+  }
 
 }

@@ -35,6 +35,7 @@ import {ExamEditorComponent} from './components/exam-editor/exam-editor.componen
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {DatePipe} from "@angular/common";
+import {DeleteExamDialog} from "./components/exam-editor/deleteExam/delete-examen.exam-editor";
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import {DatePipe} from "@angular/common";
     GroupByPipe,
     ExamOverviewComponent,
     CreateExamDialog,
-    ExamEditorComponent
+    ExamEditorComponent,
+    DeleteExamDialog,
   ],
   imports: [
     BrowserModule,

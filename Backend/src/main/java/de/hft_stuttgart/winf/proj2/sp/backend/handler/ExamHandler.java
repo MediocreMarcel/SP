@@ -3,6 +3,7 @@ package de.hft_stuttgart.winf.proj2.sp.backend.handler;
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbExam;
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbModule;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.*;
+import de.hft_stuttgart.winf.proj2.sp.backend.exceptions.InvalidUserException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -72,13 +73,33 @@ public class ExamHandler {
     @Path("save_exam")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response saveExamen(SaveExamAndQuestionsDTO examAndQuestions){
+    public Response saveExam(SaveExamAndQuestionsDTO examAndQuestions){
         try {
             DbExam dbAccess = new DbExam();
             if (!dbAccess.saveExams(examAndQuestions)){
                 return Response.status(Response.Status.CONFLICT).build();
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+            this.logger.error(e);
+            return Response.status(Response.Status.CONFLICT).build();
+        }
+        return Response.ok().build();
+    }
+
+    /**
+     * Deletes a question
+     * @param deleteRequest a delete request object
+     * @return HTTP Status if deletion was successful (200 OK) or did fail (409 Conflict)
+     */
+    @Path("delete")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response delete(DeleteExamDTO deleteRequest){
+        try {
+            DbExam dbAccess = new DbExam();
+            dbAccess.deleteExam(deleteRequest);
+        } catch (SQLException | InvalidUserException e) {
             e.printStackTrace();
             this.logger.error(e);
             return Response.status(Response.Status.CONFLICT).build();

@@ -9,6 +9,8 @@ import {DatePipe} from "@angular/common";
 import {FormControl} from "@angular/forms";
 import {CreateOverviewExamService} from "../../services/exam/create-overview-exam.service";
 import {SaveExamAndQuestionsDTO} from "../models/SaveExamAndQuestionsDTO";
+import {MatDialog} from "@angular/material/dialog";
+import {DeleteExamDialog} from "./deleteExam/delete-examen.exam-editor";
 
 @Component({
   selector: 'app-create-question',
@@ -19,7 +21,7 @@ export class ExamEditorComponent implements OnInit {
   //working variables
   exam: ExamDTO;
   examDateAsString: string;
-  dateOfExam: FormControl;
+  dateOfExam: FormControl = null;
 
   questionPoolByCategoryUnchanged: any[] = [];
   questionPoolByCategory: QuestionDto[][] = [];
@@ -40,7 +42,7 @@ export class ExamEditorComponent implements OnInit {
    * @param questionService service to load exam data from db
    * @param router angular router to navigate between pages
    */
-  constructor(private questionService: CreateQuestionService, private examService: CreateOverviewExamService, private router: Router, private datepipe: DatePipe) {
+  constructor(private questionService: CreateQuestionService, private examService: CreateOverviewExamService, private router: Router, private datepipe: DatePipe, private dialog: MatDialog) {
   }
 
   /**
@@ -88,7 +90,7 @@ export class ExamEditorComponent implements OnInit {
       this.calculateCurrentPoints();
     });
 
-
+    this.dateOfExam = new FormControl(new Date(this.exam.exam_date));
     this.examDateAsString = this.datepipe.transform(this.exam.exam_date, "dd.M.yyyy");
 
   }
@@ -144,6 +146,18 @@ export class ExamEditorComponent implements OnInit {
    */
   saveExam() {
     this.examService.saveExam(new SaveExamAndQuestionsDTO(this.exam, this.examContent));
+  }
+
+  /**
+   * Opens the delete exam dialog
+   */
+  deleteExam() {
+    const dialogRef = this.dialog.open(DeleteExamDialog, {
+      width: '30%',
+      data: {
+        exam: this.exam
+      }
+    });
   }
 }
 
