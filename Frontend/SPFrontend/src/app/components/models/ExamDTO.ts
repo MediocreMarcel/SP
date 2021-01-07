@@ -16,7 +16,7 @@ export class ExamDTO {
     this.creation_date = creation_date;
     this.exam_date = exam_date;
     this.status = status;
-    this.totalPoints = totalPoints;
+    this.totalPoints= totalPoints;
     this.module = module;
   }
 

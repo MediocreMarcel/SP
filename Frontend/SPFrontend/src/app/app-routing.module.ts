@@ -7,6 +7,7 @@ import {QuestionsOverviewComponent} from './components/questions-overview/questi
 import {QuestionsCollectionComponent} from "./components/questions-collection/questions-collection.component";
 import {ExamEditorComponent} from "./components/exam-editor/exam-editor.component";
 import {ExamOverviewComponent} from "./components/exam-overview/exam-overview.component";
+import {ArchivedExamsComponent} from "./components/archived-exams/archived-exams.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full', canActivate: [AuthGuard]},
@@ -15,6 +16,7 @@ const routes: Routes = [
   {path: 'questions-overview', component: QuestionsOverviewComponent, canActivate: [AuthGuard]},
   {path: 'questions-collection', component: QuestionsCollectionComponent, canActivate: [AuthGuard]},
   {path: 'exam-overview', component: ExamOverviewComponent, canActivate: [AuthGuard]},
+  {path: 'archived-exams', component: ArchivedExamsComponent, canActivate: [AuthGuard]},
   {path: 'exam-editor', component: ExamEditorComponent, canActivate: [AuthGuard]}
 ];
 

@@ -18,7 +18,7 @@ public class ExamDto {
 
     @Column("exam_id")
     private Integer exam_id;
-    @Column("name")
+    @Column("title")
     private String title;
     @Column("creation_date")
     private Date creation_date;
@@ -32,6 +32,7 @@ public class ExamDto {
     private Integer totalPoints;
     @Setter
     private ModuleDto module;
+
 
     public ExamDto(){
 

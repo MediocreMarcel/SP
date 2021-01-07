@@ -33,7 +33,7 @@ public class DbExam extends DbConnector {
     public List<ExamDto> getExams(UserDto user) throws SQLException {
         ResultSetMapper resultSetMapper = new ResultSetMapper();
 
-        PreparedStatement selectModules = conn.prepareStatement("SELECT e.exam_id, e.name, e.creation_date, e.exam_date, e.status, e.module_id, e.total_points FROM exams e inner join modules m on m.module_id = e.module_id " +
+        PreparedStatement selectModules = conn.prepareStatement("SELECT e.exam_id, e.title, e.creation_date, e.exam_date, e.status, e.module_id, e.total_points FROM exams e inner join modules m on m.module_id = e.module_id " +
                 "inner join is_reading r on m.module_id = r.module_id inner join users u on r.user_id = u.user_id WHERE u.user_id = ?");
         selectModules.setInt(1, user.getUser_id());
         ResultSet rs = selectModules.executeQuery();
@@ -61,7 +61,7 @@ public class DbExam extends DbConnector {
      * @throws SQLException Exception if connection to db fails or an error accrues
      */
     public boolean createExams(CreateExamDto exam) throws SQLException {
-        PreparedStatement insertExams = conn.prepareStatement("INSERT INTO exams (name,creation_date,status,module_id,exam_date,total_points) VALUES (?, ?, ?, ?, ?, ?); ");
+        PreparedStatement insertExams = conn.prepareStatement("INSERT INTO exams (title,creation_date,status,module_id,exam_date,total_points) VALUES (?, ?, ?, ?, ?, ?); ");
         insertExams.setString(1, exam.getTitle());
         insertExams.setDate(2, new Date(exam.getCreation_date().getTime()));
         insertExams.setString(3, exam.getStatus());
@@ -138,8 +138,37 @@ public class DbExam extends DbConnector {
         deleteQuestion.setInt(1, deletionRequest.getExam().getExam_id());
         return deleteQuestion.executeUpdate() > 0;
     }
+
+
+    /**
+     * Gets All exams which is already corrected. Only that exams that user have access too.
+     * @param user the user for whom the exams should be searched
+     * @return List of all corrected exams
+     * @throws SQLException
+     */
+    public List<ExamDto> getExamsforArchiv(UserDto user) throws SQLException {
+        ResultSetMapper<ExamDto> resultSetMapper = new ResultSetMapper<>();
+
+        PreparedStatement selectArchivedExams = conn.prepareStatement("SELECT * FROM exams e inner join modules m on m.module_id = e.module_id " +
+                "inner join is_reading r on m.module_id = r.module_id inner join users u on r.user_id = u.user_id WHERE u.user_id = ? and e.status = 'corrected' ");
+        selectArchivedExams.setInt(1,user.getUser_id());
+        ResultSet rs = selectArchivedExams.executeQuery();
+
+        try {
+            List<ExamDto> exams =  resultSetMapper.mapResultSetToObject(rs, ExamDto.class);
+            QuestionsHandler questionsHandler = new QuestionsHandler();
+            List<ModuleDto> modules = questionsHandler.getModulesByUser(user);
+            for (ExamDto exam: exams) {
+                exam.setModule(modules.stream().filter(x -> x.getModule_id() == exam.getModuleId()).findFirst().get());
+            }
+            return exams;
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+            this.logger.error(e);
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
-
-
 
 

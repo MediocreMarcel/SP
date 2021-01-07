@@ -77,7 +77,7 @@ export class CreateExamDialog {
 
 
   constructor(private service: CreateOverviewExamService, private dialogRef: MatDialogRef<CreateExamDialog>, private userService: UserService, private moduleService: ModuleService) {
-    this.JSON = JSON;
+  this.JSON = JSON;
     moduleService.getModulesForUser(this.userService.getUser()).subscribe(modules => this.available_modules = modules);
   }
 
