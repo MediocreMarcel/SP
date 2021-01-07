@@ -7,14 +7,16 @@ export class ExamDTO {
   creation_date: string ;
   exam_date: number;
   status: any;
+  total_points: number;
   module: ModuleDTO;
 
-  constructor(exam_id,title,creation_date,exam_date,status,module) {
+  constructor(exam_id,title,creation_date,exam_date,status,total_points,module) {
     this.exam_id = exam_id;
     this.title = title;
     this.creation_date = creation_date;
     this.exam_date = exam_date;
     this.status = status;
+    this.total_points= total_points;
     this.module = module;
   }
 

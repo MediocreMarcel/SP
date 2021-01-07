@@ -31,6 +31,10 @@ import {LoginComponent} from "./components/login/login.component";
 import {UserService} from "./shared/user.service";
 import {CreateExamDialog, ExamOverviewComponent} from './components/exam-overview/exam-overview.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatTableModule} from "@angular/material/table";
+import { ArchivedExamsComponent } from './components/archived-exams/archived-exams.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 
 @NgModule({
@@ -46,6 +50,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
     GroupByPipe,
     ExamOverviewComponent,
     CreateExamDialog,
+    ArchivedExamsComponent,
 
 
 
@@ -71,6 +76,11 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatDialogModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+
   ],
   providers: [UserService, {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},],
   bootstrap: [AppComponent]

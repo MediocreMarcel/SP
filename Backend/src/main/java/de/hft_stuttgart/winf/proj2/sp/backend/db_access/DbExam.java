@@ -65,8 +65,31 @@ public class DbExam extends DbConnector {
         insertExams.setDate(5, new Date(exam.getExam_date().getTime()));
         return insertExams.executeUpdate()>0?true:false;
     }
+
+
+    public List<ExamDto> getExamsforArchiv(UserDto user) throws SQLException {
+        ResultSetMapper<ExamDto> resultSetMapper = new ResultSetMapper<>();
+
+        PreparedStatement selectArchivedExams = conn.prepareStatement("SELECT * FROM exams e inner join modules m on m.module_id = e.module_id " +
+                "inner join is_reading r on m.module_id = r.module_id inner join users u on r.user_id = u.user_id WHERE u.user_id = ? and e.status = 'corrected' ");
+        selectArchivedExams.setInt(1,user.getUser_id());
+        ResultSet rs = selectArchivedExams.executeQuery();
+
+        try {
+            List<ExamDto> exams =  resultSetMapper.mapResultSetToObject(rs, ExamDto.class);
+            QuestionsHandler questionsHandler = new QuestionsHandler();
+            List<ModuleDto> modules = questionsHandler.getModulesByUser(user);
+            for (ExamDto exam: exams) {
+                exam.setModule(modules.stream().filter(x -> x.getModule_id() == exam.getModuleId()).findFirst().get());
+            }
+            return exams;
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+            this.logger.error(e);
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
-
-
 
 
