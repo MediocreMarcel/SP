@@ -28,7 +28,7 @@ public class UserHandler {
     private static Logger logger = LogManager.getLogger(UserHandler.class);
 
     /**
-     * Endpoint to check login authentication of a User
+     * Endpoint to check login authentication of a User.
      *
      * @param user user whos trying to log in. Passed as JSON in the request.
      * @return User as an Object. If there is a Match with the Database. Returned in the endpoint as JSON and the HTTP Status 200.
@@ -49,6 +49,12 @@ public class UserHandler {
         }
     }
 
+    /**
+     * This Method authenicates the User.
+     * @param user which is passed from the Method loginUser().
+     * @return User as an Object if there is a Match with the Database.
+     * Catches SQL Exception if there is an Error.
+     */
     private UserDto authenticate(UserDto user) {
         try {
             DBUser userAccess = new DBUser();
@@ -60,6 +66,11 @@ public class UserHandler {
         return user;
     }
 
+    /**
+     * This Method creates a Token for the User.
+     * @param username which is coming from the User of the Database.
+     * @return a String of a Token with a Secret Key.
+     */
     private String issueToken(String username) {
 
         SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
