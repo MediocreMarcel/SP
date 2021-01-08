@@ -9,11 +9,11 @@ import {ExamEditorComponent} from "./components/exam-editor/exam-editor.componen
 import {ExamOverviewComponent} from "./components/exam-overview/exam-overview.component";
 
 const routes: Routes = [
-  {path: '', redirectTo: '/login', pathMatch: 'full'},
+  {path: '', redirectTo: '/home', pathMatch: 'full', canActivate: [AuthGuard]},
   {path: 'home', component: HomePageComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent},
-  {path:'questions-overview', component: QuestionsOverviewComponent, canActivate: [AuthGuard]},
-  {path: 'questions-collection', component: QuestionsCollectionComponent,canActivate: [AuthGuard]},
+  {path: 'questions-overview', component: QuestionsOverviewComponent, canActivate: [AuthGuard]},
+  {path: 'questions-collection', component: QuestionsCollectionComponent, canActivate: [AuthGuard]},
   {path: 'exam-overview', component: ExamOverviewComponent, canActivate: [AuthGuard]},
   {path: 'exam-editor', component: ExamEditorComponent, canActivate: [AuthGuard]}
 ];

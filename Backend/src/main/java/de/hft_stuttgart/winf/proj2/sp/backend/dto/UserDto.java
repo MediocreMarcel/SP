@@ -28,7 +28,10 @@ public class UserDto {
     @Setter
     @Column("surname")
     private String surname;
+    @Setter
+    private String token;
 
     public UserDto(){
     }
 }
+
