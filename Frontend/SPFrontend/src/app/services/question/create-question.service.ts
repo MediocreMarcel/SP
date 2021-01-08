@@ -22,8 +22,7 @@ export class CreateQuestionService {
 
   writeQuestionToDb(postData: QuestionDto){
     const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-    console.log(postData);
-    return this.http.post<QuestionDto>(this.url + 'questions/newQuestion', JSON.stringify(postData), {headers});
+    return this.http.post<QuestionDto>(this.url + 'questions/newQuestion', JSON.stringify(postData), {headers: headers});
   }
 
   deleteQuestions(questions: QuestionDto[]){
