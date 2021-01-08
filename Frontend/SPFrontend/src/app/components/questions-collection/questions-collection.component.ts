@@ -102,7 +102,7 @@ export class CreateQuestionDialog {
 
   writeQuestion() {
     this.module = history.state;
-    this.service.writeQuestionToDb(new QuestionDto(this.questionName, this.questionText, this.questionPoints, this.shortName, this.category, this.module.module_id)).subscribe();
+    this.service.writeQuestionToDb(new QuestionDto(null, this.questionName, this.questionText, this.questionPoints, this.shortName, this.category, this.module.module_id)).subscribe();
     this.dialogRef.close();
   }
 }

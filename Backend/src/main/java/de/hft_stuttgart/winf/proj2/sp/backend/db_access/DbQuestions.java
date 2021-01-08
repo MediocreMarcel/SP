@@ -81,7 +81,7 @@ public class DbQuestions extends DbConnector {
         for (QuestionsDto question : questions) {
 
             PreparedStatement insertQuestion = conn.prepareStatement("DELETE FROM questions WHERE question_id = ? ");
-            insertQuestion.setInt(1, question.getQuestion_id());
+            insertQuestion.setInt(1, question.getQuestionId());
 
             if (insertQuestion.executeUpdate() <= 0) {
                 logger.warn("Could not delete element : " + question);
