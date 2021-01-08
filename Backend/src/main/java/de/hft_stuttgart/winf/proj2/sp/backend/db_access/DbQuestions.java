@@ -17,7 +17,7 @@ import java.util.List;
 
 public class DbQuestions extends DbConnector {
 
-    private static final Logger logger = LogManager.getLogger(DbModule.class);
+    private static final Logger logger = LogManager.getLogger(DbQuestions.class);
 
     public DbQuestions() throws IllegalArgumentException, SQLException {
         super();
@@ -139,7 +139,6 @@ public class DbQuestions extends DbConnector {
             return null;
         }
     }
-
 }
 
 

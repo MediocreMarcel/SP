@@ -59,4 +59,19 @@ public class DbModule extends DbConnector {
         insertModules.setInt(3, module.getUserId());
         return insertModules.executeUpdate() > 0 ? true : false;
     }
+
+    public static ModuleDto getModule(int module_id) throws SQLException {
+        ResultSetMapper<ModuleDto> resultSetMapper = new ResultSetMapper<>();
+
+        PreparedStatement selectModules = conn.prepareStatement("SELECT course, definition FROM modules WHERE module_id = "+module_id);
+        ResultSet rs = selectModules.executeQuery();
+
+        try {
+            return resultSetMapper.mapResultSetToObject(rs, ModuleDto.class).get(0);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+            logger.error(e);
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
