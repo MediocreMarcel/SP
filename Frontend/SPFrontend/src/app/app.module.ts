@@ -23,7 +23,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
-import {QuestionsCollectionComponent} from "./components/questions-collection/questions-collection.component";
+import {QuestionsCollectionComponent, CreateQuestionDialog} from "./components/questions-collection/questions-collection.component";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {GroupByPipe} from "./components/pipes/group-by.pipe";
@@ -37,7 +37,6 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
 import {DatePipe} from "@angular/common";
 import {DeleteExamDialog} from "./components/exam-editor/deleteExam/delete-examen.exam-editor";
 import { QuillModule } from 'ngx-quill';
-import {CreateQuestionDialog} from "./components/questions-collection/questions-collection.component";
 
 
 @NgModule({
