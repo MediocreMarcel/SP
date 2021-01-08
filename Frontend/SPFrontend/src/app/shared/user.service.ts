@@ -10,34 +10,59 @@ import {Router} from '@angular/router';
 export class UserService {
   url = environment.BaseUrl;
   headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-  private loggedInStatus = false;
   private user: User = null;
 
   constructor(private http: HttpClient,
               private router: Router) {
   }
 
-  setLoggedIn(value: boolean){
-    this.loggedInStatus = value;
+  /**
+   *This Method will create a Session to keep the User logged in.
+   * @param user is the User which is coming from the Backend
+   */
+  setLoggedIn(user: User) {
+    localStorage.setItem('access_token', user.token);
   }
 
-  setUser(user: User){
+  /**
+   *This Method will get the created Session.
+   * @return is a boolean.
+   */
+  get loggedIn(): boolean {
+    return localStorage.getItem('access_token') !== null;
+  }
+
+  /**
+   *This Method will set the User.
+   * @param user which comes from the Backend.
+   */
+  setUser(user: User) {
     this.user = user;
   }
 
-  get isLoggedIn(){
-    return this.loggedInStatus;
-  }
-
-  getUser(){
+  /**
+   * This Mehtod will get the current User.
+   */
+  getUser(): User {
     return this.user;
   }
 
+  /**
+   * This Mehthod will send a Post Request to the Backend and Returns a Response.
+   * @param user with the credentials only.
+   * The Response will be 200 with a User in the Response body or 401 Forbidden.
+   */
   loginUser(user: User) {
-    console.log(user);
     return this.http.post<User>(this.url + 'user/login', JSON.stringify(user), {
       headers: this.headers,
       observe: 'response'
     });
+  }
+
+  /**
+   *This Method is for the Logout. The current Session will be deleted.
+   */
+  logout() {
+    localStorage.removeItem('access_token');
   }
 }

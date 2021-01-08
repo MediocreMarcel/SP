@@ -1,6 +1,8 @@
 import {AfterViewInit, Component, ElementRef, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {Router} from '@angular/router';
+import {UserService} from "../../shared/user.service";
+import {timer} from "rxjs";
 
 @Component({
   selector: 'app-navbar',
@@ -15,9 +17,13 @@ export class NavbarComponent implements OnInit {
 
   constructor(public dialog: MatDialog,
               private router: Router,
-              private elem: ElementRef) {
+              private elem: ElementRef,
+              private userService: UserService) {
   }
 
+  /**
+   *This Method will open the edit Profile Dialog.
+   */
   openDialog(): void {
     const dialogRef = this.dialog.open(InfoUserDialogComponent, {
       width: '750px',
@@ -28,13 +34,20 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  checkRouterURL(): void {
+  /**
+   *This Method is for the Logout of the User.
+   */
+  logout(): void {
+    this.userService.logout();
+    this.router.navigate(['login']);
+  }
 
-    if (this.router.url === '/test') {
+  /**
+   *THis Mehtod checks the URL on which site the User is to disable the Button.
+   */
+  checkRouterURL(): void {
+    if (this.router.url === '/exam-overview') {
       this.disabeledButtonsArray[0] = true;
-      this.disabeledButtonsArray[1] = true;
-      this.disabeledButtonsArray[2] = true;
-      this.disabeledButtonsArray[3] = true;
     }
   }
 
