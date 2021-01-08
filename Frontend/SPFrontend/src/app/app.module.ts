@@ -31,6 +31,7 @@ import {LoginComponent} from "./components/login/login.component";
 import {UserService} from "./shared/user.service";
 import {CreateExamDialog, ExamOverviewComponent} from './components/exam-overview/exam-overview.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import { QuillModule } from 'ngx-quill';
 
 
 @NgModule({
@@ -69,6 +70,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    QuillModule.forRoot()
   ],
   providers: [UserService, {provide: MAT_DATE_LOCALE, useValue: 'de-DE'} ],
   bootstrap: [AppComponent]

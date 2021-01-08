@@ -67,7 +67,7 @@ export class QuestionsCollectionComponent implements OnInit {
   createQuestion() {
     const dialogRef = this.dialog.open(CreateQuestionDialog, {
       width: '50%',
-      height: '50%'
+      height: '80%'
     });
 
     dialogRef.afterClosed().subscribe(create => {
@@ -85,8 +85,8 @@ export class QuestionsCollectionComponent implements OnInit {
 
 @Component({
   selector: 'app-questions-createcollection',
-  templateUrl: './questions-collection.create_question_dialog.html',
-  styleUrls: ['./questions-collection.create_question_dialog.css']
+  templateUrl: './create_question/questions-collection.create_question_dialog.html',
+  styleUrls: ['./create_question/questions-collection.create_question_dialog.css']
 })
 
 export class CreateQuestionDialog {
@@ -102,7 +102,7 @@ export class CreateQuestionDialog {
 
   writeQuestion() {
     this.module = history.state;
-    this.service.writeQuestionToDb(new QuestionDto(this.questionName, this.questionText, this.questionPoints, this.shortName, this.category, this.module.module_id));
+    this.service.writeQuestionToDb(new QuestionDto(this.questionName, this.questionText, this.questionPoints, this.shortName, this.category, this.module.module_id)).subscribe();
     this.dialogRef.close();
   }
 }

@@ -21,18 +21,8 @@
   <br>
 
   <mat-form-field class="input shortQuestion-form-input">
-    <mat-label>Frage Text</mat-label>
-    <input matInput type="text" [(ngModel)]="questionText">
-    <button mat-button *ngIf="questionText" matSuffix mat-icon-button aria-label="Clear" (click)="questionText=''">
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-form-field>
-
-  <br>
-
-  <mat-form-field class="input shortQuestion-form-input">
     <mat-label>Punkteanzahl</mat-label>
-    <input matInput type="text" [(ngModel)]="questionPoints">
+    <input matInput type="number" [(ngModel)]="questionPoints">
     <button mat-button *ngIf="questionPoints" matSuffix mat-icon-button aria-label="Clear" (click)="questionPoints=null">
       <mat-icon>close</mat-icon>
     </button>
@@ -47,6 +37,11 @@
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>
+
+  <br>
+
+  <h2 style="">Fragen Text</h2>
+  <quill-editor [styles]="{height: '200px'}" [(ngModel)]="questionText"></quill-editor>
 
   <mat-dialog-actions align="end">
     <button mat-flat-button mat-dialog-close>Abbrechen</button>
