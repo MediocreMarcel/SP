@@ -36,6 +36,9 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {DatePipe} from "@angular/common";
 import {DeleteExamDialog} from "./components/exam-editor/deleteExam/delete-examen.exam-editor";
+import { QuillModule } from 'ngx-quill';
+import {CreateQuestionDialog} from "./components/questions-collection/questions-collection.component";
+
 
 @NgModule({
   declarations: [
@@ -78,6 +81,7 @@ import {DeleteExamDialog} from "./components/exam-editor/deleteExam/delete-exame
     MatDatepickerModule,
     MatNativeDateModule,
     ReactiveFormsModule,
+    QuillModule.forRoot()
   ],
   providers: [
     UserService,
