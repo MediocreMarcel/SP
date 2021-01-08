@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -40,7 +41,15 @@ public class ResultSetMapper {
     private <T> T createObject(ResultSet rs, Class<T> objectClass) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 
         T dto = objectClass.getConstructor().newInstance();
-        Field[] fields = objectClass.getDeclaredFields();
+
+        Class workingClassVar = objectClass;
+        List<Field> fields = new ArrayList<>();
+
+        while (workingClassVar != Object.class) {
+            fields.addAll(Arrays.asList(workingClassVar.getDeclaredFields()));
+            workingClassVar = workingClassVar.getSuperclass();
+        }
+
 
         for (Field field : fields) {
             Column col = field.getAnnotation(Column.class);

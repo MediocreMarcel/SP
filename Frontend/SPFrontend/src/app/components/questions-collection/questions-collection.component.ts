@@ -93,7 +93,7 @@ export class QuestionsCollectionComponent implements OnInit {
 }
 
 @Component({
-  selector: 'app-questions-createcollection',
+  selector: 'app-questions-create-collection',
   templateUrl: './create_question/questions-collection.create_question_dialog.html',
   styleUrls: ['./create_question/questions-collection.create_question_dialog.css']
 })

@@ -37,6 +37,7 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
 import {DatePipe} from "@angular/common";
 import {DeleteExamDialog} from "./components/exam-editor/deleteExam/delete-examen.exam-editor";
 import { QuillModule } from 'ngx-quill';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 
 @NgModule({
@@ -80,12 +81,13 @@ import { QuillModule } from 'ngx-quill';
     MatDatepickerModule,
     MatNativeDateModule,
     ReactiveFormsModule,
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    MatSnackBarModule,
   ],
   providers: [
     UserService,
     {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},
-    DatePipe
+    DatePipe,
   ],
   bootstrap: [AppComponent]
 })

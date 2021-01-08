@@ -26,11 +26,11 @@ export class CreateOverviewExamService {
   }
 
   saveExam(examAndQuestions: SaveExamAndQuestionsDTO) {
-    this.http.post(this.url + "exams/save_exam", JSON.stringify(examAndQuestions), {headers: this.headers}).subscribe();
+    return this.http.post(this.url + "exams/save_exam", JSON.stringify(examAndQuestions), {headers: this.headers});
   }
 
   deleteExam(deleteExamDTO: DeleteExamDTO){
-    return this.http.post(this.url + "exams/delete", JSON.stringify(deleteExamDTO), {headers: this.headers});
+    return this.http.post(this.url + "exams/delete", JSON.stringify(deleteExamDTO), {headers: this.headers, observe: 'response'});
   }
 
 }

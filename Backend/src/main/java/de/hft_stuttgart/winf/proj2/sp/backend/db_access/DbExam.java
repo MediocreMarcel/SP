@@ -83,23 +83,37 @@ public class DbExam extends DbConnector {
         updateExams.setString(1, examAndQuestions.getExam().getTitle());
         updateExams.setDate(2, new Date(examAndQuestions.getExam().getExam_date().getTime()));
         updateExams.setInt(3, examAndQuestions.getExam().getTotalPoints());
-        updateExams.setInt(4, examAndQuestions.getExam().getModuleId());
+        updateExams.setInt(4, examAndQuestions.getExam().getModule().getModule_id());
         updateExams.setInt(5, examAndQuestions.getExam().getExam_id());
         if (updateExams.executeUpdate() <= 0) {
             return false;
         }
 
-        for (QuestionsDto question : examAndQuestions.getQuestions()) {
-            PreparedStatement updateQuestion = conn.prepareStatement("REPLACE INTO contains (exam_id, question_id, points) VALUES (?,?,?)");
+        dropExamQuestions(examAndQuestions.getExam().getExam_id());
+
+        for (ExamQuestionDTO question : examAndQuestions.getQuestions()) {
+            PreparedStatement updateQuestion = conn.prepareStatement("INSERT INTO contains (exam_id, question_id, points, position) VALUES (?,?,?,?)");
             updateQuestion.setInt(1, examAndQuestions.getExam().getExam_id());
             updateQuestion.setInt(2, question.getQuestionId());
             updateQuestion.setFloat(3, question.getQuestionPoints());
+            updateQuestion.setInt(4, question.getPosition());
             if (updateQuestion.executeUpdate() <= 0) {
                 return false;
             }
         }
 
         return true;
+    }
+
+    /**
+     * Drops all questions in contains that belong to a certain exam
+     * @param examId examid of the exam of which the questions should be deleted
+     * @throws SQLException thrown if there is an sql error
+     */
+    private void dropExamQuestions(Integer examId) throws SQLException {
+        PreparedStatement dropQuestions = conn.prepareStatement("DELETE FROM contains WHERE exam_id = ?");
+        dropQuestions.setInt(1, examId);
+        dropQuestions.executeUpdate();
     }
 
     /**
@@ -110,6 +124,8 @@ public class DbExam extends DbConnector {
      * @throws InvalidUserException thrown if user is not matching the question owner
      */
     public boolean deleteExam(DeleteExamDTO deletionRequest) throws InvalidUserException, SQLException {
+        dropExamQuestions(deletionRequest.getExam().getExam_id());
+
         PreparedStatement updateQuestion = conn.prepareStatement("SELECT exam_id FROM exams e INNER JOIN modules m on e.module_id = m.module_id INNER JOIN is_reading ir on m.module_id = ir.module_id INNER JOIN users u on ir.user_id = u.user_id WHERE exam_id = ? AND u.user_id = ?");
         updateQuestion.setInt(1, deletionRequest.getExam().getExam_id());
         updateQuestion.setInt(2, deletionRequest.getUser().getUser_id());
