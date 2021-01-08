@@ -34,7 +34,7 @@ public class DBUser extends DbConnector {
      * @throws SQLException Exception if connection to db fails or an error accrues
      */
     public UserDto loginUser(UserDto user) throws SQLException {
-        ResultSetMapper<UserDto> resultSetMapper = new ResultSetMapper<>();
+        ResultSetMapper resultSetMapper = new ResultSetMapper();
         PreparedStatement compareUser = conn.prepareStatement("SELECT * FROM users WHERE user_id = ? AND password = PASSWORD(?)");
         compareUser.setInt(1, user.getUser_id());
         compareUser.setString(2, user.getPassword());

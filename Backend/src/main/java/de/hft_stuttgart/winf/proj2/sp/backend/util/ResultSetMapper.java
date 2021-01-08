@@ -13,15 +13,14 @@ import java.util.List;
 
 /**
  * This Class will provide methods to extract values out of a ResultSet and put them into DTO Objects
- * @param <T> Class of the DTO of which the Object should be created of
+ *
  */
-public class ResultSetMapper<T> {
+public class ResultSetMapper {
 
     private static Logger logger = LogManager.getLogger(ResultSetMapper.class);
 
     /**
-     *
-     * @param rs ResultSet that should be converted to DTOs
+     * @param rs          ResultSet that should be converted to DTOs
      * @param objectClass Class of the DTO Object that should be created
      * @return Generated DTO Object
      * @throws SQLException
@@ -30,37 +29,44 @@ public class ResultSetMapper<T> {
      * @throws InvocationTargetException
      * @throws InstantiationException
      */
-    public List<T> mapResultSetToObject(ResultSet rs, Class objectClass) throws SQLException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public <T> List<T> mapResultSetToObject(ResultSet rs, Class<T> objectClass) throws SQLException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         List<T> list = new ArrayList<>();
         while (rs.next()) {
+            list.add(createObject(rs, objectClass));
+        }
+        return list;
+    }
 
-            T dto = (T) objectClass.getConstructor().newInstance();
-            Field[] fields = objectClass.getDeclaredFields();
+    private <T> T createObject(ResultSet rs, Class<T> objectClass) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 
-            for (Field field : fields) {
-                Column col = field.getAnnotation(Column.class);
-                if (col != null) {
+        T dto = objectClass.getConstructor().newInstance();
+        Field[] fields = objectClass.getDeclaredFields();
+
+        for (Field field : fields) {
+            Column col = field.getAnnotation(Column.class);
+            if (col != null) {
+                if (!col.isObject()) {
                     String name = col.value();
                     try {
                         extractColumn(rs, dto, field, name);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        this.logger.error(e);
+                        logger.error(e);
                     }
+                } else {
+                    field.setAccessible(true);
+                    field.set(dto, createObject(rs, field.getType()));
                 }
             }
-
-            list.add(dto);
-
         }
-        return list;
+        return dto;
     }
 
-    private void extractColumn(ResultSet rs, T dto, Field field, String name) throws SQLException, ClassNotFoundException, IllegalAccessException {
+    private <T> void extractColumn(ResultSet rs, T dto, Field field, String name) throws SQLException, ClassNotFoundException, IllegalAccessException {
         ResultSetMetaData metaData = rs.getMetaData();
 
-        for (int i = 1; i <= metaData.getColumnCount(); i++){
-            if (metaData.getColumnName(i).equals(name)){
+        for (int i = 1; i <= metaData.getColumnCount(); i++) {
+            if (metaData.getColumnName(i).equals(name)) {
                 //make private field accessable
                 field.setAccessible(true);
 

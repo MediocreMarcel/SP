@@ -23,15 +23,16 @@ public class DbModule extends DbConnector {
 
     /**
      * Gets all Courses that a User has access to
+     *
      * @param user the user for whom the courses should be searched
      * @return List of all Courses
      * @throws SQLException Exception if connection to db fails or an error accrues
      */
     public List<ModuleDto> getCourses(UserDto user) throws SQLException {
-        ResultSetMapper<ModuleDto> resultSetMapper = new ResultSetMapper<>();
+        ResultSetMapper resultSetMapper = new ResultSetMapper();
 
-        PreparedStatement selectModules = conn.prepareStatement("SELECT m.course, m.definition, m.module_id FROM modules m inner join is_reading r on m.module_id = r.module_id inner join " +
-                "users u on r.user_id = u.user_id WHERE u.user_id = ?");
+        PreparedStatement selectModules = conn.prepareStatement("SELECT c.course_name, c.course_id, m.definition, m.module_id FROM modules m inner join is_reading r on m.module_id = r.module_id inner join " +
+                "users u on r.user_id = u.user_id INNER JOIN courses c on m.course_id = c.course_id WHERE u.user_id = ?");
         selectModules.setInt(1,user.getUser_id());
         ResultSet rs = selectModules.executeQuery();
 
@@ -46,15 +47,16 @@ public class DbModule extends DbConnector {
 
     /**
      * Creates a new Module in the DB for a user. The entry in isReading will automatically set.
+     *
      * @param module module that should be crated
      * @return boolean if the creation was successful
      * @throws SQLException Exception if connection to db fails or an error accrues
      */
     public boolean createCourses(CreateModuleDto module) throws SQLException {
-        PreparedStatement insertModules = conn.prepareStatement("INSERT INTO modules (course, definition) VALUES (?, ?); INSERT INTO is_reading VALUES (last_insert_id(), ?);");
-        insertModules.setString(1, module.getCourse());
+        PreparedStatement insertModules = conn.prepareStatement("INSERT INTO modules (course_id, definition) VALUES (?, ?); INSERT INTO is_reading VALUES (last_insert_id(), ?);");
+        insertModules.setInt(1, module.getCourse().getCourseId());
         insertModules.setString(2, module.getDefinition());
         insertModules.setInt(3, module.getUserId());
-        return insertModules.executeUpdate()>0?true:false;
+        return insertModules.executeUpdate() > 0 ? true : false;
     }
 }

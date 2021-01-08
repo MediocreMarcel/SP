@@ -36,7 +36,7 @@ public class DbQuestions extends DbConnector {
             return null;
         }
 
-        ResultSetMapper<QuestionsDto> resultSetMapper = new ResultSetMapper<>();
+        ResultSetMapper resultSetMapper = new ResultSetMapper();
         PreparedStatement selectQuestions = conn.prepareStatement("SELECT * FROM questions qs INNER JOIN modules m  ON qs.module_id = m.module_id WHERE m.module_id = ?");
         selectQuestions.setInt(1, module.getModule_id());
         ResultSet rs = selectQuestions.executeQuery();
@@ -117,7 +117,7 @@ public class DbQuestions extends DbConnector {
     }
 
     private QuestionsDto getQuestionFromId(int id) throws SQLException{
-        ResultSetMapper<QuestionsDto> resultSetMapper = new ResultSetMapper<>();
+        ResultSetMapper resultSetMapper = new ResultSetMapper();
         PreparedStatement selectQuestions = conn.prepareStatement("SELECT * FROM questions WHERE question_id = ?");
         selectQuestions.setInt(1, id);
         ResultSet rs = selectQuestions.executeQuery();

@@ -1,10 +1,11 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ModuleService} from "../../services/module/module.service";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {UserService} from "../../shared/user.service";
 import {Router} from "@angular/router";
-import {QuestionDto} from "../models/QuestionDto";
 import {CreateModuleDTO, ModuleDTO} from "../models/ModuleDTO";
+import {CourseDTO} from "../models/CourseDTO";
+import {CourseService} from "../../services/course/course.service";
 
 @Component({
   selector: 'app-questions-overview',
@@ -25,6 +26,9 @@ export class QuestionsOverviewComponent implements OnInit {
 
   }
 
+  /**
+   * loads all modules that the owner has access to
+   */
   loadModules(){
     this.service.getModulesForUser(this.userService.getUser()).subscribe(u => {
       this.tiles = u;
@@ -34,19 +38,28 @@ export class QuestionsOverviewComponent implements OnInit {
     });
   }
 
+  /**
+   * sorts the modules by selection in the toggle button
+   */
   public sortChanged() {
     if (this.sortBy === "definition") {
       this.tiles.sort((a, b) => a.definition.localeCompare(b.definition));
     } else if (this.sortBy === "module") {
-      this.tiles.sort((a, b) => a.course.localeCompare(b.course));
+      this.tiles.sort((a, b) => a.course.courseName.localeCompare(b.course.courseName));
     }
   }
 
-
+  /**
+   * opens a module
+   * @param module module that should be opened
+   */
   navigateToQuestionsCollection(module: ModuleDTO) {
     this.router.navigate(['/questions-collection'], {state: module});
   }
 
+  /**
+   * opens create dialog
+   */
   openCreateDialog(){
     const dialogRef = this.dialog.open(CreateModuleDialog, {
       width: '50%',
@@ -66,14 +79,20 @@ export class QuestionsOverviewComponent implements OnInit {
 })
 export class CreateModuleDialog {
   moduleName: string;
-  courseName: string;
+  selectedCourse: string;
+  courses: CourseDTO[] = [];
+  JSON = JSON;
 
 
-  constructor(private service: ModuleService, private dialogRef: MatDialogRef<CreateModuleDialog>, private userService: UserService) {
+  constructor(private moduleService: ModuleService, private dialogRef: MatDialogRef<CreateModuleDialog>, private userService: UserService, private courseService: CourseService) {
+    courseService.getAllCourses().subscribe( u => this.courses = u);
   }
 
+  /**
+   * creates a Module if create button is pressed
+   */
   createModule() {
-    this.service.createNewModule(new CreateModuleDTO(this.courseName, this.moduleName, this.userService.getUser().user_id));
+    this.moduleService.createNewModule(new CreateModuleDTO(JSON.parse(this.selectedCourse), this.moduleName, this.userService.getUser().user_id));
     this.dialogRef.close();
   }
 }
