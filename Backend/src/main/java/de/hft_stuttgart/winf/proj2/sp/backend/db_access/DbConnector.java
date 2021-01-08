@@ -41,5 +41,4 @@ public abstract class DbConnector {
         DbConnector.password = password;
     }
 
-
 }

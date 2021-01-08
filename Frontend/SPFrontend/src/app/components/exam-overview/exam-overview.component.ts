@@ -34,8 +34,8 @@ export class ExamOverviewComponent implements OnInit {
     });
   }
 
-  navigateToQuestionsCollection(exam: ExamDTO) {
-    this.router.navigate(['/questions-collection'], {state: exam});
+  navigateToExamEditor(exam: ExamDTO) {
+    this.router.navigate(['/exam-editor'], {state: exam});
   }
 
   public sortChanged() {
@@ -49,7 +49,7 @@ export class ExamOverviewComponent implements OnInit {
   openCreateDialog() {
     const dialogRef = this.dialog.open(CreateExamDialog, {
       width: '50%',
-      height: '30%'
+      height: '45%'
     });
 
     dialogRef.afterClosed().subscribe(create => {
@@ -72,7 +72,8 @@ export class CreateExamDialog {
   status: any;
   selectedModule: string;
   available_modules: ModuleDTO[];
-  JSON:JSON;
+  JSON: JSON;
+  examPoints: number;
 
 
   constructor(private service: CreateOverviewExamService, private dialogRef: MatDialogRef<CreateExamDialog>, private userService: UserService, private moduleService: ModuleService) {
@@ -81,11 +82,8 @@ export class CreateExamDialog {
   }
 
   createExam() {
-
-    this.service.createNewExam(new CreateExamDTO(this.title, new Date().getTime(), Date.parse(this.exam_date), this.userService.getUser(), JSON.parse(this.selectedModule)));
+    this.service.createNewExam(new CreateExamDTO(this.title, new Date().getTime(), Date.parse(this.exam_date), this.userService.getUser(), this.examPoints, JSON.parse(this.selectedModule)));
     this.dialogRef.close();
   }
 
 }
-
-

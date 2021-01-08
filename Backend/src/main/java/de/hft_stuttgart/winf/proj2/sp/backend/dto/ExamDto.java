@@ -29,7 +29,8 @@ public class ExamDto {
     @Column("module_id")
     private Integer moduleId;
     @Column("total_points")
-    private Integer total_points;
+    private Integer totalPoints;
+
     @Setter
     private ModuleDto module;
 

@@ -1,10 +1,10 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HomePageComponent } from './components/home-page/home-page.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {HomePageComponent} from './components/home-page/home-page.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {InfoUserDialogComponent, NavbarComponent} from './components/navbar/navbar.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -20,7 +20,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {HttpClientModule} from "@angular/common/http";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {QuestionsCollectionComponent} from "./components/questions-collection/questions-collection.component";
@@ -35,7 +35,11 @@ import {MatTableModule} from "@angular/material/table";
 import { ArchivedExamsComponent } from './components/archived-exams/archived-exams.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-
+import {ExamEditorComponent} from './components/exam-editor/exam-editor.component';
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {DragDropModule} from "@angular/cdk/drag-drop";
+import {DatePipe} from "@angular/common";
+import {DeleteExamDialog} from "./components/exam-editor/deleteExam/delete-examen.exam-editor";
 
 @NgModule({
   declarations: [
@@ -51,9 +55,8 @@ import { MatSortModule } from '@angular/material/sort';
     ExamOverviewComponent,
     CreateExamDialog,
     ArchivedExamsComponent,
-
-
-
+    ExamEditorComponent,
+    DeleteExamDialog,
   ],
   imports: [
     BrowserModule,
@@ -74,15 +77,21 @@ import { MatSortModule } from '@angular/material/sort';
     MatSelectModule,
     MatExpansionModule,
     MatCheckboxModule,
+    MatProgressBarModule,
+    DragDropModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatDialogModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-
+    ReactiveFormsModule,
   ],
-  providers: [UserService, {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},],
+  providers: [
+    UserService,
+    {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},
+    DatePipe
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

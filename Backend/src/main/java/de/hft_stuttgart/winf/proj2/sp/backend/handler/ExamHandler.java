@@ -2,10 +2,8 @@ package de.hft_stuttgart.winf.proj2.sp.backend.handler;
 
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbExam;
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbModule;
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.CreateExamDto;
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.CreateModuleDto;
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.ExamDto;
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.UserDto;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.*;
+import de.hft_stuttgart.winf.proj2.sp.backend.exceptions.InvalidUserException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,7 +42,7 @@ public class ExamHandler {
     }
 
     /**
-     * Endpoint to create a Module for a user
+     * Endpoint to create a exam for a user
      *
      * @param exam exam that should be crated. JSON must match CrateExamDto.
      * @return HTTP Status if insert was successful (200 OK) or did fail (409 Conflict)
@@ -88,4 +86,46 @@ public class ExamHandler {
     }
 
 
+    /**
+     * Endpoint to save a Exam and the questions it contains
+     *
+     * @param examAndQuestions exam and questions that should be saved
+     * @return HTTP Status if insert/update was successful (200 OK) or did fail (409 Conflict)
+     */
+    @Path("save_exam")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response saveExam(SaveExamAndQuestionsDTO examAndQuestions){
+        try {
+            DbExam dbAccess = new DbExam();
+            if (!dbAccess.saveExams(examAndQuestions)){
+                return Response.status(Response.Status.CONFLICT).build();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.logger.error(e);
+            return Response.status(Response.Status.CONFLICT).build();
+        }
+        return Response.ok().build();
+    }
+
+    /**
+     * Deletes a question
+     * @param deleteRequest a delete request object
+     * @return HTTP Status if deletion was successful (200 OK) or did fail (409 Conflict)
+     */
+    @Path("delete")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response delete(DeleteExamDTO deleteRequest){
+        try {
+            DbExam dbAccess = new DbExam();
+            dbAccess.deleteExam(deleteRequest);
+        } catch (SQLException | InvalidUserException e) {
+            e.printStackTrace();
+            this.logger.error(e);
+            return Response.status(Response.Status.CONFLICT).build();
+        }
+        return Response.ok().build();
+    }
 }
