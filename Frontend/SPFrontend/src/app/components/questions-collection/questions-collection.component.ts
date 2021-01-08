@@ -58,12 +58,18 @@ export class QuestionsCollectionComponent implements OnInit {
     }
   }
 
+  /**
+   * Deletes selected question(s) from DB and reloads questionpool
+   */
   deleteSelection() {
     this.examService.deleteQuestions(this.selectedQuestions).subscribe(response => {
       this.loadQuestions();
     });
   }
 
+  /**
+   * Opens a new CreateQuestionDialog-window and reloads questionpool after closing
+   */
   createQuestion() {
     const dialogRef = this.dialog.open(CreateQuestionDialog, {
       width: '50%',
@@ -76,6 +82,9 @@ export class QuestionsCollectionComponent implements OnInit {
     });
   }
 
+  /**
+   * loads questions from DB and displays them in the questionpool
+   */
   loadQuestions() {
     this.examService.getQuestionsFromDb(this.module).subscribe(response => {
       this.questions = response;
@@ -100,6 +109,9 @@ export class CreateQuestionDialog {
   constructor(private service: CreateQuestionService, private dialogRef: MatDialogRef<CreateQuestionDialog>) {
   }
 
+  /**
+   * Writes question input-fields from CreateQuestionDialog-window to DB
+   */
   writeQuestion() {
     this.module = history.state;
     this.service.writeQuestionToDb(new QuestionDto(null, this.questionName, this.questionText, this.questionPoints, this.shortName, this.category, this.module.module_id)).subscribe();
