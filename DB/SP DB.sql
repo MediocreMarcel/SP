@@ -31,6 +31,15 @@ CREATE TABLE IF NOT EXISTS `contains` (
 
 -- Daten Export vom Benutzer nicht ausgewählt
 
+-- Exportiere Struktur von Tabelle sp.courses
+CREATE TABLE IF NOT EXISTS `courses` (
+                                         `course_id` int(11) NOT NULL AUTO_INCREMENT,
+                                         `course_name` varchar(50) NOT NULL,
+                                         PRIMARY KEY (`course_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+-- Daten Export vom Benutzer nicht ausgewählt
+
 -- Exportiere Struktur von Tabelle sp.exams
 CREATE TABLE IF NOT EXISTS `exams` (
                                        `exam_id` int(8) NOT NULL AUTO_INCREMENT,
@@ -83,10 +92,10 @@ CREATE TABLE IF NOT EXISTS `is_reading` (
 -- Exportiere Struktur von Tabelle sp.modules
 CREATE TABLE IF NOT EXISTS `modules` (
                                          `module_id` int(8) NOT NULL AUTO_INCREMENT,
-                                         `course` varchar(50) DEFAULT NULL,
+                                         `course_id` int(11) NOT NULL,
                                          `definition` varchar(50) DEFAULT NULL,
                                          PRIMARY KEY (`module_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 -- Daten Export vom Benutzer nicht ausgewählt
 
@@ -132,9 +141,4 @@ CREATE TABLE IF NOT EXISTS `users` (
                                        PRIMARY KEY (`user_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tabelle für den Benutzer';
 
--- Daten Export vom Benutzer nicht ausgewählt
-
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+-- D

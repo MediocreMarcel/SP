@@ -1,6 +1,8 @@
+import {CourseDTO} from "./CourseDTO";
+
 export class ModuleDTO {
   module_id: number;
-  course: string;
+  course: CourseDTO;
   definition: string;
 
   constructor(module_id, course, definition) {
@@ -11,7 +13,7 @@ export class ModuleDTO {
 }
 
 export class CreateModuleDTO {
-  course: string;
+  course: CourseDTO;
   definition: string;
   user_id: number;
 

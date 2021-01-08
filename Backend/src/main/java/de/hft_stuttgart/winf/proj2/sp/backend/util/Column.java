@@ -11,4 +11,5 @@ import java.lang.annotation.RetentionPolicy;
 public @interface Column {
 
     String value();
+    boolean isObject() default false;
 }

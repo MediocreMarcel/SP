@@ -1,7 +1,7 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.util;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
@@ -11,8 +11,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -48,7 +46,7 @@ public class ResultSetMapperTest {
     public void shouldThrowExceptionIfConParaNotSet() throws InvocationTargetException, SQLException, InstantiationException, IllegalAccessException, NoSuchMethodException {
         List<ExampleDTO> expected = new ArrayList<>();
         expected.add(new ExampleDTO("foo", 123, true));
-        ResultSetMapper<ExampleDTO> mapper = new ResultSetMapper<>();
+        ResultSetMapper mapper = new ResultSetMapper();
         assertEquals(expected, mapper.mapResultSetToObject(rs, ExampleDTO.class));
     }
 

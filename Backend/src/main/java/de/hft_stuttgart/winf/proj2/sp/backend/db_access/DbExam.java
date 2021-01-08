@@ -31,7 +31,7 @@ public class DbExam extends DbConnector {
      */
 
     public List<ExamDto> getExams(UserDto user) throws SQLException {
-        ResultSetMapper<ExamDto> resultSetMapper = new ResultSetMapper<>();
+        ResultSetMapper resultSetMapper = new ResultSetMapper();
 
         PreparedStatement selectModules = conn.prepareStatement("SELECT e.exam_id, e.name, e.creation_date, e.exam_date, e.status, e.module_id, e.total_points FROM exams e inner join modules m on m.module_id = e.module_id " +
                 "inner join is_reading r on m.module_id = r.module_id inner join users u on r.user_id = u.user_id WHERE u.user_id = ?");

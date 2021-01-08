@@ -15,12 +15,12 @@ public class ModuleDto {
 
     @Column("module_id")
     private Integer module_id;
-    @Column("course")
-    private String course;
     @Column("definition")
     private String definition;
+    @Column(value="course", isObject = true)
+    private CourseDTO course;
 
-    public ModuleDto(){
+    public ModuleDto() {
 
     }
 
