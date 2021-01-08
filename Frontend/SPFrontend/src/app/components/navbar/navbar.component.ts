@@ -25,7 +25,6 @@ export class NavbarComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 
@@ -52,7 +51,7 @@ export class NavbarComponent implements OnInit {
   }
 
   createQuestions(): void {
-    this.router.navigate(['/exam-editor']);
+    this.router.navigate(['/questions-overview']);
   }
 
   redirectToHome(): void {
@@ -64,7 +63,6 @@ export class NavbarComponent implements OnInit {
     for (var i = 0; i < elements.length; i++) {
       this.disabeledButtonsArray.push(false);
     }
-    console.log(this.disabeledButtonsArray);
     this.checkRouterURL();
   }
 }
