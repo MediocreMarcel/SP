@@ -20,7 +20,7 @@ body {
   width: clamp(20px, 80%, 250px);
   background-color: #F5F5F6;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.2s !important;
 }
 
 .tile:hover {
