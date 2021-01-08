@@ -19,3 +19,14 @@ export class QuestionDto {
   }
 }
 
+export class ExamQuestionDTO extends QuestionDto {
+
+  position: number;
+
+  constructor(questionID: number, questionName: string, questionText: string, questionPoints: number, shortName: string, category: string, module_ID: number, position: number) {
+    super(questionID, questionName, questionText, questionPoints, shortName, category, module_ID);
+    this.position = position;
+  }
+
+}
+

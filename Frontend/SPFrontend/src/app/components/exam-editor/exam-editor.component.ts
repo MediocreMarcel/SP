@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
-import {QuestionDto} from "../models/QuestionDto";
+import {ExamQuestionDTO, QuestionDto} from "../models/QuestionDto";
 import {CreateQuestionService} from "../../services/question/create-question.service";
 import {GroupByPipe} from "../pipes/group-by.pipe";
 import {ExamDTO} from "../models/ExamDTO";
@@ -11,6 +11,10 @@ import {CreateOverviewExamService} from "../../services/exam/create-overview-exa
 import {SaveExamAndQuestionsDTO} from "../models/SaveExamAndQuestionsDTO";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteExamDialog} from "./deleteExam/delete-examen.exam-editor";
+import {ModuleService} from "../../services/module/module.service";
+import {UserService} from "../../shared/user.service";
+import {ModuleDTO} from "../models/ModuleDTO";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-create-question',
@@ -26,14 +30,18 @@ export class ExamEditorComponent implements OnInit {
   questionPoolByCategoryUnchanged: any[] = [];
   questionPoolByCategory: QuestionDto[][] = [];
 
-  examContent: QuestionDto[] = [];
+  examContent: ExamQuestionDTO[] = [];
 
   questionCategories: string[] = [];
+
+  availableModules: ModuleDTO[] = [];
+
+  JSON = JSON;
 
   //header variables
   examTitle = "Unbenannte Klausur"
   currentExamPoints: number;
-  course: any;
+  selectedModule: string;
   semester: string;
 
 
@@ -42,7 +50,7 @@ export class ExamEditorComponent implements OnInit {
    * @param questionService service to load exam data from db
    * @param router angular router to navigate between pages
    */
-  constructor(private questionService: CreateQuestionService, private examService: CreateOverviewExamService, private router: Router, private datepipe: DatePipe, private dialog: MatDialog) {
+  constructor(private questionService: CreateQuestionService, private examService: CreateOverviewExamService, private moduleService: ModuleService, private router: Router, private dialog: MatDialog, private userService: UserService, private snackBar: MatSnackBar) {
   }
 
   /**
@@ -69,7 +77,7 @@ export class ExamEditorComponent implements OnInit {
         let pipe = new GroupByPipe();
         pipe.transform(retVal, "category").forEach(u => {
           //crete array with dummy object at first position. This dummy object represents the name of the category
-          this.questionPoolByCategory.push([new QuestionDto(-1, u.key, null,null,null, u.key, null)].concat(u.value));
+          this.questionPoolByCategory.push([new QuestionDto(-1, u.key, null, null, null, u.key, null)].concat(u.value));
           //push name of category in corresponding array
           this.questionCategories.push(u.key);
         });
@@ -81,8 +89,10 @@ export class ExamEditorComponent implements OnInit {
     this.questionService.getExamQuestionsFromDb(this.exam).subscribe(retVal => {
       retVal.forEach(questionInExam => {
         this.examContent.push(questionInExam);
-        this.questionPoolByCategory.forEach(category => category.forEach( (questionInPool, index) => {
-          if (questionInPool.questionId == questionInExam.questionId && questionInPool.questionId != -1){
+        this.examContent.sort((a, b) => a.position - b.position);
+
+        this.questionPoolByCategory.forEach(category => category.forEach((questionInPool, index) => {
+          if (questionInPool.questionId == questionInExam.questionId && questionInPool.questionId != -1) {
             category.splice(index, 1);
           }
         }));
@@ -90,8 +100,12 @@ export class ExamEditorComponent implements OnInit {
       this.calculateCurrentPoints();
     });
 
+    this.moduleService.getModulesForUser(this.userService.getUser()).subscribe(modules => {
+      this.availableModules = modules;
+      this.selectedModule = JSON.stringify(this.exam.module);
+    });
+
     this.dateOfExam = new FormControl(new Date(this.exam.exam_date));
-    this.examDateAsString = this.datepipe.transform(this.exam.exam_date, "dd.M.yyyy");
 
   }
 
@@ -145,7 +159,14 @@ export class ExamEditorComponent implements OnInit {
    * saves the exam and the questions to the db
    */
   saveExam() {
-    this.examService.saveExam(new SaveExamAndQuestionsDTO(this.exam, this.examContent));
+    this.exam.module = JSON.parse(this.selectedModule);
+    this.examContent.forEach((question, index) => question.position = index);
+    this.examService.saveExam(new SaveExamAndQuestionsDTO(this.exam, this.examContent)).subscribe((response) => {
+        this.snackBar.open("Speichern erfolgreich!", "Schließen", {duration: 4000})
+      },
+      (error) => {
+        this.snackBar.open("Fehler beim Speichern! Bitte erneut versuchen!", "Schließen", {duration: 8000})
+      });
   }
 
   /**

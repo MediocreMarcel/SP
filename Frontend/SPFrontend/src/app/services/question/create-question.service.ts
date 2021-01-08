@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {QuestionDto} from "../../components/models/QuestionDto";
+import {ExamQuestionDTO, QuestionDto} from "../../components/models/QuestionDto";
 import {environment} from "../../../environments/environment";
 import {ModuleDTO} from "../../components/models/ModuleDTO";
 import {ExamDTO} from "../../components/models/ExamDTO";
@@ -32,6 +32,7 @@ export class CreateQuestionService {
 
   getExamQuestionsFromDb(postData: ExamDTO){
     const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-    return this.http.post<QuestionDto[]>(this.url + 'questions/getQuestionExam', JSON.stringify(postData), {headers: headers});
+    return this.http.post<ExamQuestionDTO[]>(this.url + 'questions/getQuestionExam', JSON.stringify(postData), {headers: headers});
   }
+
 }

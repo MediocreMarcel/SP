@@ -1,6 +1,7 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.db_access;
 
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.ExamDto;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.ExamQuestionDTO;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.ModuleDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.QuestionsDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.util.ResultSetMapper;
@@ -107,27 +108,31 @@ public class DbQuestions extends DbConnector {
      * @return list of all questions in the exam
      * @throws SQLException thrown if server is unavailable or some problem with the server accrues
      */
-    public List<QuestionsDto> getQuestionsFromExam(ExamDto exam) throws SQLException {
-        List<QuestionsDto> questions = new ArrayList<>();
+    public List<ExamQuestionDTO> getQuestionsFromExam(ExamDto exam) throws SQLException {
+        List<ExamQuestionDTO> questions = new ArrayList<>();
 
-        PreparedStatement selectQuestionIds = conn.prepareStatement("SELECT question_id FROM contains WHERE exam_id = ?");
-        selectQuestionIds.setInt(1, exam.getExam_id());
-        ResultSet questionIds = selectQuestionIds.executeQuery();
-        while(questionIds.next()) {
-            int id = questionIds.getInt("question_id");
-            questions.add(getQuestionFromId(id));
+        PreparedStatement selectQuestionIdsAndRank = conn.prepareStatement("SELECT * FROM contains c INNER JOIN questions q on c.question_id = q.question_id WHERE exam_id = ?");
+        selectQuestionIdsAndRank.setInt(1, exam.getExam_id());
+        ResultSet rs = selectQuestionIdsAndRank.executeQuery();
+
+        try {
+            ResultSetMapper resultSetMapper = new ResultSetMapper();
+            return resultSetMapper.mapResultSetToObject(rs, ExamQuestionDTO.class);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+            e.printStackTrace();
+            logger.error(e);
+            return null;
         }
-        return questions;
     }
 
-    private QuestionsDto getQuestionFromId(int id) throws SQLException{
+    private ExamQuestionDTO getExamQuestionFromId(int id) throws SQLException{
         ResultSetMapper resultSetMapper = new ResultSetMapper();
         PreparedStatement selectQuestions = conn.prepareStatement("SELECT * FROM questions WHERE question_id = ?");
         selectQuestions.setInt(1, id);
         ResultSet rs = selectQuestions.executeQuery();
 
         try {
-            return resultSetMapper.mapResultSetToObject(rs, QuestionsDto.class).get(0);
+            return resultSetMapper.mapResultSetToObject(rs, ExamQuestionDTO.class).get(0);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
             e.printStackTrace();
             logger.error(e);

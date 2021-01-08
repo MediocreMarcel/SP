@@ -17,8 +17,10 @@
 
       <mat-grid-tile>
         <mat-form-field class="infoHeaderInput">
-          <mat-label>Modul</mat-label>
-          <input matInput input="text" [(ngModel)]="exam.module.definition">
+        <mat-label>Studiengang</mat-label>
+        <mat-select [(value)]="selectedModule">
+          <mat-option *ngFor="let module of availableModules" value="{{JSON.stringify(module)}}">{{module.definition}}</mat-option>
+        </mat-select>
         </mat-form-field>
       </mat-grid-tile>
 
@@ -33,7 +35,7 @@
 
       <mat-grid-tile>
         <div style="padding: 0 2.5% 0 2.5%; width: 100%">
-          <p class="bar-header">Fortschritt</p>
+          <p class="bar-header">Verwendete Punkte</p>
 
           <!-- Progress Bar soll prozentuele Abhänigkeit zu Gesamtpunkte darstellen -- currentPercentage = (currentPoints/maxPoints)*100-->
           <mat-progress-bar mode="determinate" value="{{currentExamPoints/exam.totalPoints*100}}"></mat-progress-bar>
@@ -86,7 +88,7 @@
                           {{question.shortName}}
                         </mat-panel-description>
                       </mat-expansion-panel-header>
-                      <p>{{question.questionText}}</p>
+                      <p [innerHTML]="question.questionText"></p>
                     </mat-expansion-panel>
                   </div>
                 </div>
@@ -123,7 +125,7 @@
                       {{question.shortName}}
                     </mat-panel-description>
                   </mat-expansion-panel-header>
-                  <p>{{question.questionText}}</p>
+                  <p [innerHTML]="question.questionText"></p>
                 </mat-expansion-panel>
               </div>
             </div>
