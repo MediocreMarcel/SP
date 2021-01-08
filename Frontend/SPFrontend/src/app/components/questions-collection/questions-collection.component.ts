@@ -3,6 +3,7 @@ import {QuestionDto} from "../models/QuestionDto";
 import {Router} from "@angular/router";
 import {ModuleDTO} from "../models/ModuleDTO";
 import {CreateQuestionService} from "../../services/question/create-question.service";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-questions-collection',
@@ -18,7 +19,7 @@ export class QuestionsCollectionComponent implements OnInit {
 
   module: ModuleDTO;
 
-  constructor(private examService: CreateQuestionService, private router: Router) {
+  constructor(private examService: CreateQuestionService, private router: Router, public dialog: MatDialog) {
 
   }
 
@@ -57,19 +58,63 @@ export class QuestionsCollectionComponent implements OnInit {
     }
   }
 
+  /**
+   * Deletes selected question(s) from DB and reloads questionpool
+   */
   deleteSelection() {
     this.examService.deleteQuestions(this.selectedQuestions).subscribe(response => {
       this.loadQuestions();
     });
   }
 
+  /**
+   * Opens a new CreateQuestionDialog-window and reloads questionpool after closing
+   */
   createQuestion() {
-    //TODO call dialog from other task once merged
+    const dialogRef = this.dialog.open(CreateQuestionDialog, {
+      width: '50%',
+      height: '80%'
+    });
+
+    dialogRef.afterClosed().subscribe(create => {
+      this.loadQuestions();
+      console.log(this.questions);
+    });
   }
 
+  /**
+   * loads questions from DB and displays them in the questionpool
+   */
   loadQuestions() {
     this.examService.getQuestionsFromDb(this.module).subscribe(response => {
       this.questions = response;
     });
+  }
+}
+
+@Component({
+  selector: 'app-questions-createcollection',
+  templateUrl: './create_question/questions-collection.create_question_dialog.html',
+  styleUrls: ['./create_question/questions-collection.create_question_dialog.css']
+})
+
+export class CreateQuestionDialog {
+  questionName: string;
+  shortName: string;
+  questionText: string;
+  questionPoints: number;
+  category: string;
+  module: ModuleDTO;
+
+  constructor(private service: CreateQuestionService, private dialogRef: MatDialogRef<CreateQuestionDialog>) {
+  }
+
+  /**
+   * Writes question input-fields from CreateQuestionDialog-window to DB
+   */
+  writeQuestion() {
+    this.module = history.state;
+    this.service.writeQuestionToDb(new QuestionDto(null, this.questionName, this.questionText, this.questionPoints, this.shortName, this.category, this.module.module_id)).subscribe();
+    this.dialogRef.close();
   }
 }
