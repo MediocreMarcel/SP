@@ -22,6 +22,7 @@ export class UserService {
    */
   setLoggedIn(user: User) {
     localStorage.setItem('access_token', user.token);
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
   /**
@@ -33,17 +34,10 @@ export class UserService {
   }
 
   /**
-   *This Method will set the User.
-   * @param user which comes from the Backend.
-   */
-  setUser(user: User) {
-    this.user = user;
-  }
-
-  /**
    * This Mehtod will get the current User.
    */
   getUser(): User {
+    this.user = JSON.parse(localStorage.getItem('user'));
     return this.user;
   }
 
@@ -63,6 +57,6 @@ export class UserService {
    *This Method is for the Logout. The current Session will be deleted.
    */
   logout() {
-    localStorage.removeItem('access_token');
+    localStorage.clear();
   }
 }
