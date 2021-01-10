@@ -21,16 +21,6 @@
   <br>
 
   <mat-form-field class="input shortQuestion-form-input">
-    <mat-label>Punkteanzahl</mat-label>
-    <input matInput type="number" [(ngModel)]="questionPoints">
-    <button mat-button *ngIf="questionPoints" matSuffix mat-icon-button aria-label="Clear" (click)="questionPoints=null">
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-form-field>
-
-  <br>
-
-  <mat-form-field class="input shortQuestion-form-input">
     <mat-label>Kategorie</mat-label>
     <input matInput type="text" [(ngModel)]="category">
     <button mat-button *ngIf="category" matSuffix mat-icon-button aria-label="Clear" (click)="category=null">
@@ -42,6 +32,58 @@
 
   <h2 style="">Fragen Text</h2>
   <quill-editor [styles]="{height: '200px'}" [(ngModel)]="questionText"></quill-editor>
+
+  <br>
+
+  <table mat-table [dataSource]="evaluationCriterias" style="width: 100%" #evalTable>
+
+    <ng-container matColumnDef="Bewertungskriterium">
+      <th mat-header-cell *matHeaderCellDef class="tableHead"><b>Bewertungskriterium</b></th>
+      <td mat-cell *matCellDef="let criteria"> {{criteria.criteria}} </td>
+      <td mat-footer-cell *matFooterCellDef><b>Gesammtpunktzahl</b>:</td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="Punkte">
+      <th mat-header-cell *matHeaderCellDef class="tableHead"><b>Punkte</b></th>
+      <td mat-cell *matCellDef="let criteria"> {{criteria.points}} </td>
+      <td mat-footer-cell *matFooterCellDef><b>{{totalPointsEval()}}</b></td>
+    </ng-container>
+
+    <ng-container matColumnDef="Löschen">
+      <th mat-header-cell *matHeaderCellDef style="width: 4% "><b>Löschen</b></th>
+      <td mat-cell *matCellDef="let i = index">
+        <button mat-button (click)="removeEvalCriteria(i)">
+          <mat-icon>close</mat-icon>
+        </button>
+      </td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="evaluationCriteriaHeader"></tr>
+    <tr mat-row *matRowDef="let row; columns: evaluationCriteriaHeader;"></tr>
+    <tr mat-footer-row *matFooterRowDef="evaluationCriteriaHeader"></tr>
+  </table>
+
+  <div style="margin-top: 0.3%;">
+    <mat-form-field class="evaluationInput">
+      <mat-label>Bewertungskriterium</mat-label>
+      <input matInput #evalCriteria>
+    </mat-form-field>
+
+    <mat-form-field class="evaluationInput" style="padding-right: 2%">
+      <mat-label>Punkte</mat-label>
+      <input type="number" min="1" matInput #evalCriteriaPoints>
+    </mat-form-field>
+
+    <button mat-mini-fab (click)="addEvaluationCriteria(evalCriteria.value, evalCriteriaPoints.valueAsNumber)"
+            style="background-color: #3f51b5">
+      <mat-icon>add_circle</mat-icon>
+    </button>
+
+  </div>
+
+  <br>
 
   <mat-dialog-actions align="end">
     <button mat-flat-button mat-dialog-close>Abbrechen</button>

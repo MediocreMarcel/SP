@@ -1,3 +1,5 @@
+import {EvaluationCriteriaDTO} from "./EvaluationCriteriaDTO";
+
 export class QuestionDto {
 
   questionId: number;
@@ -26,6 +28,17 @@ export class ExamQuestionDTO extends QuestionDto {
   constructor(questionID: number, questionName: string, questionText: string, questionPoints: number, shortName: string, category: string, module_ID: number, position: number) {
     super(questionID, questionName, questionText, questionPoints, shortName, category, module_ID);
     this.position = position;
+  }
+
+}
+
+export class CreateQuestionDTO extends QuestionDto {
+
+  evaluationCriterias: EvaluationCriteriaDTO[];
+
+  constructor(questionID: number, questionName: string, questionText: string, questionPoints: number, shortName: string, category: string, module_ID: number, evaluationCriterias: EvaluationCriteriaDTO[]) {
+    super(questionID, questionName, questionText, questionPoints, shortName, category, module_ID);
+    this.evaluationCriterias = evaluationCriterias;
   }
 
 }

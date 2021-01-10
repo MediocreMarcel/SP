@@ -23,7 +23,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
-import {QuestionsCollectionComponent, CreateQuestionDialog} from "./components/questions-collection/questions-collection.component";
+import {QuestionsCollectionComponent} from "./components/questions-collection/questions-collection.component";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {GroupByPipe} from "./components/pipes/group-by.pipe";
@@ -38,6 +38,8 @@ import {DatePipe} from "@angular/common";
 import {DeleteExamDialog} from "./components/exam-editor/deleteExam/delete-examen.exam-editor";
 import { QuillModule } from 'ngx-quill';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {CreateQuestionDialog} from "./components/questions-collection/create_question/questions-collection.create_question_dialog";
+import {MatTableModule} from "@angular/material/table";
 
 
 @NgModule({
@@ -83,6 +85,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     ReactiveFormsModule,
     QuillModule.forRoot(),
     MatSnackBarModule,
+    MatTableModule,
   ],
   providers: [
     UserService,
