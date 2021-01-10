@@ -96,7 +96,7 @@ public class QuestionsHandler {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public QuestionsDto createNewQuestion(QuestionsDto question) {
+    public QuestionsDto createNewQuestion(CreateQuestionDTO question) {
         try {
             DbQuestions dbAccess = new DbQuestions();
              if (dbAccess.createNewQuestion(question) ){

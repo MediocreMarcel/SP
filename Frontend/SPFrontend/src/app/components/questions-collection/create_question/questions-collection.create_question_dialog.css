@@ -11,3 +11,15 @@
   width: 100%;
   font-size: 100%;
 }
+
+.evaluationInput{
+  width: 44%;
+}
+
+.evaluationInput:first-child{
+  padding-left: 24px;
+}
+
+.tableHead{
+  width: 47%;
+}

@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {ModuleDTO} from "../models/ModuleDTO";
 import {CreateQuestionService} from "../../services/question/create-question.service";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {CreateQuestionDialog} from "./create_question/questions-collection.create_question_dialog";
 
 @Component({
   selector: 'app-questions-collection',
@@ -23,6 +24,9 @@ export class QuestionsCollectionComponent implements OnInit {
 
   }
 
+  /**
+   * Loads needed data
+   */
   ngOnInit(): void {
 
     let state = history.state;
@@ -45,10 +49,14 @@ export class QuestionsCollectionComponent implements OnInit {
     });
   }
 
+  /**
+   * Adds or removes a checkbox from the data layer if event is triggered
+   * @param question question that should be removed/added
+   */
   checkboxChanged(question: QuestionDto) {
     let deleted = false;
     this.selectedQuestions.forEach((element, index) => {
-      if (element.module_ID == question.module_ID) {
+      if (element.questionId == question.questionId) {
         this.selectedQuestions.splice(index, 1);
         deleted = true;
       }
@@ -63,6 +71,7 @@ export class QuestionsCollectionComponent implements OnInit {
    */
   deleteSelection() {
     this.examService.deleteQuestions(this.selectedQuestions).subscribe(response => {
+      this.selectedQuestions = [];
       this.loadQuestions();
     });
   }
@@ -73,12 +82,12 @@ export class QuestionsCollectionComponent implements OnInit {
   createQuestion() {
     const dialogRef = this.dialog.open(CreateQuestionDialog, {
       width: '50%',
-      height: '80%'
+      height: '95%',
+      data: {module: this.module}
     });
 
     dialogRef.afterClosed().subscribe(create => {
       this.loadQuestions();
-      console.log(this.questions);
     });
   }
 
@@ -89,32 +98,5 @@ export class QuestionsCollectionComponent implements OnInit {
     this.examService.getQuestionsFromDb(this.module).subscribe(response => {
       this.questions = response;
     });
-  }
-}
-
-@Component({
-  selector: 'app-questions-create-collection',
-  templateUrl: './create_question/questions-collection.create_question_dialog.html',
-  styleUrls: ['./create_question/questions-collection.create_question_dialog.css']
-})
-
-export class CreateQuestionDialog {
-  questionName: string;
-  shortName: string;
-  questionText: string;
-  questionPoints: number;
-  category: string;
-  module: ModuleDTO;
-
-  constructor(private service: CreateQuestionService, private dialogRef: MatDialogRef<CreateQuestionDialog>) {
-  }
-
-  /**
-   * Writes question input-fields from CreateQuestionDialog-window to DB
-   */
-  writeQuestion() {
-    this.module = history.state;
-    this.service.writeQuestionToDb(new QuestionDto(null, this.questionName, this.questionText, this.questionPoints, this.shortName, this.category, this.module.module_id)).subscribe();
-    this.dialogRef.close();
   }
 }
