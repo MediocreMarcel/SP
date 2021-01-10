@@ -31,7 +31,6 @@ import {LoginComponent} from "./components/login/login.component";
 import {UserService} from "./shared/user.service";
 import {CreateExamDialog, ExamOverviewComponent} from './components/exam-overview/exam-overview.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {ArchivedExamsComponent} from "./components/archived-exams/archived-exams.component";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {MatTableModule} from "@angular/material/table";
@@ -42,6 +41,7 @@ import {DatePipe} from "@angular/common";
 import { QuillModule } from 'ngx-quill';
 import {ExamEditorComponent} from './components/exam-editor/exam-editor.component';
 import {DeleteExamDialog} from "./components/exam-editor/deleteExam/delete-examen.exam-editor";
+import {ArchivedExamsComponent} from "./components/archived-exams/archived-exams.component";
 
 @NgModule({
   declarations: [

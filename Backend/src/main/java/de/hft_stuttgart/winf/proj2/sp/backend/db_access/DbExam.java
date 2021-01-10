@@ -79,7 +79,7 @@ public class DbExam extends DbConnector {
      * @throws SQLException Exception if connection to db fails or an error accrues
      */
     public boolean saveExams(SaveExamAndQuestionsDTO examAndQuestions) throws SQLException {
-        PreparedStatement updateExams = conn.prepareStatement("UPDATE exams SET name = ?, exam_date = ?, total_points = ?, module_id = ? WHERE exam_id = ?;");
+        PreparedStatement updateExams = conn.prepareStatement("UPDATE exams SET title = ?, exam_date = ?, total_points = ?, module_id = ? WHERE exam_id = ?;");
         updateExams.setString(1, examAndQuestions.getExam().getTitle());
         updateExams.setDate(2, new Date(examAndQuestions.getExam().getExam_date().getTime()));
         updateExams.setInt(3, examAndQuestions.getExam().getTotalPoints());
@@ -147,7 +147,7 @@ public class DbExam extends DbConnector {
      * @throws SQLException
      */
     public List<ExamDto> getExamsforArchiv(UserDto user) throws SQLException {
-        ResultSetMapper<ExamDto> resultSetMapper = new ResultSetMapper<>();
+        ResultSetMapper resultSetMapper = new ResultSetMapper();
 
         PreparedStatement selectArchivedExams = conn.prepareStatement("SELECT * FROM exams e inner join modules m on m.module_id = e.module_id " +
                 "inner join is_reading r on m.module_id = r.module_id inner join users u on r.user_id = u.user_id WHERE u.user_id = ? and e.status = 'corrected' ");

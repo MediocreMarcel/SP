@@ -9,6 +9,7 @@ import {ExamEditorComponent} from "./components/exam-editor/exam-editor.componen
 import {ExamOverviewComponent} from "./components/exam-overview/exam-overview.component";
 import {ArchivedExamsComponent} from "./components/archived-exams/archived-exams.component";
 
+
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full', canActivate: [AuthGuard]},
   {path: 'home', component: HomePageComponent, canActivate: [AuthGuard]},
