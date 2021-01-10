@@ -70,5 +70,6 @@ public class JettyServer {
         } finally {
             server.destroy();
         }
+
     }
 }

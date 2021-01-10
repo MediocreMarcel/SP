@@ -31,14 +31,17 @@ import {LoginComponent} from "./components/login/login.component";
 import {UserService} from "./shared/user.service";
 import {CreateExamDialog, ExamOverviewComponent} from './components/exam-overview/exam-overview.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {ExamEditorComponent} from './components/exam-editor/exam-editor.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {DragDropModule} from "@angular/cdk/drag-drop";
-import {DatePipe} from "@angular/common";
-import {DeleteExamDialog} from "./components/exam-editor/deleteExam/delete-examen.exam-editor";
-import { QuillModule } from 'ngx-quill';
+import {MatTableModule} from "@angular/material/table";
+import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-
+import {MatSortModule} from "@angular/material/sort";
+import {DatePipe} from "@angular/common";
+import { QuillModule } from 'ngx-quill';
+import {ExamEditorComponent} from './components/exam-editor/exam-editor.component';
+import {DeleteExamDialog} from "./components/exam-editor/deleteExam/delete-examen.exam-editor";
+import {ArchivedExamsComponent} from "./components/archived-exams/archived-exams.component";
 
 @NgModule({
   declarations: [
@@ -53,6 +56,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     GroupByPipe,
     ExamOverviewComponent,
     CreateExamDialog,
+    ArchivedExamsComponent,
     CreateQuestionDialog,
     ExamEditorComponent,
     DeleteExamDialog,
@@ -80,6 +84,10 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     DragDropModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatDialogModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
     ReactiveFormsModule,
     QuillModule.forRoot(),
     MatSnackBarModule,
