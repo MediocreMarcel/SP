@@ -40,7 +40,6 @@ export class LoginComponent implements OnInit {
             res.body.token
           );
           this.userService.setLoggedIn(this.user);
-          this.userService.setUser(this.user);
         }
       },
       error => {
