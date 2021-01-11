@@ -9,12 +9,12 @@
     <form>
       <mat-form-field>
         <mat-label>Benutzername</mat-label>
-        <input matInput placeholder="Benutername" type="number" min="0" [(ngModel)]='this.user.user_id' name="user.user_id">
+        <input id="userNameInputField" matInput placeholder="Benutername" type="number" min="0" [(ngModel)]='this.user.user_id' name="user.user_id">
       </mat-form-field>
       <br/>
       <mat-form-field>
         <mat-label>Passwort</mat-label>
-        <input type="password" matInput placeholder="Passwort eingeben" [(ngModel)]="this.user.password" name="user.password" (keyup.enter)="login()"/>
+        <input  id="userPasswordInputField" type="password" matInput placeholder="Passwort eingeben" [(ngModel)]="this.user.password" name="user.password" (keyup.enter)="login()"/>
       </mat-form-field>
     </form>
   </mat-card-content>
@@ -22,7 +22,7 @@
     <mat-error>Benutername oder Passwort falsch!</mat-error>
   </div>
   <mat-card-actions>
-    <button mat-button (click)="login()">Login</button>
+    <button id="loginButton" mat-button (click)="login()">Login</button>
   </mat-card-actions>
 </mat-card>
 </div>
