@@ -21,7 +21,7 @@
       <mat-grid-list cols="6" rowHeight="1:1">
 
         <mat-grid-tile>
-          <mat-card class="tile" (click)="openCreateDialog()">
+          <mat-card id="createModuleButton" class="tile" (click)="openCreateDialog()">
             <mat-card-title style="height: 80%;">
             <span mat-align-tabs="center" class="material-icons centerIcon">
               add_circle
@@ -33,7 +33,7 @@
 
         <mat-grid-tile
           *ngFor="let tile of tiles">
-          <mat-card class="tile" (click)="navigateToQuestionsCollection(tile)">
+          <mat-card id="matCardModuleTitle" class="tile" (click)="navigateToQuestionsCollection(tile)">
             <mat-card-title class="tileTitle">{{tile.definition}}</mat-card-title>
             <mat-card-subtitle class="tileSubtitle">{{tile.course.courseName}}</mat-card-subtitle>
           </mat-card>

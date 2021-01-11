@@ -4,7 +4,7 @@
     <mat-card class="content-card">
       <mat-grid-list cols=5>
         <mat-grid-tile>
-          <mat-card class="tile" (click)="createExam()">
+          <mat-card id="createExamButton" class="tile" (click)="createExam()">
             <mat-card-title>
               Klausur erstellen
             </mat-card-title>
@@ -12,7 +12,7 @@
           </mat-card>
         </mat-grid-tile>
         <mat-grid-tile>
-          <mat-card class="tile" (click)="correctExam()">
+          <mat-card id="correctExamButton" class="tile" (click)="correctExam()">
             <mat-card-title>
               Klausur korrigieren
             </mat-card-title>
@@ -21,19 +21,19 @@
           </mat-card>
         </mat-grid-tile>
         <mat-grid-tile>
-          <mat-card class="tile" (click)="archiveExam()">
+          <mat-card id="archiveExamButton" class="tile" (click)="archiveExam()">
             <mat-card-title>
               Archivierte Klausuren
             </mat-card-title>
-            <mat-card-subtitle class="tileSubtitle">Hier finden Sie Ihre archivierten Klausuren</mat-card-subtitle>
+            <mat-card-subtitle  class="tileSubtitle">Hier finden Sie Ihre archivierten Klausuren</mat-card-subtitle>
           </mat-card>
         </mat-grid-tile>
         <mat-grid-tile>
-          <mat-card class="tile" (click)="addQuestions()">
+          <mat-card id="addQuestionButton" class="tile" (click)="addQuestions()">
             <mat-card-title>
               Fragen hinzufügen
             </mat-card-title>
-            <mat-card-subtitle class="tileSubtitle">Fügen Sie neue Fragen Ihrem Fragenpool hinzu</mat-card-subtitle>
+            <mat-card-subtitle  class="tileSubtitle">Fügen Sie neue Fragen Ihrem Fragenpool hinzu</mat-card-subtitle>
           </mat-card>
         </mat-grid-tile>
       </mat-grid-list>
