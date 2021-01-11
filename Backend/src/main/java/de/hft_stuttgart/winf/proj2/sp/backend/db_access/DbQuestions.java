@@ -1,9 +1,6 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.db_access;
 
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.ExamDto;
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.ExamQuestionDTO;
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.ModuleDto;
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.QuestionsDto;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.*;
 import de.hft_stuttgart.winf.proj2.sp.backend.util.ResultSetMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,8 +56,12 @@ public class DbQuestions extends DbConnector {
      * @return boolean showing if the insertion was completed
      * @throws SQLException thrown if server is unavailable or some problem with the server accrues
      */
-    public boolean createNewQuestion(QuestionsDto question) throws SQLException {
-        PreparedStatement insertQuestion = conn.prepareStatement("INSERT INTO questions (name, question_text, default_points, short_name, module_id, category) VALUES (?,?,?,?,?,?); ");
+    public boolean createNewQuestion(CreateQuestionDTO question) throws SQLException {
+        conn.setAutoCommit(false);
+
+        PreparedStatement insertQuestion = conn.prepareStatement("INSERT INTO questions (name, question_text, default_points, short_name, module_id, category) VALUES (?,?,?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement insertCriteria = conn.prepareStatement("INSERT INTO rating_criteria (possible_points, criteria_text, question_id) VALUES (?,?,?);");
+
         insertQuestion.setString(1, question.getQuestionName());
         insertQuestion.setString(2, question.getQuestionText());
         insertQuestion.setFloat(3, question.getQuestionPoints());
@@ -67,8 +69,34 @@ public class DbQuestions extends DbConnector {
         insertQuestion.setInt(5, question.getModule_ID());
         insertQuestion.setString(6, question.getCategory());
 
+        if(insertQuestion.executeUpdate() <= 0){
+            logger.warn("Could not insert element : " + question);
+            System.err.println("Could not insert element : " + question);
+            conn.rollback();
+            conn.setAutoCommit(true);
+            return false;
+        }
 
-        return insertQuestion.executeUpdate() > 0;
+        //get id of first insertion
+        ResultSet rs = insertQuestion.getGeneratedKeys();
+        rs.next();
+        int questionId = rs.getInt(1);
+
+        for (QuestionCriteriaDTO criteria:question.getEvaluationCriterias()) {
+            insertCriteria.setInt(1, criteria.getPoints());
+            insertCriteria.setString(2, criteria.getCriteria());
+            insertCriteria.setInt(3, questionId);
+
+            if(insertCriteria.executeUpdate() <= 0){
+                logger.warn("Could not insert element : " + question);
+                System.err.println("Could not insert element : " + question);
+                conn.rollback();
+                conn.setAutoCommit(true);
+                return false;
+            }
+        }
+        conn.commit();
+        return true;
 
     }
 

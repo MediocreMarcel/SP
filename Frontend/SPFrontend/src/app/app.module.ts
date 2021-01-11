@@ -23,7 +23,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
-import {QuestionsCollectionComponent, CreateQuestionDialog} from "./components/questions-collection/questions-collection.component";
+import {QuestionsCollectionComponent} from "./components/questions-collection/questions-collection.component";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {GroupByPipe} from "./components/pipes/group-by.pipe";
@@ -35,13 +35,15 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
-import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatSortModule} from "@angular/material/sort";
 import {DatePipe} from "@angular/common";
-import { QuillModule } from 'ngx-quill';
 import {ExamEditorComponent} from './components/exam-editor/exam-editor.component';
 import {DeleteExamDialog} from "./components/exam-editor/deleteExam/delete-examen.exam-editor";
 import {ArchivedExamsComponent} from "./components/archived-exams/archived-exams.component";
+import { QuillModule } from 'ngx-quill';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {CreateQuestionDialog} from "./components/questions-collection/create_question/questions-collection.create_question_dialog";
+
 
 @NgModule({
   declarations: [
@@ -91,6 +93,7 @@ import {ArchivedExamsComponent} from "./components/archived-exams/archived-exams
     ReactiveFormsModule,
     QuillModule.forRoot(),
     MatSnackBarModule,
+    MatTableModule,
   ],
   providers: [
     UserService,
