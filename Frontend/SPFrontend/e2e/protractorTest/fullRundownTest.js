@@ -4,13 +4,15 @@ describe('full rundown test', function(){
 
   browser.get('http://localhost:4200/login')
 
-  it('login test', async() => {
+  it('login test', function() {
 
-    await element(by.id('userNameInputField')).sendKeys('123456');
+    var a = element(by.id('userNameInputField')).sendKeys('123456');
 
-    await element(by.id('userPasswordInputField')).sendKeys('test');
+    var b =element(by.id('userPasswordInputField')).sendKeys('test');
 
-    await element(by.id('loginButton')).click().
+    var c = element(by.id('loginButton')).click();
+
+    /*await element(by.id('loginButton')).click().
       then(async() => {
 
        if (expect(await browser.getCurrentUrl()).toEqual("http://localhost:4200/home") == true){
@@ -20,11 +22,11 @@ describe('full rundown test', function(){
          console.log("Login failed");
        }
 
-      });
+      }); */
 
   });
 
-  it('create Module Test', async() => {
+  it('create Module Test', function(){
 
     var frage= element(by.id('addQuestionButton')).click();
 
@@ -56,7 +58,7 @@ describe('full rundown test', function(){
 
 
 
-  it('create question Test', async() => {
+  it('create question Test', function(){
 
     var addQuestion= element(by.id("matCardModuleTitle", "Mathe 5")).click();
 
@@ -83,7 +85,7 @@ describe('full rundown test', function(){
   });
 
 
-  it('create exam Test', async() => {
+  it('create exam Test', function(){
 
     var exam= element(by.id('createExamButtonNav')).click();
 
@@ -111,7 +113,7 @@ describe('full rundown test', function(){
 
   });
 
-  it('exam editor Test', async() => {
+  it('exam editor Test', function() {
 
     var selectExam= element(by.id('selectExamButton', 'Prog 1 PVL')).click();
 
