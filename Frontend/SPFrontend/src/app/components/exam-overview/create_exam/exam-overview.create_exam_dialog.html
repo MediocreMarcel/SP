@@ -3,7 +3,7 @@
   <mat-label>Exam Name</mat-label>
   <input id="examTitleInput" matInput type="text" [(ngModel)]="title">
 
-  <button id="moduleSelection" mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)=" title =''">
+  <button  mat-button *ngIf="title" matSuffix mat-icon-button aria-label="Clear" (click)=" title =''">
     <mat-icon>close</mat-icon>
   </button>
 </mat-form-field>
@@ -12,9 +12,9 @@
 
 <mat-form-field class="course-form-input">
   <mat-label>Modul</mat-label>
-  <mat-select [(ngModel)]="selectedModule">
+  <mat-select  id="moduleSelection" [(ngModel)]="selectedModule">
 
-    <mat-option *ngFor="let module of available_modules"
+    <mat-option  *ngFor="let module of available_modules"
                 value="{{JSON.stringify(module)}}">{{module.definition}}</mat-option>
 
   </mat-select>

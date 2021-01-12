@@ -11,12 +11,14 @@ exports.config = {
   allScriptsTimeout: 11000,
   specs: [
    // './src/**/*.e2e-spec.ts'
-    'H:\\SP-Project\\Frontend\\SPFrontend\\e2e\\protractorTest\\fullRundownTest.js'
+    './protractorTest/fullRundownTest.js'
   ],
+
+
   capabilities: {
-    browserName: 'chrome'
+    browserName: 'firefox'
   },
-  directConnect: true,
+  directConnect: false,
   baseUrl: 'http://localhost:4200/',
   framework: 'jasmine',
   jasmineNodeOpts: {
