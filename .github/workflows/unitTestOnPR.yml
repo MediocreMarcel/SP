@@ -60,9 +60,6 @@ jobs:
         run: webdriver-manager update
         working-directory: Frontend/SPFrontend
 
-      - name: 'start protractor webdriver'
-        run: webdriver-manager start
-        working-directory: Frontend/SPFrontend
 
       - name: 'run protractor'
         run: protractor protractor.conf.js
