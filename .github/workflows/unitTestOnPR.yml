@@ -52,25 +52,6 @@ jobs:
         run: npm install -g @angular/cli
         working-directory: Frontend/SPFrontend
 
-      - name: Install SeleniumBase
-        run: |
-          python setup.py install
-
-      - name: Install Chrome and Firefox
-        run: |
-          sudo apt install google-chrome-stable
-          sudo apt-get install firefox
-
-      - name: Check the console scripts interface
-        run: |
-          seleniumbase
-          sbase
-
-      - name: Install chromedriver and geckodriver (Firefox Webdriver)
-        run: |
-          seleniumbase install chromedriver
-          seleniumbase install geckodriver
-
       - name: 'Install protractor'
         run: npm install -g protractor
         working-directory: Frontend/SPFrontend
