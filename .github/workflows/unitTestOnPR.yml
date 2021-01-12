@@ -71,7 +71,7 @@ jobs:
 
 
       - name: 'update protractor webdriver'
-        run: webdriver-manager update --versions.chrome 2.22
+        run: webdriver-manager update --versions.chrome 74.0.3729.6
         working-directory: Frontend/SPFrontend
 
       - name: 'Install firefox addon'
