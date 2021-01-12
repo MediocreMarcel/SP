@@ -48,6 +48,9 @@ jobs:
         run: npm install
         working-directory: Frontend/SPFrontend
 
+      - name: 'install angular'
+        run: npm install -g @angular/cli
+        working-directory: Frontend/SPFrontend
 
 
       - name: 'Install protractor'
