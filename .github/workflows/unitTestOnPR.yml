@@ -52,13 +52,8 @@ jobs:
         run: npm install protractor-firefox-support --save
         working-directory: Frontend/SPFrontend
 
-      - name: 'Install protractor'
-        run: npm install -g protractor
-        working-directory: Frontend/SPFrontend
-
-      - name: 'update protractor webdriver'
-        run: webdriver-manager update
-        working-directory: Frontend/SPFrontend
+      - name: 'install protractor'
+        uses: actions/angular-github-actions
 
 
       - name: 'run protractor'
