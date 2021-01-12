@@ -60,15 +60,21 @@ jobs:
           which firefox
           firefox --version
 
+
+
       - name: 'Install protractor'
         run: npm install -g protractor
         working-directory: Frontend/SPFrontend
+
+      - name: 'setup-chromedriver'
+        uses: nanasess/setup-chromedriver@v1.0.1
+
 
       - name: 'update protractor webdriver'
         run: webdriver-manager update
         working-directory: Frontend/SPFrontend
 
-      - name: 'Intsall firefox addon'
+      - name: 'Install firefox addon'
         run: npm install protractor-firefox-support --save
         working-directory: Frontend/SPFrontend
 
