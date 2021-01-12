@@ -59,8 +59,8 @@ jobs:
 
       - name: Install chromedriver and geckodriver (Firefox Webdriver)
         run: |
-        seleniumbase install chromedriver
-        seleniumbase install geckodriver
+          seleniumbase install chromedriver
+          seleniumbase install geckodriver
 
       - name: 'Install protractor'
         run: npm install -g protractor
