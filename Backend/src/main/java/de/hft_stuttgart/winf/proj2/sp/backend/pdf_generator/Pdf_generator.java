@@ -3,87 +3,129 @@ package de.hft_stuttgart.winf.proj2.sp.backend.pdf_generator;
 
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.canvas.draw.SolidLine;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.element.*;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.VerticalAlignment;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.ExamDto;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.ExamQuestionDTO;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.QuestionsDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
 public class Pdf_generator {
     private static final Logger logger = LogManager.getLogger(Pdf_generator.class);
 
-    // HTML DUMMY
-    final static String questionText = "<!doctype html>\n" +
-            "<html>\n" +
-            "  <head>\n" +
-            "    <meta charset=\"utf-8\">\n" +
-            "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
-            "    <title>Beschreibung der Seite (erscheint in der Titelzeile des Browsers)</title>\n" +
-            "  </head>\n" +
-            "  <body>\n" +
-            "    <p>Dieser Text wird im Browserfenster angezeigt.</p>\n" +
-            "  </body>\n" +
-            "</html>\n";
-    final static String questionText2 = "<!DOCTYPE html>\n" +
-            "<html>\n" +
-            "<body>\n" +
-            "\n" +
-            "<h1>The autocomplete attribute</h1>\n" +
-            "\n" +
-            "<p>The autocomplete attribute specifies whether or not an input field should have autocomplete enabled.</p>\n" +
-            "\n" +
-            "<p>Fill in and submit the form, then reload the page to see how autocomplete works.</p>\n" +
-            "\n" +
-            "<p>Notice that autocomplete is \"on\" for the form, but \"off\" for the e-mail field!</p>\n" +
-            "\n" +
-            "<form action=\"/action_page.php\" autocomplete=\"on\">\n" +
-            "  <label for=\"fname\">First name:</label>\n" +
-            "  <input type=\"text\" id=\"fname\" name=\"fname\"><br><br>\n" +
-            "  <label for=\"lname\">Last name:</label>\n" +
-            "  <input type=\"text\" id=\"lname\" name=\"lname\"><br><br>\n" +
-            "  <label for=\"email\">Email:</label>\n" +
-            "  <input type=\"email\" id=\"email\" name=\"email\" autocomplete=\"off\"><br><br>\n" +
-            "  <input type=\"submit\" value=\"Submit\">\n" +
-            "</form>\n" +
-            "\n" +
-            "</body>\n" +
-            "</html>";
-
+    private static SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
     // Prints Exam with list of Questions
-    public static void writeExam(ExamDto exam, List<QuestionsDto> questions) throws IOException, SQLException {
+    public static void writeExam(ExamDto exam, List<ExamQuestionDTO> questions) throws IOException, SQLException {
         //Dokument vorbereiten
         final String filename = "PDF/Exam_" + exam.getExam_id() + "_" + exam.getTitle() + ".pdf ";
         final PdfWriter pdfWriter = new PdfWriter(filename);
         final PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+        PageSize ps = pdfDocument.getDefaultPageSize();
+
+        //PLatzhalter design
+        Paragraph placeholder = new Paragraph("\n");
+
+        LineSeparator separator = new LineSeparator(new SolidLine(1)).setMarginTop(5);
+
 
         //Bild HFT Logo vorbereiten
         final String imageFile = "Backend/src/main/java/de/hft_stuttgart/winf/proj2/sp/backend/pdf_generator/HFTLogo.jpg";
         final Image hftLogo = new Image(ImageDataFactory.create(imageFile));
-        hftLogo.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        hftLogo.setHorizontalAlignment(HorizontalAlignment.RIGHT);
+
+        Paragraph titleName = new Paragraph();
+        Text titleNameText = new Text("HOCHSCHULE FÜR TECHNIK STUTTGART");
+        titleNameText.setFontSize(14);
+        titleNameText.setBold();
+        titleName.add(titleNameText);
+        titleName.setHorizontalAlignment(HorizontalAlignment.LEFT);
+
+        Table title = new Table(2);
+        Cell titleNameCell= new Cell(1,1).add(titleName);
+        Cell titleImageCell= new Cell(1,3).add(hftLogo);
+        titleNameCell.setBorder(Border.NO_BORDER);
+        titleNameCell.setVerticalAlignment(VerticalAlignment.MIDDLE);
+        titleImageCell.setWidth(220);
+        titleImageCell.setBorder(Border.NO_BORDER);
+        title.addCell(titleNameCell);
+        title.addCell(titleImageCell);
 
 
         //Header vorbereiten
         Paragraph p_header1 = new Paragraph();
-        Text headerText1 = new Text(exam.getModule().getCourse() + ": "+exam.getTitle());
-        //Paragraph header = new Paragraph(DbModule.getModule(exam.getExam_id())+": "+exam.getTitle());
+        Text headerText1 = new Text(exam.getModule().getCourse().getCourseName() + ": \n"+exam.getTitle());
         headerText1.setFontSize(32);
         p_header1.add(headerText1);
         p_header1.setTextAlignment(TextAlignment.CENTER);
 
-        Paragraph p_header2 = new Paragraph();
-        Text headerText2 = new Text("\nDatum: " + exam.getExam_date() + "\nName:              \nMtr. Nr:                     Semester: ");
-        headerText2.setFontSize(24);
-        p_header2.add(headerText2);
+        Paragraph pDate = new Paragraph("Datum:  " + format.format(exam.getExam_date()));
+        Paragraph pName = new Paragraph("Name:");
+        Paragraph pMtr = new Paragraph("Mtr. Nr.:");
+        Paragraph pSemester = new Paragraph("Semester:");
+        Paragraph pPruefer = new Paragraph("Prüfer:");
+        Paragraph pPlaceholder = new Paragraph(" ");
+
+        pDate.setFontSize(14);
+        pName.setFontSize(14);
+        pMtr.setFontSize(14);
+        pSemester.setFontSize(14);
+        pPruefer.setFontSize(14);
+
+        Table studentInput = new Table(2);
+        Cell date = new Cell(1,2).add(pDate);
+        Cell name = new Cell(1,1).add(pName);
+        Cell semester = new Cell(1,2).add(pSemester);
+        Cell mtr = new Cell(2,1).add(pMtr);
+        Cell pruefer = new Cell(1,2).add(pPruefer);
+        name.setWidth(265);
+        studentInput.addCell(date);
+        studentInput.addCell(name);
+        studentInput.addCell(semester);
+        studentInput.addCell(mtr);
+        studentInput.addCell(pruefer);
+        date.setBorder(Border.NO_BORDER);
+        name.setBorder(Border.NO_BORDER);
+        semester.setBorder(Border.NO_BORDER);
+        mtr.setBorder(Border.NO_BORDER);
+        pruefer.setBorder(Border.NO_BORDER);
+
+        Paragraph pMaxPoints = new Paragraph("maximale Punkte:");
+        Paragraph pReachedPoints = new Paragraph("erreichte Punkte:");
+        Paragraph pNumberOfQuestions = new Paragraph("Anzahl Fragen:");
+        Paragraph pMark = new Paragraph("max. Punkte:");
+
+        Table profInput = new Table(2);
+        Cell maxPoints = new Cell(1,1).add(pMaxPoints);
+        Cell numberOfQuestions = new Cell(1,2).add(pNumberOfQuestions);
+        Cell reachedPoints = new Cell(2,1).add(pReachedPoints);
+        Cell mark = new Cell(2,2).add(pMark);
+
+        maxPoints.setWidth(265);
+        profInput.addCell(maxPoints);
+        profInput.addCell(numberOfQuestions);
+        profInput.addCell(reachedPoints);
+        profInput.addCell(mark);
+
+        maxPoints.setBorder(Border.NO_BORDER);
+        numberOfQuestions.setBorder(Border.NO_BORDER);
+        reachedPoints.setBorder(Border.NO_BORDER);
+        mark.setBorder(Border.NO_BORDER);
+
 
         //Bottom vorbereiten
         Paragraph bottom = new Paragraph();
@@ -92,9 +134,6 @@ public class Pdf_generator {
         bottom.add(bot1);
         bottom.setTextAlignment(TextAlignment.CENTER);
 
-        //PLatzhalter design
-        Paragraph platz = new Paragraph("\n");
-
 
         //Dokument erstellen
         try (final Document document = new Document(pdfDocument)) {
@@ -102,26 +141,25 @@ public class Pdf_generator {
 
 
             //hftLogo + Header   print
-            document.add(hftLogo);
-            document.add(platz);
+            document.add(title);
+            document.add(separator);
+            document.add(placeholder);
             document.add(p_header1);
-            document.add(p_header2);
+            document.add(separator);
+            document.add(placeholder);
+            document.add(studentInput);
+            document.add(placeholder);
+            document.add(separator);
+            document.add(placeholder);
+            document.add(profInput);
+            System.out.println(ps.getWidth());
             logger.info("Exam " + exam.getExam_id() + ": Header printed");
-            document.add(platz);
-
-
-            // Questions  dummy
-     /*       List<QuestionsDto> questions = new ArrayList<>();
-            questions.add(new QuestionsDto(11, "QuestionName", "ShortName", "questionText", 8.5f, 1, "Category"));
-            questions.add(new QuestionsDto(12, "QuestionName2", "ShortName2", "questionText2", 8.5f, 2, "Category2"));
-            questions.get(0).setQuestionText(questionText);
-            questions.get(1).setQuestionText(questionText2);*/
-
-            //Statt Questionsdummy finaL VERWENDEN !!!!
+            document.add(placeholder);
 
             System.out.println(questions);
             //Questions print
             for (QuestionsDto question : questions) {
+                document.add(new AreaBreak());
                 //Header
                 Text questionHeader1 = new Text(question.getShortName() + " - " + question.getQuestionName());
                 Text questionHeader2 = new Text("\n" + question.getCategory());
@@ -146,11 +184,11 @@ public class Pdf_generator {
                 questionBottom.add(questionBottom1);
                 document.add(questionBottom);
                 logger.info("Exam " + exam.getExam_id() + ": Question " + question.getQuestionId() + ": printed");
-                document.add(platz);
             }
             logger.info("Exam " + exam.getExam_id() + ": All Questions printed");
 
             // Bottom  print  (EXAM)
+            bottom.setFixedPosition(document.getLeftMargin(), document.getBottomMargin(), ps.getWidth() - document.getLeftMargin() - document.getRightMargin());
             document.add(bottom);
             logger.info("Exam " + exam.getExam_id() + ": Bottom printed");
 
@@ -159,7 +197,6 @@ public class Pdf_generator {
         }
         logger.info("Exam " + exam.getExam_id() + ": printed sucessfully");
     }
-
 
 }
 

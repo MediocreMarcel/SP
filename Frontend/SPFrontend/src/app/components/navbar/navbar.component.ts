@@ -60,7 +60,7 @@ export class NavbarComponent implements OnInit {
   }
 
   archiveExam(): void {
-    this.router.navigate(['/test']);
+    this.router.navigate(['/archived-exams']);
   }
 
   createQuestions(): void {

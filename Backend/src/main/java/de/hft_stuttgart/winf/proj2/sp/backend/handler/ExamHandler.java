@@ -21,7 +21,7 @@ public class ExamHandler {
     private static Logger logger = LogManager.getLogger(ExamHandler.class);
 
     /**
-     * Endpoint to get all modules a user has Access to
+     * Endpoint to get all exams a user has Access to
      *
      * @param user user for whom the search should be performed for. Passed as JSON in the request.
      * @return List of exams. Returned in the endpoint as JSON with an array. If something goes wrong null will be returned
@@ -42,7 +42,7 @@ public class ExamHandler {
     }
 
     /**
-     * Endpoint to create a Module for a user
+     * Endpoint to create a exam for a user
      *
      * @param exam exam that should be crated. JSON must match CrateExamDto.
      * @return HTTP Status if insert was successful (200 OK) or did fail (409 Conflict)
@@ -63,6 +63,28 @@ public class ExamHandler {
         }
         return Response.ok().build();
     }
+
+    /**
+     * Endpoint to get all exams a user has Access to
+     *
+     * @param user user for whom the search should be performed for. Passed as JSON in the request.
+     * @return List of exams. Returned in the endpoint as JSON with an array. If something goes wrong null will be returned
+     */
+    @Path("getExamsfromArchiv")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<ExamDto> getExamsfromArchivbyUser(UserDto user) {
+        try {
+            DbExam dbAccess = new DbExam();
+            return dbAccess.getExamsforArchiv(user);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.logger.error(e);
+        }
+        return null;
+    }
+
 
     /**
      * Endpoint to save a Exam and the questions it contains
@@ -106,4 +128,5 @@ public class ExamHandler {
         }
         return Response.ok().build();
     }
+
 }
