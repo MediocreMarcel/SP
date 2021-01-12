@@ -52,6 +52,18 @@ jobs:
         run: npm install protractor-firefox-support --save
         working-directory: Frontend/SPFrontend
 
+      - name: 'Install protractor'
+        run: npm install -g protractor
+        working-directory: Frontend/SPFrontend
+
+      - name: 'update protractor webdriver'
+        run: webdriver-manager update
+        working-directory: Frontend/SPFrontend
+
+      - name: 'start protractor webdriver'
+        run: webdriver-manager start
+        working-directory: Frontend/SPFrontend
+
       - name: 'run protractor'
         run: protractor protractor.conf.js
         working-directory: Frontend/SPFrontend/e2e/
