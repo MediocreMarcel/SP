@@ -68,15 +68,16 @@
   <div style="margin-top: 0.3%;">
     <mat-form-field class="evaluationInput">
       <mat-label>Bewertungskriterium</mat-label>
-      <input matInput #evalCriteria>
+      <input
+        id="criteriaInput" matInput #evalCriteria>
     </mat-form-field>
 
     <mat-form-field class="evaluationInput" style="padding-right: 2%">
       <mat-label>Punkte</mat-label>
-      <input type="number" min="1" matInput #evalCriteriaPoints>
+      <input id="pointsInput" type="number" min="1" matInput #evalCriteriaPoints>
     </mat-form-field>
 
-    <button mat-mini-fab (click)="addEvaluationCriteria(evalCriteria.value, evalCriteriaPoints.valueAsNumber)"
+    <button id="addEvaluationCriteriaButton" mat-mini-fab (click)="addEvaluationCriteria(evalCriteria.value, evalCriteriaPoints.valueAsNumber)"
             style="background-color: #3f51b5">
       <mat-icon>add_circle</mat-icon>
     </button>

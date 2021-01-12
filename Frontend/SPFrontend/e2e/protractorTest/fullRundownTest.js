@@ -2,29 +2,29 @@ describe('full rundown test', function(){
 
   browser.get('http://localhost:4200/login')
 
-  it('login test', function(){
+  it('login test', async() => {
 
-    var user = element(by.id('userNameInputField')).sendKeys('123456');
-    user.then(console.log("UserName input works"));
+    await element(by.id('userNameInputField')).sendKeys('123456');
 
+    await element(by.id('userPasswordInputField')).sendKeys('test');
 
-    var password = element(by.id('userPasswordInputField')).sendKeys('test');
+    await element(by.id('loginButton')).click().
+      then(async() => {
 
-    var login= element(by.id('loginButton')).click();
+       if (expect(await browser.getCurrentUrl()).toEqual("http://localhost:4200/home") == true){
+         console.log("Login works");
+       }
+       else {
+         console.log("Login failed");
+       }
 
-    browser.sleep(1000);
-    /*
-    var button2= element(by.id('button2')).getText();
-     button2.then(console.log)
-     expect(button2.getText()).toEqual('Klausur korrigieren');
-     */
+      });
 
   });
 
-  it('create Module Test', function(){
+  it('create Module Test', async() => {
 
     var frage= element(by.id('addQuestionButton')).click();
-
 
     browser.sleep(1000);
 
@@ -54,7 +54,7 @@ describe('full rundown test', function(){
 
 
 
-  it('create question Test', function(){
+  it('create question Test', async() => {
 
     var addQuestion= element(by.id("matCardModuleTitle", "Mathe 5")).click();
 
@@ -64,11 +64,15 @@ describe('full rundown test', function(){
 
     var questionNameShort= element(by.id('questionNameShortInput')).sendKeys('TesQuest');
 
-    var questionPoint= element(by.id('questionPointInput')).sendKeys('10');
-
     var questionCategory= element(by.id('questionCategoryInput')).sendKeys('Matrizen');
 
     var questionText= element(by.className('ql-editor ql-blank')).sendKeys('Lorem Ipsum Lorem Ipsum');
+
+    var questionPoint= element(by.id('criteriaInput')).sendKeys('Criteria Test');
+
+    var questionPoint= element(by.id('pointsInput')).sendKeys('10');
+
+    var createQuestion = element(by.id('addEvaluationCriteriaButton')).click();
 
     var writeQuestion = element(by.id('writeQuestionButton')).click();
 
@@ -77,38 +81,53 @@ describe('full rundown test', function(){
   });
 
 
-  it('create exam Test', function(){
+  it('create exam Test', async() => {
 
     var exam= element(by.id('createExamButtonNav')).click();
 
-
-    var exam= element(by.id('addExamButton')).click();
-    exam.then(console.log("Button addQuestion works"));
+    var exam= element(by.id('examEditorButton')).click();
 
     browser.sleep(1000);
 
-    var examEditor= element(by.id('examEditorButton')).click();
-    examEditor.then(console.log("Button addQuestion works"));
-
     var examTitle = element(by.id('examTitleInput')).sendKeys('WS2021 Mathe2');
-    examTitle.then(console.log("UserName input works"));
 
-    var examCourse= element(by.id('moduleSelection')).$('[value="Mathe2"]').click();
-    examCourse.then(console.log("Button addQuestion works"));
+    var selectExamModule= element(by.id("moduleSelection")).click();
+
+    var selectExamModule2= element(by.cssContainingText(".mat-option-text", "Mathe 5")).click();
 
     var examPoints = element(by.id('examPointsInput')).sendKeys('100');
-    examPoints.then(console.log("UserName input works"));
 
-    var examDate = element(by.id('examPointsInput')).sendKeys('15.1.2022');
-    examDate.then(console.log("UserName input works"));
+    var examDate = element(by.id('examDateInput')).sendKeys('11.1.2022');
+
+    browser.sleep(1000);
 
     var examExamEditor= element(by.id('createExamEditorButton')).click();
-    examExamEditor.then(console.log("Button addQuestion works"));
 
     browser.sleep(1000);
 
 
 
   });
+
+  it('exam editor Test', async() => {
+
+    var selectExam= element(by.id('selectExamButton', 'Prog 1 PVL')).click();
+
+    var dragQuestion = element(by.id('editorQuestionDrag',  'Sortierverfahren Benennen'));
+
+    var dropQuestion = element(by.id('questionDropList'));
+
+    browser.sleep(2000);
+
+    browser.actions().mouseDown(dragQuestion.getWebElement()).mouseMove(dropQuestion.getWebElement()).mouseUp().perform();
+
+
+
+    browser.sleep(2000);
+
+
+
+  });
+
 
 });
