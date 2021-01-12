@@ -1,8 +1,6 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.handler;
 
-import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbQuestions;
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.ExamDto;
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.QuestionsDto;
+
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.SaveExamAndQuestionsDTO;
 import de.hft_stuttgart.winf.proj2.sp.backend.pdf_generator.Pdf_generator;
 import org.apache.logging.log4j.LogManager;
@@ -14,23 +12,19 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
+import java.io.FileNotFoundException;
 
 @Path("generatePdf")
 public class PdfHandler {
     private static final Logger logger = LogManager.getLogger(QuestionsHandler.class);
 
-    //KOmmentar bearbeiten
 
     /**
-     * Endpoint to get all modules a user has Access to
+     * Ues the Pdf_generator.printExam() - Method to print an exam with a cover sheet and a page for every question
      *
-     * @param user user for whom the search should be performed for. Passed as JSON in the request.
-     * @return List of modules. Returned in the endpoint as JSON with an array. If something goes wrong null will be returned
+     * @param exam SaveExamAndQuestionsDTO: Needs object to search
+     * @return No return apart from Response
      */
-
 
     @Path("generatePdfByExamId")
     @POST
@@ -45,7 +39,7 @@ public class PdfHandler {
             } else {
                 return Response.status(Response.Status.NOT_FOUND).build();
             }
-        } catch (SQLException | IOException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
             logger.error(e);
         }
