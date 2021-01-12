@@ -52,26 +52,23 @@ jobs:
         run: npm install -g @angular/cli
         working-directory: Frontend/SPFrontend
 
-      - name: geckodriver/firefox
+      - name: Install Chrome and Firefox
         run: |
-          echo "geckodriver/firefox"
-          which geckodriver
-          geckodriver --version
-          which firefox
-          firefox --version
+        sudo apt install google-chrome-stable
+        sudo apt-get install firefox
 
-
+      - name: Install chromedriver and geckodriver (Firefox Webdriver)
+        run: |
+        seleniumbase install chromedriver
+        seleniumbase install geckodriver
 
       - name: 'Install protractor'
         run: npm install -g protractor
         working-directory: Frontend/SPFrontend
 
-      - name: 'setup-chromedriver'
-        uses: nanasess/setup-chromedriver@v1.0.1
-
 
       - name: 'update protractor webdriver'
-        run: webdriver-manager update --versions.chrome 74.0
+        run: webdriver-manager update
         working-directory: Frontend/SPFrontend
 
       - name: 'Install firefox addon'
