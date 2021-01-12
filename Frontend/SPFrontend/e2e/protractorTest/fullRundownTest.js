@@ -1,5 +1,7 @@
 describe('full rundown test', function(){
 
+  browser.waitForAngularEnabled(false)
+
   browser.get('http://localhost:4200/login')
 
   it('login test', async() => {
