@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 /**
- * This Class is for defining the User and correlating the correct DB-field to it
+ * This Class is for defining the students to import students via the LSF-Excel file
  */
 @AllArgsConstructor
 @Getter
