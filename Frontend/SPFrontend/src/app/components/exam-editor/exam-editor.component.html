@@ -47,8 +47,8 @@
 
       <mat-grid-tile>
         <!-- Buttons Vorschau + Speichern + Verwerfen: Pop-ups für Speichern + Verwerfen?! -->
-        <button mat-raised-button class="infoHeaderButton">Vorschau</button>
         <button mat-raised-button class="infoHeaderButton" (click)="saveExam()">Speichern</button>
+        <button mat-raised-button class="infoHeaderButton" color="primary" (click)="startExam()">Prüfung starten</button>
         <button mat-raised-button class="infoHeaderButton" color="warn" (click)="deleteExam()">Verwerfen</button>
       </mat-grid-tile>
     </mat-grid-list>
