@@ -1,5 +1,17 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.handler;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.io.InputStream;
+
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.StudentDTO;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -8,10 +20,21 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-
-
+@Path("lsf")
 public class LsfHandler {
-    
+
+    private static Logger logger = LogManager.getLogger(LsfHandler.class);
+
+    @Path("student_import")
+    @POST
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response createNewExam(@FormDataParam("file") InputStream uploadedInputStream,
+                                  @FormDataParam("file") FormDataContentDisposition fileDetail) {
+
+        return Response.ok().build();
+    }
+
+
     /**This  method recieves a Fileinput Stream to traverse an excel File to get the "Matrikelnummer" and "Studiengang" out of it.
     The method traverses each row until the first cell of a row has the value "mtknr".
     After that for each consecutive row the "Matrikelnummer"(mtknr) and "Studiengang"(stg) are stored in respective ArrayList.

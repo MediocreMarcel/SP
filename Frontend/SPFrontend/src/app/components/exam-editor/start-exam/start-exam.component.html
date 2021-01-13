@@ -1,0 +1,11 @@
+<h2 style="text-align: center">Exam starten</h2>
+<h3 *ngIf="questionPoints!=exam.totalPoints" style="text-align: center">Warnung! Die Punkte der Klausur entspricht nicht der Summe der Punkte für Fragen.</h3>
+<h4 *ngIf="questionPoints!=exam.totalPoints" style="text-align: center">Die Punkte für die Klausur wird auf {{questionPoints}} gesetzt.</h4>
+<br><br>
+<h3>LSF-Import</h3>
+<ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="droppedFile($event)">
+  <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+    Optional custom content that replaces the the entire default content.
+    <button type="button" (click)="openFileSelector()">Browse Files</button>
+  </ng-template>
+</ngx-file-drop>
