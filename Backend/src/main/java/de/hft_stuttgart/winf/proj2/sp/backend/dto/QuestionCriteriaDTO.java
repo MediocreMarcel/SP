@@ -12,10 +12,12 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class QuestionCriteriaDTO {
 
+    @Column("criteria_id")
+    private Integer criteriaId;
     @Column("criteria_text")
     private String criteria;
     @Column("possible_points")
-    private int points;
+    private Integer points;
 
     public QuestionCriteriaDTO() {
     }

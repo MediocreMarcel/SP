@@ -96,6 +96,7 @@ public class DbQuestions extends DbConnector {
             }
         }
         conn.commit();
+        conn.setAutoCommit(true);
         return true;
 
     }

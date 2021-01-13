@@ -17,7 +17,7 @@
         <mat-grid-tile>
           <mat-form-field class="infoHeaderInput">
             <mat-label>Modul</mat-label>
-            <input matInput type="number" min="0" class="blackInput" [disabled]="true"
+            <input matInput type="text" class="blackInput" [disabled]="true"
                    [ngModel]="exam.module.definition">
           </mat-form-field>
         </mat-grid-tile>
@@ -25,28 +25,28 @@
         <mat-grid-tile>
           <mat-form-field class="infoHeaderInput">
             <mat-label>Aufgabe</mat-label>
-            <input matInput type="number" min="0" class="blackInput" [disabled]="true" [ngModel]="0">
+            <input matInput type="number" min="0" class="blackInput" [disabled]="true" [ngModel]="currentQuestionIndex + 1">
           </mat-form-field>
         </mat-grid-tile>
 
         <mat-grid-tile>
           <mat-form-field class="infoHeaderInput">
             <mat-label>Studiengang des Studenten</mat-label>
-            <input matInput type="number" min="0" class="blackInput" [disabled]="true" [ngModel]="123">
+            <input matInput type="text" class="blackInput" [disabled]="true" [ngModel]="exam.module.course.courseName">
           </mat-form-field>
         </mat-grid-tile>
 
         <mat-grid-tile>
           <mat-form-field class="infoHeaderInput">
-            <mat-label>Semester des Studenten</mat-label>
-            <input matInput type="number" min="0" class="blackInput" [disabled]="true" [ngModel]="6">
+            <mat-label>Matrikelnummer</mat-label>
+            <input matInput type="number" min="0" class="blackInput" [disabled]="true" [ngModel]="students[currentStudentIndex]">
           </mat-form-field>
         </mat-grid-tile>
 
         <mat-grid-tile>
           <mat-form-field class="infoHeaderInput">
             <mat-label>Gesamtpunktzahl des Studenten</mat-label>
-            <input matInput type="text" class="blackInput" [disabled]="true" [ngModel]="'1 von 123'">
+            <input matInput type="text" class="blackInput" [disabled]="true" [ngModel]="getSumOfPointsFromStudent()">
           </mat-form-field>
         </mat-grid-tile>
 
@@ -55,7 +55,7 @@
             <p class="bar-header">Korrekturfortschritt</p>
 
             <!-- Progress Bar soll prozentuele Abhänigkeit zu Gesamtpunkte darstellen -- currentPercentage = (currentPoints/maxPoints)*100-->
-            <mat-progress-bar mode="determinate" value="10"></mat-progress-bar>
+            <mat-progress-bar mode="determinate" value="{{getCorrectionProgress()}}"></mat-progress-bar>
           </div>
 
         </mat-grid-tile>
@@ -66,7 +66,7 @@
       <mat-card style="width:70%">
         <mat-grid-list cols="3">
           <mat-grid-tile colspan="2">
-            <table mat-table [dataSource]="currentEvaluationCriteria" matSort class="mat-elevation-z8"
+            <table mat-table [dataSource]="currentQuestion.evaluationCriterias" matSort class="mat-elevation-z8"
                    style="width: 100%; height: 90%;">
 
               <!-- Position Column -->
@@ -125,26 +125,26 @@
         <mat-card class="content-card" style="width: auto">
           <mat-form-field class="infoHeaderInput">
             <mat-label>Aufgabe</mat-label>
-            <mat-select>
-              <mat-option>
-
+            <mat-select [(value)]="jumpToQuestionId">
+              <mat-option *ngFor="let question of questions; let i = index" [value]="i">
+                Aufgabe {{i+1}}: {{question.shortName}}
               </mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field class="infoHeaderInput">
             <mat-label>Student</mat-label>
-            <mat-select>
-              <mat-option>
-
+            <mat-select [(value)]="jumpToUser">
+              <mat-option *ngFor="let student of students; let i = index" [value]="i">
+                {{student}}
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <button mat-raised-button style="width: 96%">Springen</button>
+          <button mat-raised-button style="width: 96%" (click)="jumpTo()">Springen</button>
         </mat-card>
 
         <mat-card class="content-card" style="width: auto; margin-top: 1%">
-          <button mat-raised-button class="controlButtons" style="width: 96%">Vorheriger Prüfling</button>
-          <button mat-raised-button class="controlButtons" style="width: 96%">Nächster Prüfling</button>
+          <button mat-raised-button class="controlButtons" style="width: 96%" (click)="nextStudent()">Nächster Prüfling</button>
+          <button mat-raised-button class="controlButtons" style="width: 96%" (click)="previousStudent()">Vorheriger Prüfling</button>
           <button mat-raised-button class="controlButtons" style="width: 96%">Korrektur pausieren</button>
         </mat-card>
       </mat-card>
