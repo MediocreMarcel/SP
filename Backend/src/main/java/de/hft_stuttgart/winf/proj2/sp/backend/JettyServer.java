@@ -1,6 +1,8 @@
 package de.hft_stuttgart.winf.proj2.sp.backend;
 
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbConnector;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -13,9 +15,6 @@ import javax.servlet.DispatcherType;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 
 
@@ -34,6 +33,8 @@ public class JettyServer {
      * @param args The starting parameters should be the the following values: ip_of_db user_of_db user_password_of_db
      */
     public static void main(String[] args) {
+
+
 
         Server server = new Server(8080);
 
