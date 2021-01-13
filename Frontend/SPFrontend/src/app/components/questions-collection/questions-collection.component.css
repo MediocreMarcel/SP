@@ -9,7 +9,7 @@
 }
 
 /* Clear floats after the columns */
-.row:after {
+.row-hoizontal:after {
   content: "";
   display: grid;
   clear: both;

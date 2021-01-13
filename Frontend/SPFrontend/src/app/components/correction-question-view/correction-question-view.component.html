@@ -1,0 +1,153 @@
+<app-navbar></app-navbar>
+<mat-card>
+  <mat-card-header>
+    <h1>Klausur korrigieren: Aufgabenansicht</h1>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-card>
+      <mat-grid-list cols="3" rowHeight="11:1">
+
+        <mat-grid-tile>
+          <mat-form-field class="infoHeaderInput">
+            <mat-label>Klausur</mat-label>
+            <input matInput type="text" class="blackInput" [disabled]="true" [ngModel]="exam.title">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field class="infoHeaderInput">
+            <mat-label>Modul</mat-label>
+            <input matInput type="number" min="0" class="blackInput" [disabled]="true"
+                   [ngModel]="exam.module.definition">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field class="infoHeaderInput">
+            <mat-label>Aufgabe</mat-label>
+            <input matInput type="number" min="0" class="blackInput" [disabled]="true" [ngModel]="0">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field class="infoHeaderInput">
+            <mat-label>Studiengang des Studenten</mat-label>
+            <input matInput type="number" min="0" class="blackInput" [disabled]="true" [ngModel]="123">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field class="infoHeaderInput">
+            <mat-label>Semester des Studenten</mat-label>
+            <input matInput type="number" min="0" class="blackInput" [disabled]="true" [ngModel]="6">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field class="infoHeaderInput">
+            <mat-label>Gesamtpunktzahl des Studenten</mat-label>
+            <input matInput type="text" class="blackInput" [disabled]="true" [ngModel]="'1 von 123'">
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="3">
+          <div style="padding: 0 1% 0 1%; width: 100%">
+            <p class="bar-header">Korrekturfortschritt</p>
+
+            <!-- Progress Bar soll prozentuele Abhänigkeit zu Gesamtpunkte darstellen -- currentPercentage = (currentPoints/maxPoints)*100-->
+            <mat-progress-bar mode="determinate" value="10"></mat-progress-bar>
+          </div>
+
+        </mat-grid-tile>
+
+      </mat-grid-list>
+    </mat-card>
+    <mat-card class="content-card row-hoizontal" style="margin-top: 1%">
+      <mat-card style="width:70%">
+        <mat-grid-list cols="3">
+          <mat-grid-tile colspan="2">
+            <table mat-table [dataSource]="currentEvaluationCriteria" matSort class="mat-elevation-z8"
+                   style="width: 100%; height: 90%;">
+
+              <!-- Position Column -->
+              <ng-container matColumnDef="RatingCriteria">
+                <th mat-header-cell *matHeaderCellDef> Bewertungskriterium</th>
+                <td mat-cell *matCellDef="let element"> {{element.criteria}} </td>
+                <td mat-footer-cell *matFooterCellDef><b>Gesammtpunktzahl</b></td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="MaxPoints">
+                <th mat-header-cell *matHeaderCellDef> Erreichbare Punkte</th>
+                <td mat-cell *matCellDef="let element">{{element.points}}</td>
+                <td mat-footer-cell *matFooterCellDef></td>
+              </ng-container>
+
+              <!-- Weight Column -->
+              <ng-container matColumnDef="scoredPoints">
+                <th mat-header-cell *matHeaderCellDef> Erreichte Punkte</th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                  <input matInput type="number" min="0" max="{{element.points}}" class="blackInput" style="width: 20%"
+                         [ngModel]="currentCorrection[i].reachedPoints"
+                         (ngModelChange)="currentCorrection[i].reachedPoints=$event">
+                </td>
+                <td mat-footer-cell *matFooterCellDef><b>{{totalPointsEval()}}</b></td>
+              </ng-container>
+
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="fullPointsCheckpoints">
+                <th mat-header-cell *matHeaderCellDef> Volle Punktzahl?</th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                  <mat-checkbox class="example-margin"
+                                [(ngModel)]="currentQuestion.evaluationCriterias[i].points == currentCorrection[i].reachedPoints"
+                                (change)="fullPoints(i, $event.checked)"></mat-checkbox>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="tableHeader"></tr>
+              <tr mat-row *matRowDef="let row; columns: tableHeader;"></tr>
+              <tr mat-footer-row *matFooterRowDef="tableFooter"></tr>
+            </table>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-card class="content-card" style="width: 90%; height: 82%;">
+              <mat-form-field style="width: 100%">
+                <mat-label>Kommentare</mat-label>
+                <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="20"
+                          placeholder="Hier ist platz für Bemerkungen"></textarea>
+              </mat-form-field>
+            </mat-card>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </mat-card>
+
+      <mat-card class="selectorCard vertical-full">
+        <mat-card class="content-card" style="width: auto">
+          <mat-form-field class="infoHeaderInput">
+            <mat-label>Aufgabe</mat-label>
+            <mat-select>
+              <mat-option>
+
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="infoHeaderInput">
+            <mat-label>Student</mat-label>
+            <mat-select>
+              <mat-option>
+
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-raised-button style="width: 96%">Springen</button>
+        </mat-card>
+
+        <mat-card class="content-card" style="width: auto; margin-top: 1%">
+          <button mat-raised-button class="controlButtons" style="width: 96%">Vorheriger Prüfling</button>
+          <button mat-raised-button class="controlButtons" style="width: 96%">Nächster Prüfling</button>
+          <button mat-raised-button class="controlButtons" style="width: 96%">Korrektur pausieren</button>
+        </mat-card>
+      </mat-card>
+    </mat-card>
+  </mat-card-content>
+</mat-card>

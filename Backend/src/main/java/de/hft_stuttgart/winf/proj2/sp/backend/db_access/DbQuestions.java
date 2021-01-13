@@ -31,7 +31,7 @@ public class DbQuestions extends DbConnector {
      */
     public List<QuestionsDto> getQuestions(ModuleDto module) throws SQLException {
 
-        if(module == null || module.getModule_id() == null){
+        if (module == null || module.getModule_id() == null) {
             return null;
         }
 
@@ -56,7 +56,7 @@ public class DbQuestions extends DbConnector {
      * @return boolean showing if the insertion was completed
      * @throws SQLException thrown if server is unavailable or some problem with the server accrues
      */
-    public boolean createNewQuestion(CreateQuestionDTO question) throws SQLException {
+    public boolean createNewQuestion(QuestionWithEvaluationCriteriasDTO question) throws SQLException {
         conn.setAutoCommit(false);
 
         PreparedStatement insertQuestion = conn.prepareStatement("INSERT INTO questions (name, question_text, default_points, short_name, module_id, category) VALUES (?,?,?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
@@ -69,7 +69,7 @@ public class DbQuestions extends DbConnector {
         insertQuestion.setInt(5, question.getModule_ID());
         insertQuestion.setString(6, question.getCategory());
 
-        if(insertQuestion.executeUpdate() <= 0){
+        if (insertQuestion.executeUpdate() <= 0) {
             logger.warn("Could not insert element : " + question);
             System.err.println("Could not insert element : " + question);
             conn.rollback();
@@ -82,12 +82,12 @@ public class DbQuestions extends DbConnector {
         rs.next();
         int questionId = rs.getInt(1);
 
-        for (QuestionCriteriaDTO criteria:question.getEvaluationCriterias()) {
+        for (QuestionCriteriaDTO criteria : question.getEvaluationCriterias()) {
             insertCriteria.setInt(1, criteria.getPoints());
             insertCriteria.setString(2, criteria.getCriteria());
             insertCriteria.setInt(3, questionId);
 
-            if(insertCriteria.executeUpdate() <= 0){
+            if (insertCriteria.executeUpdate() <= 0) {
                 logger.warn("Could not insert element : " + question);
                 System.err.println("Could not insert element : " + question);
                 conn.rollback();
@@ -102,6 +102,7 @@ public class DbQuestions extends DbConnector {
 
     /**
      * Deletes a List of questions from the Database. Will only delete all questions or no question
+     *
      * @param questions List of questions that should be deleted
      * @return boolean weather the deletion was successful
      * @throws SQLException hrown if server is unavailable or some problem with the server accrues
@@ -145,7 +146,7 @@ public class DbQuestions extends DbConnector {
 
         try {
             ResultSetMapper resultSetMapper = new ResultSetMapper();
-            return resultSetMapper.mapResultSetToObject(rs, ExamQuestionDTO.class);
+            return (List<ExamQuestionDTO>) (List<?>) resultSetMapper.mapResultSetToObject(rs, QuestionWithEvaluationCriteriasDTO.class);//needs to big child class, so other methods can work with this object
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
             e.printStackTrace();
             logger.error(e);
@@ -153,7 +154,7 @@ public class DbQuestions extends DbConnector {
         }
     }
 
-    private ExamQuestionDTO getExamQuestionFromId(int id) throws SQLException{
+    private ExamQuestionDTO getExamQuestionFromId(int id) throws SQLException {
         ResultSetMapper resultSetMapper = new ResultSetMapper();
         PreparedStatement selectQuestions = conn.prepareStatement("SELECT * FROM questions WHERE question_id = ?");
         selectQuestions.setInt(1, id);
@@ -166,6 +167,43 @@ public class DbQuestions extends DbConnector {
             logger.error(e);
             return null;
         }
+    }
+
+    /**
+     * Gets all questions from a exam with Rating criterias
+     *
+     * @param exam exam of which the questions should be searched
+     * @return list of all questions in the exam
+     * @throws SQLException thrown if server is unavailable or some problem with the server accrues
+     */
+    public List<QuestionWithEvaluationCriteriasDTO> getQuestionsWithRatingCriteria(ExamDto exam) throws SQLException {
+        List<QuestionWithEvaluationCriteriasDTO> questions = (List<QuestionWithEvaluationCriteriasDTO>)(List<?>) this.getQuestionsFromExam(exam);
+        for (QuestionWithEvaluationCriteriasDTO question: questions) {
+            try {
+                question.setEvaluationCriterias(getEvaluationCriteria(question));
+            } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+                logger.error(e);
+            }
+        }
+        return questions;
+    }
+
+    /**
+     * gets Evaluation Criteria from a question
+     * @param question question of which the criteria should be created
+     * @return List of criteria
+     * @throws SQLException
+     * @throws InvocationTargetException
+     * @throws NoSuchMethodException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
+    private List<QuestionCriteriaDTO> getEvaluationCriteria(QuestionsDto question) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        ResultSetMapper resultSetMapper = new ResultSetMapper();
+        PreparedStatement selectQuestions = conn.prepareStatement("SELECT * FROM rating_criteria WHERE question_id = ?");
+        selectQuestions.setInt(1, question.getQuestionId());
+        return resultSetMapper.mapResultSetToObject(selectQuestions.executeQuery(), QuestionCriteriaDTO.class);
     }
 
 }

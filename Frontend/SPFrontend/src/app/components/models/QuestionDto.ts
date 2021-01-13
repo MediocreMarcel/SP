@@ -32,12 +32,12 @@ export class ExamQuestionDTO extends QuestionDto {
 
 }
 
-export class CreateQuestionDTO extends QuestionDto {
+export class QuestionWithEvaluationCriteriasDTO extends ExamQuestionDTO {
 
   evaluationCriterias: EvaluationCriteriaDTO[];
 
-  constructor(questionID: number, questionName: string, questionText: string, questionPoints: number, shortName: string, category: string, module_ID: number, evaluationCriterias: EvaluationCriteriaDTO[]) {
-    super(questionID, questionName, questionText, questionPoints, shortName, category, module_ID);
+  constructor(questionID: number, questionName: string, questionText: string, questionPoints: number, shortName: string, category: string, module_ID: number, position: number, evaluationCriterias: EvaluationCriteriaDTO[]) {
+    super(questionID, questionName, questionText, questionPoints, shortName, category, module_ID, position);
     this.evaluationCriterias = evaluationCriterias;
   }
 

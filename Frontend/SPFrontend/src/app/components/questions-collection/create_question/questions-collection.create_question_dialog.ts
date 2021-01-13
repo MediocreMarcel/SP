@@ -2,7 +2,7 @@ import {Component, Inject, ViewChild} from "@angular/core";
 import {ModuleDTO} from "../../models/ModuleDTO";
 import {CreateQuestionService} from "../../../services/question/create-question.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {CreateQuestionDTO, QuestionDto} from "../../models/QuestionDto";
+import {QuestionWithEvaluationCriteriasDTO, QuestionDto} from "../../models/QuestionDto";
 import {EvaluationCriteriaDTO} from "../../models/EvaluationCriteriaDTO";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
@@ -34,7 +34,7 @@ export class CreateQuestionDialog {
    */
   writeQuestion() {
     if (this.isNeededInformationFilledIn()){
-      this.service.writeQuestionToDb(new CreateQuestionDTO(null, this.questionName, this.questionText, this.totalPointsEval(), this.shortName, this.category, this.module.module_id, this.evaluationCriterias)).subscribe();
+      this.service.writeQuestionToDb(new QuestionWithEvaluationCriteriasDTO(null, this.questionName, this.questionText, this.totalPointsEval(), this.shortName, this.category, this.module.module_id, -1, this.evaluationCriterias)).subscribe();
       this.dialogRef.close();
     } else{
       this.snackBar.open("Bitte alle Felder ausfüllen!", "Schließen", {duration: 4000});

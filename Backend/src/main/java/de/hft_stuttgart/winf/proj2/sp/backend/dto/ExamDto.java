@@ -1,5 +1,6 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import de.hft_stuttgart.winf.proj2.sp.backend.util.Column;
 import lombok.*;
 
