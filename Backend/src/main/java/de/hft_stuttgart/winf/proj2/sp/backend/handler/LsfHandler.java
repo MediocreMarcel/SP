@@ -8,7 +8,16 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+
+
 public class LsfHandler {
+    
+    /**This  method recieves a Fileinput Stream to traverse an excel File to get the "Matrikelnummer" and "Studiengang" out of it.
+    The method traverses each row until the first cell of a row has the value "mtknr".
+    After that for each consecutive row the "Matrikelnummer"(mtknr) and "Studiengang"(stg) are stored in respective ArrayList.
+    This continues until the end of the sheet "endHISsheet" mis found.
+    After that, objects of the class StudentDTO are created as return value
+    */
 
     public ArrayList<StudentDTO> getStudent(FileInputStream file){
 
@@ -21,10 +30,7 @@ public class LsfHandler {
         ArrayList<String> stg = new ArrayList<String>();
         ArrayList<StudentDTO> student = new ArrayList<StudentDTO>();
 
-       // String lsfImp = "C:/Users/Fede10204/Desktop/testDoc.xls";
-
         try {
-           // FileInputStream file = new FileInputStream(new File(lsfImp));
             Workbook workbook = new HSSFWorkbook(file);
             DataFormatter dataFormatter = new DataFormatter();
             Iterator<Sheet> sheets = workbook.sheetIterator();
@@ -51,7 +57,6 @@ public class LsfHandler {
 
                     if(startRow == true && endRow==false){
 
-                        //System.out.println(rowCellValue);
                         int intRowCell = Integer.valueOf(rowCellValue);
                         matNr.add(intRowCell);
 
@@ -62,7 +67,6 @@ public class LsfHandler {
                             String cellValue = dataFormatter.formatCellValue(cell);
 
                             if(counter ==2){
-                                //System.out.print(cellValue+"\t");
                                 stg.add(cellValue);
 
                             }
