@@ -20,7 +20,6 @@ const routes: Routes = [
   {path: 'exam-overview', component: ExamOverviewComponent, canActivate: [AuthGuard]},
   {path: 'archived-exams', component: ArchivedExamsComponent, canActivate: [AuthGuard]},
   {path: 'exam-editor', component: ExamEditorComponent, canActivate: [AuthGuard]},
-  {path: 'exam-editor', component: ExamEditorComponent, canActivate: [AuthGuard]},
   {path: 'correction-question', component: CorrectionQuestionViewComponent, canActivate: [AuthGuard]},
 ];
 
