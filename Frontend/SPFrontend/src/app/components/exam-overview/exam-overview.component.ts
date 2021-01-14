@@ -36,12 +36,7 @@ export class ExamOverviewComponent implements OnInit {
    */
   loadExams() {
     this.service.getExamsForUser(this.userService.getUser()).subscribe(u => {
-      u.forEach((exam, index) => {
-        if (exam.status != "in_creation") {
-          u.splice(index, 1);
-        }
-      })
-      this.tiles = u;
+      this.tiles = u.filter(item =>  item.status=="in_creation");
       if (this.tiles.length > 0) {
         this.sortChanged();
       }

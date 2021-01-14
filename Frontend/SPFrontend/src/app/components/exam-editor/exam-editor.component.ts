@@ -185,6 +185,7 @@ export class ExamEditorComponent implements OnInit {
    * Opens the start exam dialog
    */
   startExam() {
+    this.saveExam();
     const dialogRef = this.dialog.open(StartExamComponent, {
       width: '30%',
       data: {
