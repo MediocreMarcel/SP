@@ -48,7 +48,10 @@
                 </section>
                 <mat-card class="checkboxCard">
                   <mat-card-title>
-                    {{question.questionName}}
+                    <div class="questionName">
+                      {{question.questionName}}
+                      <mat-icon aria-hidden="false" aria-label="Example home icon" (click)="createQuestion()">accessible_forward</mat-icon>
+                    </div>
                   </mat-card-title>
                   <mat-card-subtitle>
                     {{question.shortName}}
