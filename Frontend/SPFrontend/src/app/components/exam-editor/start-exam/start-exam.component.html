@@ -1,7 +1,7 @@
 <h2 style="text-align: center">Exam starten</h2>
 <mat-card class="content-card" style="width: auto" *ngIf="questionPoints!=exam.totalPoints">
   <h3 style="text-align: center">Warnung! Die Punkte der Klausur entspricht nicht der Summe der Punkte für Fragen.</h3>
-  <h4 style="text-align: center">Die Punkte für die Klausur wird auf {{questionPoints}} gesetzt.</h4>
+  <h4 style="text-align: center">Die erreichbaren Punkte für die Klausur wird auf {{questionPoints}} Punkte gesetzt.</h4>
 </mat-card>
 
 <br><br>
@@ -16,8 +16,10 @@
 
 <div *ngIf="uploaded">
   <mat-list role="list" >
+    <mat-list-item role="listitem" class="studentList">Matr.Nr.| Studiengang kürzel</mat-list-item>
     <mat-list-item role="listitem" class="studentList" *ngFor="let student of students">{{student.matrNumber}} | {{student.courseShortName}}</mat-list-item>
   </mat-list>
-  <button mat-raised-button class="infoHeaderButton" color="warn" style="margin-top: 2%">Prüfung starten</button>
+  <br>
+  <button mat-raised-button class="infoHeaderButton" color="warn" style="margin-top: 2%" (click)="startExam()">Prüfung starten</button>
 </div>
 

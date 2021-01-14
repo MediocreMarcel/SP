@@ -144,7 +144,7 @@ public class DbExam extends DbConnector {
      * Gets All exams which is already corrected. Only that exams that user have access too.
      * @param user the user for whom the exams should be searched
      * @return List of all corrected exams
-     * @throws SQLException
+     * @throws SQLException thrown if something sql related goes wrong
      */
     public List<ExamDto> getExamsforArchiv(UserDto user) throws SQLException {
         ResultSetMapper resultSetMapper = new ResultSetMapper();
@@ -167,6 +167,36 @@ public class DbExam extends DbConnector {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * Starts a exam by inserting the students into the db and changeing the state of the exam in the db
+     * @param startExamDTO
+     * @return boolean if insertion was successful
+     * @throws SQLException thrown if something sql related goes wrong
+     */
+    public boolean startExam(StartExamDTO startExamDTO) throws SQLException {
+        this.conn.setAutoCommit(false);
+        PreparedStatement examStatus = this.conn.prepareStatement("UPDATE exams SET status = 'in_correction' WHERE exam_id = ?");
+        examStatus.setInt(1, startExamDTO.getExam().getExam_id());
+        if(examStatus.executeUpdate() <= 0){
+            this.conn.rollback();
+            this.conn.setAutoCommit(true);
+            return false;
+        }
+        for (StudentDTO student:startExamDTO.getStudents()) {
+            PreparedStatement insertStudent = this.conn.prepareStatement("REPLACE INTO students (matr_nr, course_shortname) VALUES (?,?)");
+            insertStudent.setInt(1, student.getMatrNumber());
+            insertStudent.setString(2, student.getCourseShortName());
+            if(insertStudent.executeUpdate() <= 0){
+                this.conn.rollback();
+                this.conn.setAutoCommit(true);
+                return false;
+            }
+        }
+
+        return false;
+
     }
 
 }

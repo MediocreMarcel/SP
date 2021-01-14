@@ -6,6 +6,7 @@ import {FileSystemFileEntry, NgxFileDropEntry} from "ngx-file-drop";
 import {LsfService} from "../../../services/lsf/lsf.service";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {StudentDTO} from "../../models/StudentDTO";
+import {CreateOverviewExamService} from "../../../services/exam/create-overview-exam.service";
 
 @Component({
   selector: 'app-start-exam',
@@ -22,7 +23,7 @@ export class StartExamComponent implements OnInit {
 
   uploaded: boolean = false;
 
-  constructor(@Inject(MAT_DIALOG_DATA) private data: any, private lsfService: LsfService, private snackBar: MatSnackBar) {
+  constructor(@Inject(MAT_DIALOG_DATA) private data: any, private lsfService: LsfService, private examService: CreateOverviewExamService, private snackBar: MatSnackBar) {
     this.exam = data.exam;
     this.examContent = data.questions;
     this.questionPoints = this.examContent.reduce(((previousValue, currentValue) => previousValue + currentValue.questionPoints), 0);
@@ -61,5 +62,12 @@ export class StartExamComponent implements OnInit {
       });
     }
 
+  }
+
+  /**
+   * starts the exam with the imported students
+   */
+  startExam() {
+    this.examService.startExam(this.exam, this.students);
   }
 }
