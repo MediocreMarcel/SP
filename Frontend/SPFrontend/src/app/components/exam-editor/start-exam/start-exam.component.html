@@ -1,11 +1,23 @@
 <h2 style="text-align: center">Exam starten</h2>
-<h3 *ngIf="questionPoints!=exam.totalPoints" style="text-align: center">Warnung! Die Punkte der Klausur entspricht nicht der Summe der Punkte für Fragen.</h3>
-<h4 *ngIf="questionPoints!=exam.totalPoints" style="text-align: center">Die Punkte für die Klausur wird auf {{questionPoints}} gesetzt.</h4>
+<mat-card class="content-card" style="width: auto" *ngIf="questionPoints!=exam.totalPoints">
+  <h3 style="text-align: center">Warnung! Die Punkte der Klausur entspricht nicht der Summe der Punkte für Fragen.</h3>
+  <h4 style="text-align: center">Die Punkte für die Klausur wird auf {{questionPoints}} gesetzt.</h4>
+</mat-card>
+
 <br><br>
+
 <h3>LSF-Import</h3>
-<ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="droppedFile($event)">
+<ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="droppedFile($event)" *ngIf="!uploaded">
   <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-    Optional custom content that replaces the the entire default content.
-    <button type="button" (click)="openFileSelector()">Browse Files</button>
+    LSF Exel Export hier ablegen oder importieren
+    <button mat-raised-button class="infoHeaderButton" style="margin-left: 5%" (click)="openFileSelector()">Datei Auswählen</button>
   </ng-template>
 </ngx-file-drop>
+
+<div *ngIf="uploaded">
+  <mat-list role="list" >
+    <mat-list-item role="listitem" class="studentList" *ngFor="let student of students">{{student.matrNumber}} | {{student.courseShortName}}</mat-list-item>
+  </mat-list>
+  <button mat-raised-button class="infoHeaderButton" color="warn" style="margin-top: 2%">Prüfung starten</button>
+</div>
+

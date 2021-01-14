@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {User} from "../../components/models/User";
-import {CreateModuleDTO, ModuleDTO} from "../../components/models/ModuleDTO";
+import {StudentDTO} from "../../components/models/StudentDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +16,7 @@ export class LsfService {
 
 
   uploadLsfParticipantList(postData: FormData){
-    return this.http.post(this.url + "lsf/student_import", postData, {headers: this.headers});
+    return this.http.post<StudentDTO[]>(this.url + "lsf/student_import", postData);
   }
 
 
