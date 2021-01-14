@@ -43,7 +43,8 @@ import {ArchivedExamsComponent} from "./components/archived-exams/archived-exams
 import { QuillModule } from 'ngx-quill';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {CreateQuestionDialog} from "./components/questions-collection/create_question/questions-collection.create_question_dialog";
-import { CorrectionQuestionViewComponent } from './components/correction-question-view/correction-question-view.component';
+import {CorrectionOverviewComponent} from "./components/correction-overview/correction-overview.component";
+
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import { CorrectionQuestionViewComponent } from './components/correction-questio
     CreateQuestionDialog,
     ExamEditorComponent,
     DeleteExamDialog,
-    CorrectionQuestionViewComponent,
+    CorrectionOverviewComponent,
+
   ],
   imports: [
     BrowserModule,
