@@ -26,7 +26,11 @@ export class ExamOverviewComponent implements OnInit {
 
   loadExams() {
     this.service.getExamsForUser(this.userService.getUser()).subscribe(u => {
-
+      u.forEach((exam, index) => {
+        if (exam.status != "in_creation") {
+          u.splice(index, 1);
+        }
+      })
       this.tiles = u;
       if (this.tiles.length > 0) {
         this.sortChanged();
@@ -77,7 +81,7 @@ export class CreateExamDialog {
 
 
   constructor(private service: CreateOverviewExamService, private dialogRef: MatDialogRef<CreateExamDialog>, private userService: UserService, private moduleService: ModuleService) {
-  this.JSON = JSON;
+    this.JSON = JSON;
     moduleService.getModulesForUser(this.userService.getUser()).subscribe(modules => this.available_modules = modules);
   }
 

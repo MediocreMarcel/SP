@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {CorrectionDTO} from "../../components/models/CorrectionDTO";
 import {QuestionDto} from "../../components/models/QuestionDto";
+import {ExamDTO} from "../../components/models/ExamDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class CorrectionService {
    * @param student student of the correction
    * @param question question of the correction
    */
-  getCorrection(student:number, question:QuestionDto){
-    return this.http.post<CorrectionDTO[]>(this.url + "correction/load",{questionId: question.questionId, matrNumber: student}, {headers: this.headers});
+  getCorrection(exam: ExamDTO){
+    return this.http.post<CorrectionDTO[][]>(this.url + "correction/load",JSON.stringify(exam), {headers: this.headers});
   }
 }

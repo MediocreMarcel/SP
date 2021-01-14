@@ -16,4 +16,9 @@ public class ExamQuestionDTO extends QuestionsDto {
 
     public ExamQuestionDTO() {
     }
+
+    public ExamQuestionDTO(Integer questionId, String questionName, String shortName, String questionText, Float questionPoints, Integer module_ID, String category, Integer position) {
+        super(questionId, questionName, shortName, questionText, questionPoints, module_ID, category);
+        this.position = position;
+    }
 }

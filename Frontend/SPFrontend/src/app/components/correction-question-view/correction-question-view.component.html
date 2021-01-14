@@ -114,7 +114,7 @@
               <mat-form-field style="width: 100%">
                 <mat-label>Kommentare</mat-label>
                 <textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="20"
-                          placeholder="Hier ist platz für Bemerkungen"></textarea>
+                          placeholder="Hier ist platz für Bemerkungen" [ngModel]="currentCorrection[0].comment" (ngModelChange)="currentCorrection[0].comment=$event"></textarea>
               </mat-form-field>
             </mat-card>
           </mat-grid-tile>
@@ -145,7 +145,7 @@
         <mat-card class="content-card" style="width: auto; margin-top: 1%">
           <button mat-raised-button class="controlButtons" style="width: 96%" (click)="nextStudent()">Nächster Prüfling</button>
           <button mat-raised-button class="controlButtons" style="width: 96%" (click)="previousStudent()">Vorheriger Prüfling</button>
-          <button mat-raised-button class="controlButtons" style="width: 96%">Korrektur pausieren</button>
+          <button mat-raised-button class="controlButtons" style="width: 96%" (click)="saveAndLeave()">Korrektur pausieren</button>
         </mat-card>
       </mat-card>
     </mat-card>

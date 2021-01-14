@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ExamDTO} from "../../models/ExamDTO";
 import {ExamQuestionDTO} from "../../models/QuestionDto";
 import {FileSystemFileEntry, NgxFileDropEntry} from "ngx-file-drop";
@@ -7,6 +7,7 @@ import {LsfService} from "../../../services/lsf/lsf.service";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {StudentDTO} from "../../models/StudentDTO";
 import {CreateOverviewExamService} from "../../../services/exam/create-overview-exam.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-start-exam',
@@ -23,7 +24,11 @@ export class StartExamComponent implements OnInit {
 
   uploaded: boolean = false;
 
-  constructor(@Inject(MAT_DIALOG_DATA) private data: any, private lsfService: LsfService, private examService: CreateOverviewExamService, private snackBar: MatSnackBar) {
+  /**
+   * loads needed Data and gets required modules from angular via constructor injection
+   * @param data data from exam editor containing the exam dto and the question dto list
+   */
+  constructor(@Inject(MAT_DIALOG_DATA) private data: any, private lsfService: LsfService, private examService: CreateOverviewExamService, private snackBar: MatSnackBar, private router: Router, private dialogRef: MatDialogRef<StartExamComponent>) {
     this.exam = data.exam;
     this.examContent = data.questions;
     this.questionPoints = this.examContent.reduce(((previousValue, currentValue) => previousValue + currentValue.questionPoints), 0);
@@ -32,7 +37,10 @@ export class StartExamComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
+  /**
+   * Handels the dropped File in the file drop area
+   * @param files dropped file
+   */
   droppedFile(files: NgxFileDropEntry[]) {
     let droppedFile = files[0];//only accept first file
     if (droppedFile.fileEntry.isFile) {
@@ -68,6 +76,12 @@ export class StartExamComponent implements OnInit {
    * starts the exam with the imported students
    */
   startExam() {
-    this.examService.startExam(this.exam, this.students);
+    this.examService.startExam(this.exam, this.students).subscribe((response) => {
+        this.router.navigate(["/home"]);
+        this.dialogRef.close();
+      },
+      (error) => {
+        this.snackBar.open("Fehler beim Starten der Klausur. Bitte erneut probieren.", "Schließen", {duration: 6000});
+      });
   }
 }
