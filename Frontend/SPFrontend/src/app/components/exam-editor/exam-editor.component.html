@@ -81,7 +81,7 @@
                          *ngIf="question.questionId == -1">{{question.questionName}}</div>
                     <mat-expansion-panel *ngIf="question.questionId != -1">
                       <mat-expansion-panel-header>
-                        <mat-panel-title id="editorQuestionDrag">
+                        <mat-panel-title id="{{question.questionName}}">
                           {{question.questionName}}
                         </mat-panel-title>
                         <mat-panel-description>

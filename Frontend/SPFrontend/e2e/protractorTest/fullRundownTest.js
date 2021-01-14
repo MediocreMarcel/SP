@@ -1,7 +1,6 @@
 describe('full rundown test', function(){
 
 
-  browser.ignoreSynchronization = true;
 
   browser.get('http://localhost:4200/login')
 
@@ -13,43 +12,42 @@ describe('full rundown test', function(){
 
     await element(by.id('loginButton')).click().
       then(async() => {
-
-       if (expect(await browser.getCurrentUrl()).toEqual("http://localhost:4200/home") == true){
-         console.log("Login works");
-       }
-       else {
-         console.log("Login failed");
-       }
-
+        expect(await browser.getCurrentUrl()).toEqual("http://localhost:4200/home")
       });
 
   });
 
   it('create Module Test', async() => {
 
-    var frage= element(by.id('addQuestionButton')).click();
+    await element(by.id('addQuestionButton')).click();
+
+    await element(by.id('createModuleButton')).click();
+
+
+    let courseSelectButton= element(by.id('courseSelection')).click();
+
+    let moduleName= element(by.id('moduleName')).sendKeys('Mathe 5');
+
+    let courseSelect= element(by.cssContainingText(".mat-option-text", "Wirtschaftsinformatik (B.Sc.)")).click();
 
     browser.sleep(1000);
 
-    var module= element(by.id('createModuleButton')).click();
+    let addModule= element(by.id('addModule')).click()
 
 
-    var courseDrop= element(by.id('courseSelection')).click();
+   /* let a= element(by.className("mat-card-title tileTitle", 'Mathe 5')).getText().
+      then(function (attr) {
+        expect(attr).toBe("Mathe 4 \nWirtschaftsinformatik (B.Sc.)")
 
+      }); */
 
-    var courseDrop= element(by.id('moduleName')).sendKeys('Mathe 5');
-
-
-    browser.sleep(1000);
-
-    var course= element(by.cssContainingText(".mat-option-text", "Wirtschaftsinformatik (B.Sc.)")).click();
-
-
-    var addModule= element(by.id('addModule')).click();
 
 
 
     browser.sleep(1000);
+
+
+
 
 
 
@@ -59,7 +57,8 @@ describe('full rundown test', function(){
 
   it('create question Test', async() => {
 
-    var addQuestion= element(by.id("matCardModuleTitle", "Mathe 5")).click();
+    let addQuestion= element(by.id("Mathe 5")).click();
+
 
     var createQuestion = element(by.id('createQuestionButton')).click();
 
@@ -92,21 +91,24 @@ describe('full rundown test', function(){
 
     browser.sleep(1000);
 
-    var examTitle = element(by.id('examTitleInput')).sendKeys('WS2021 Mathe2');
+    var examTitle = element(by.id('examTitleInput')).sendKeys('WS2021 Mathe4');
 
     var selectExamModule= element(by.id("moduleSelection")).click();
 
-    var selectExamModule2= element(by.cssContainingText(".mat-option-text", "Mathe 5")).click();
+    var selectExamModule2= element(by.cssContainingText(".mat-option-text", 'Mathe 5')).click();
 
     var examPoints = element(by.id('examPointsInput')).sendKeys('100');
 
-    var examDate = element(by.id('examDateInput')).sendKeys('11.1.2022');
+    var dataPick = element(by.id('examDateInput')).sendKeys('Thu Jan 14 2021 00:00:00 GMT+0');
 
-    browser.sleep(1000);
+   //browser.actions().sendKeys(protractor.Key.ENTER).perform();
 
-    var examExamEditor= element(by.id('createExamEditorButton')).click();
+    browser.sleep(2000);
 
-    browser.sleep(1000);
+
+    var examExamEditor= element(by.cssContainingText('.mat-button-wrapper', 'Erstellen')).click();
+
+    browser.sleep(10000);
 
 
 
@@ -114,17 +116,15 @@ describe('full rundown test', function(){
 
   it('exam editor Test', async() => {
 
-    var selectExam= element(by.id('selectExamButton', 'Prog 1 PVL')).click();
-
-    var dragQuestion = element(by.id('editorQuestionDrag',  'Sortierverfahren Benennen'));
-
-    var dropQuestion = element(by.id('questionDropList'));
+    var selectExam= element(by.id('WS2021 Mathe4')).click();
 
     browser.sleep(2000);
 
+    var dragQuestion = element(by.id('TestQuestion'));
+
+    var dropQuestion = element(by.id('questionDropList'));
+
     browser.actions().mouseDown(dragQuestion.getWebElement()).mouseMove(dropQuestion.getWebElement()).mouseUp().perform();
-
-
 
     browser.sleep(2000);
 
