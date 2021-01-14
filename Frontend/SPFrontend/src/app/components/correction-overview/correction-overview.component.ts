@@ -22,6 +22,10 @@ export class CorrectionOverviewComponent implements OnInit {
     this.router.navigate(['/exam-corrector'], {state: exam});
   }
 
+  /**
+   * Here we load the Exams from the Backend where the State is in 'in_correction'.
+   * Also sortChanged get called, this function sort the Objects which are saved in tiles.
+   */
   loadExams() {
     this.service.getExamsforCorrection(this.userService.getUser()).subscribe(u => {
 
@@ -32,6 +36,9 @@ export class CorrectionOverviewComponent implements OnInit {
     });
   }
 
+  /**
+   * sortChanged is a function wich sort the Array tiles.
+   */
   public sortChanged() {
     if (this.sortBy === "name") {
       this.tiles.sort((a, b) => a.title.localeCompare(b.title));

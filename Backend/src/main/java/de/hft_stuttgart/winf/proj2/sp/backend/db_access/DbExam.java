@@ -169,6 +169,12 @@ public class DbExam extends DbConnector {
         }
     }
 
+    /**
+     *
+     * @param user the user for whom the exams should be searched
+     * @return List of all exams which have the state 'in_correction'
+     * @throws SQLException
+     */
     public List<ExamDto> getExamsforCorrectedOverview(UserDto user) throws SQLException {
         ResultSetMapper resultSetMapper = new ResultSetMapper();
 
