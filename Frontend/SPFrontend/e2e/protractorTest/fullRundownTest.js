@@ -104,7 +104,7 @@ describe('full rundown test', function(){
 
     var examExamEditor= element(by.cssContainingText('.mat-button-wrapper', 'Erstellen')).click();
 
-    browser.sleep(10000);
+    browser.sleep(1000);
 
 
 
@@ -116,15 +116,15 @@ describe('full rundown test', function(){
 
     browser.sleep(2000);
 
-    var dragQuestion = element(by.id('TestQuestion'));
+    var dragQuestion = element(by.id('TestQuestion1'));
 
     var dropQuestion = element(by.id('questionDropList'));
 
     browser.actions().mouseDown(dragQuestion.getWebElement()).mouseMove(dropQuestion.getWebElement()).mouseUp().perform();
 
+    var saveExamButton= element(by.id('saveExamButton')).click();
+
     browser.sleep(2000);
-
-
 
   });
 
