@@ -18,8 +18,12 @@ export class CorrectionOverviewComponent implements OnInit {
     this.loadExams();
   }
 
-  navigateToExamEditor(exam: ExamDTO) {
-    this.router.navigate(['/exam-corrector'], {state: exam});
+  /**
+   * Navigates to the correction view. Passes the current exam
+   * @param exam exam which should be corrected
+   */
+  navigateToCorrection(exam: ExamDTO) {
+    this.router.navigate(['/correction-question'], {state: exam});
   }
 
   /**

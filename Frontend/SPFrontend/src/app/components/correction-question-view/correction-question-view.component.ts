@@ -51,7 +51,21 @@ export class CorrectionQuestionViewComponent implements OnInit {
    * loads the required data from the browser storage and the db
    */
   ngOnInit(): void {
-    this.exam = new ExamDTO(8, "SS 20", "2020-12-20", "2020-12-20", "in_correction", 120, new ModuleDTO(17, new CourseDTO("Wirtschaftsinformatic B.Sc.", 0), "ModulName"));
+    //Loads and saves exam
+    let state = history.state;
+    delete state.navigationId;
+    this.exam = state;
+    if (this.exam == undefined) {
+      let moduleJSON = localStorage.getItem("currentCorrectionExam");
+      if (moduleJSON == null) {
+        this.router.navigate(["/correction-overview"]);
+        return;
+      }
+      this.exam = JSON.parse(moduleJSON);
+    } else {
+      localStorage.setItem("currentCorrectionExam", JSON.stringify(this.exam));
+    }
+
     this.correctionService.getCorrection(this.exam).subscribe(u => {
       this.availableCorrections = u;
       console.log(this.availableCorrections);
