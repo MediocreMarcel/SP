@@ -26,7 +26,7 @@ describe('full rundown test', function(){
 
     let courseSelectButton= element(by.id('courseSelection')).click();
 
-    let moduleName= element(by.id('moduleName')).sendKeys('Mathe 5');
+    let moduleName= element(by.id('moduleName')).sendKeys('Module Test');
 
     let courseSelect= element(by.cssContainingText(".mat-option-text", "Wirtschaftsinformatik (B.Sc.)")).click();
 
@@ -35,21 +35,11 @@ describe('full rundown test', function(){
     let addModule= element(by.id('addModule')).click()
 
 
-   /* let a= element(by.className("mat-card-title tileTitle", 'Mathe 5')).getText().
-      then(function (attr) {
-        expect(attr).toBe("Mathe 4 \nWirtschaftsinformatik (B.Sc.)")
+     let expectCheckModule= element(by.id('Module Test')).getText().
+        then(function (attr) {
+          expect(attr).toBe("Module Test")
 
-      }); */
-
-
-
-
-    browser.sleep(1000);
-
-
-
-
-
+        });
 
   });
 
@@ -57,28 +47,35 @@ describe('full rundown test', function(){
 
   it('create question Test', async() => {
 
-    let addQuestion= element(by.id("Mathe 5")).click();
+    let chooseModule= element(by.id("Module Test")).click();
 
+    let createQuestionButton = element(by.id('createQuestionButton')).click();
 
-    var createQuestion = element(by.id('createQuestionButton')).click();
+    let questionName= element(by.id('questionNameInput')).sendKeys('TestQuestion1');
 
-    var questionName= element(by.id('questionNameInput')).sendKeys('TestQuestion');
+    let questionNameShort= element(by.id('questionNameShortInput')).sendKeys('TesQuest');
 
-    var questionNameShort= element(by.id('questionNameShortInput')).sendKeys('TesQuest');
+    let questionCategory= element(by.id('questionCategoryInput')).sendKeys('TestCategory');
 
-    var questionCategory= element(by.id('questionCategoryInput')).sendKeys('Matrizen');
+    let questionText= element(by.className('ql-editor ql-blank')).sendKeys('Lorem Ipsum Lorem Ipsum');
 
-    var questionText= element(by.className('ql-editor ql-blank')).sendKeys('Lorem Ipsum Lorem Ipsum');
+    let questionCriteria= element(by.id('criteriaInput')).sendKeys('Criteria Test');
 
-    var questionPoint= element(by.id('criteriaInput')).sendKeys('Criteria Test');
+    let questionPoint= element(by.id('pointsInput')).sendKeys('10');
 
-    var questionPoint= element(by.id('pointsInput')).sendKeys('10');
+    let evalCritButton = element(by.id('addEvaluationCriteriaButton')).click();
 
-    var createQuestion = element(by.id('addEvaluationCriteriaButton')).click();
-
-    var writeQuestion = element(by.id('writeQuestionButton')).click();
+    let writeQuestionButton = element(by.id('writeQuestionButton')).click();
 
     browser.sleep(1000);
+
+    let openQuestionTab = element(by.id('TestCategory')).click();
+
+    let expectCheckQuestion= element(by.id('TestQuestion1')).getText().
+    then(function (attr) {
+      expect(attr).toBe("TestQuestion1")
+
+    });
 
   });
 
@@ -91,17 +88,16 @@ describe('full rundown test', function(){
 
     browser.sleep(1000);
 
-    var examTitle = element(by.id('examTitleInput')).sendKeys('WS2021 Mathe4');
+    var examTitle = element(by.id('examTitleInput')).sendKeys('Exam Test');
 
-    var selectExamModule= element(by.id("moduleSelection")).click();
+    var selectExamModule= element(by.id('moduleSelectionButton')).click();
 
-    var selectExamModule2= element(by.cssContainingText(".mat-option-text", 'Mathe 5')).click();
+    var selectExamModuleButton= element(by.id('Module Test')).click();
 
     var examPoints = element(by.id('examPointsInput')).sendKeys('100');
 
     var dataPick = element(by.id('examDateInput')).sendKeys('Thu Jan 14 2021 00:00:00 GMT+0');
 
-   //browser.actions().sendKeys(protractor.Key.ENTER).perform();
 
     browser.sleep(2000);
 
@@ -116,7 +112,7 @@ describe('full rundown test', function(){
 
   it('exam editor Test', async() => {
 
-    var selectExam= element(by.id('WS2021 Mathe4')).click();
+    var selectExam= element(by.id('Exam Test')).click();
 
     browser.sleep(2000);
 
