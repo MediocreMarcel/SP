@@ -47,6 +47,7 @@ import { StartExamComponent } from './components/exam-editor/start-exam/start-ex
 import {NgxFileDropModule} from "ngx-file-drop";
 import {MatListModule} from "@angular/material/list";
 import { CorrectionQuestionViewComponent } from './components/correction-question-view/correction-question-view.component';
+import {CorrectionOverviewComponent} from "./components/correction-overview/correction-overview.component";
 
 
 @NgModule({
@@ -68,6 +69,7 @@ import { CorrectionQuestionViewComponent } from './components/correction-questio
     DeleteExamDialog,
     StartExamComponent,
     CorrectionQuestionViewComponent,
+    CorrectionOverviewComponent,
   ],
     imports: [
         BrowserModule,

@@ -56,7 +56,7 @@ export class NavbarComponent implements OnInit {
   }
 
   correctExam(): void {
-    this.router.navigate(['/test']);
+    this.router.navigate(['/correction-overview']);
   }
 
   archiveExam(): void {

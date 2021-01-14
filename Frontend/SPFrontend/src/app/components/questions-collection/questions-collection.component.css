@@ -15,14 +15,22 @@
   clear: both;
 }
 
+.card-content{
+  display: flex;
+  flex-direction: column;
+}
+
 .header-accordion{
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+  display: flex;
+  justify-content: space-between;
+
 }
 
 .checkboxAndCardContainer{
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -38,7 +46,7 @@
 
 .checkboxAndCardContainer{
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 }
 

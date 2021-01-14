@@ -18,7 +18,7 @@ export class HomePageComponent implements OnInit {
     this.router.navigate(['/exam-overview']);
   }
   correctExam(){
-    this.router.navigate(['/test']);
+    this.router.navigate(['/correction-overview']);
   }
   archiveExam(){
     this.router.navigate(['/archived-exams']);

@@ -221,7 +221,36 @@ public class DbExam extends DbConnector {
         this.conn.commit();
         this.conn.setAutoCommit(true);
         return true;
+    }
 
+    /**
+     * Gets all Examen that are redy for correction from a user
+     *
+     * @param user the user for whom the exams should be searched
+     * @return List of all exams which have the state 'in_correction'
+     * @throws SQLException
+     */
+    public List<ExamDto> getExamsforCorrectedOverview(UserDto user) throws SQLException {
+        ResultSetMapper resultSetMapper = new ResultSetMapper();
+
+        PreparedStatement selectExamsforCorrections = conn.prepareStatement("SELECT * FROM exams e inner join modules m on m.module_id = e.module_id " +
+                "inner join is_reading r on m.module_id = r.module_id inner join users u on r.user_id = u.user_id WHERE u.user_id = ? and e.status = 'in_correction' ");
+        selectExamsforCorrections.setInt(1,user.getUser_id());
+        ResultSet rs = selectExamsforCorrections.executeQuery();
+
+        try {
+            List<ExamDto> exams =  resultSetMapper.mapResultSetToObject(rs, ExamDto.class);
+            QuestionsHandler questionsHandler = new QuestionsHandler();
+            List<ModuleDto> modules = questionsHandler.getModulesByUser(user);
+            for (ExamDto exam: exams) {
+                exam.setModule(modules.stream().filter(x -> x.getModule_id() == exam.getModuleId()).findFirst().get());
+            }
+            return exams;
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+            this.logger.error(e);
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
