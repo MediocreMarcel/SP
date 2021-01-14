@@ -45,6 +45,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {CreateQuestionDialog} from "./components/questions-collection/create_question/questions-collection.create_question_dialog";
 import { StartExamComponent } from './components/exam-editor/start-exam/start-exam.component';
 import {NgxFileDropModule} from "ngx-file-drop";
+import {MatListModule} from "@angular/material/list";
 import { CorrectionQuestionViewComponent } from './components/correction-question-view/correction-question-view.component';
 
 
@@ -100,6 +101,7 @@ import { CorrectionQuestionViewComponent } from './components/correction-questio
         MatSnackBarModule,
         MatTableModule,
         NgxFileDropModule,
+        MatListModule,
     ],
   providers: [
     UserService,

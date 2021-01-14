@@ -16,9 +16,9 @@ import lombok.ToString;
 public class StudentDTO {
 
     @Column("matrNr")
-    private Integer matrNr;
-    @Column("stg")
-    private String stg;
+    private Integer matrNumber;
+    @Column("course_shortname")
+    private String courseShortName;
 
     public StudentDTO(){
     }
