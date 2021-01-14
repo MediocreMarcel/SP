@@ -56,7 +56,7 @@ public class QuestionsHandler {
     public Response createNewModule(CreateModuleDto module) {
         try {
             DbModule dbAccess = new DbModule();
-            if (!dbAccess.createCourses(module)){
+            if (!dbAccess.createCourses(module)) {
                 return Response.status(Response.Status.CONFLICT).build();
             }
         } catch (SQLException e) {
@@ -69,6 +69,7 @@ public class QuestionsHandler {
 
     /**
      * Gets all questions from a Module
+     *
      * @param module module of which the questions should be searched
      * @return List of questions
      */
@@ -89,6 +90,7 @@ public class QuestionsHandler {
 
     /**
      * Creates Question in the database
+     *
      * @param question question that should be stored
      * @return returns question if insert was successful
      */
@@ -96,15 +98,14 @@ public class QuestionsHandler {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public QuestionsDto createNewQuestion(CreateQuestionDTO question) {
+    public QuestionsDto createNewQuestion(QuestionWithEvaluationCriteriasDTO question) {
         try {
             DbQuestions dbAccess = new DbQuestions();
-             if (dbAccess.createNewQuestion(question) ){
-                 return question;
-             }
-             else {
-                 return null;
-             }
+            if (dbAccess.createNewQuestion(question)) {
+                return question;
+            } else {
+                return null;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error(e);
@@ -115,19 +116,19 @@ public class QuestionsHandler {
 
     /**
      * Deletes questions from the database. Deletes all questions. If something goes wrong there will be a rollback.
+     *
      * @param questions A list of questions that should be deleted
      * @return HTTP 204 if successful, HTTP 500 if something went wrong
      */
     @Path("deleteQuestions")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteQuestions(List<QuestionsDto> questions){
+    public Response deleteQuestions(List<QuestionsDto> questions) {
         try {
             DbQuestions dbAccess = new DbQuestions();
-            if (dbAccess.deleteQuestions(questions) ){
+            if (dbAccess.deleteQuestions(questions)) {
                 return Response.status(Response.Status.NO_CONTENT).build();
-            }
-            else {
+            } else {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
             }
         } catch (SQLException e) {
@@ -139,6 +140,7 @@ public class QuestionsHandler {
 
     /**
      * Gets all questions from a exam
+     *
      * @param exam module of which the questions should be searched
      * @return List of questions
      */
@@ -157,4 +159,25 @@ public class QuestionsHandler {
         return null;
     }
 
+
+    /**
+     * Gets all questions from a exam with Rating Criterias
+     *
+     * @param exam exam of which the questions should be searched
+     * @return List of questions
+     */
+    @Path("getQuestionsWithRatingCriteria")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<QuestionWithEvaluationCriteriasDTO> getQuestionsWithRatingCriteria(ExamDto exam) {
+        try {
+            DbQuestions dbAccess = new DbQuestions();
+            return dbAccess.getQuestionsWithRatingCriteria(exam);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error(e);
+        }
+        return null;
+    }
 }

@@ -1,0 +1,67 @@
+package de.hft_stuttgart.winf.proj2.sp.backend.handler;
+
+import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbCorrection;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.CorrectionDTO;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.RequestCorrectionDTO;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.sql.SQLException;
+import java.util.List;
+
+@Path("correction")
+public class CorrectionHandler {
+
+    private static Logger logger = LogManager.getLogger(CorrectionHandler.class);
+
+    /**
+     * Endpoint to save the correction of one Question. The CorrectionDTO will be passed as list. Every DTO Object represents
+     * one evaluation criteria
+     *
+     * @param correction list of corrected evaluation criterias
+     * @return HTTP Status if save was successful (200 OK) or did fail (409 Conflict)
+     */
+    @Path("save")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response saveCorrection(List<CorrectionDTO> correction) {
+        try {
+            DbCorrection dbAccess = new DbCorrection();
+            if (dbAccess.saveCorrections(correction)){
+                return Response.ok().build();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.logger.error(e);
+        }
+        return Response.status(Response.Status.CONFLICT).build();
+    }
+
+    /**
+     * Endpoint to load the correction. Will return null if something goes wrong
+     *
+     * @param request request object that contains the matr Number of the student and the question id
+     * @return List of correctionDtos to this question and matr nr
+     */
+    @Path("load")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<CorrectionDTO> loadCorrection(RequestCorrectionDTO request) {
+        try {
+            DbCorrection dbAccess = new DbCorrection();
+            return dbAccess.getCorrection(request);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.logger.error(e);
+        }
+        return null;
+    }
+}

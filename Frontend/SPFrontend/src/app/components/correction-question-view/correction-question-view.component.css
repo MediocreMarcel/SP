@@ -1,0 +1,38 @@
+.infoHeaderInput {
+  width: 95%;
+}
+
+.blackInput {
+  color: black;
+}
+
+.bar-header {
+  margin: 0 10px 0 0;
+  color: rgba(0, 0, 0, .54);
+  font-size: 0.85em;
+}
+
+.selectorCard {
+  width: 25%;
+  display: inline-block;
+  margin-left: 1.5%;
+  vertical-align: top;
+}
+
+.row-hoizontal {
+  display: flex; /* equal height of the children */
+}
+
+.col {
+  flex: 1; /* additionally, equal width */
+}
+
+.vertical-full{
+  display:flex;
+  flex-direction: column;
+  justify-content: space-evenly !important;
+}
+
+.controlButtons{
+  margin-top: 4%;
+}

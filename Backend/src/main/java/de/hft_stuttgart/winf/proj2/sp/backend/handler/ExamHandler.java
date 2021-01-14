@@ -1,7 +1,6 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.handler;
 
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbExam;
-import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbModule;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.*;
 import de.hft_stuttgart.winf.proj2.sp.backend.exceptions.InvalidUserException;
 import org.apache.logging.log4j.LogManager;
@@ -60,6 +59,7 @@ public class ExamHandler {
         } catch (SQLException e) {
             e.printStackTrace();
             this.logger.error(e);
+            return Response.status(Response.Status.CONFLICT).build();
         }
         return Response.ok().build();
     }

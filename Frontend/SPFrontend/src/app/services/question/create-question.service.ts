@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {CreateQuestionDTO, ExamQuestionDTO, QuestionDto} from "../../components/models/QuestionDto";
+import {QuestionWithEvaluationCriteriasDTO, ExamQuestionDTO, QuestionDto} from "../../components/models/QuestionDto";
 import {environment} from "../../../environments/environment";
 import {ModuleDTO} from "../../components/models/ModuleDTO";
 import {ExamDTO} from "../../components/models/ExamDTO";
@@ -20,7 +20,12 @@ export class CreateQuestionService {
     return this.http.post<QuestionDto[]>(this.url + 'questions/getQuestion', JSON.stringify(postData), {headers: headers});
   }
 
-  writeQuestionToDb(postData: CreateQuestionDTO){
+  getQuestionsWithRatingCriteriaFromDb(postData: ExamDTO){
+    const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+    return this.http.post<QuestionWithEvaluationCriteriasDTO[]>(this.url + 'questions/getQuestionsWithRatingCriteria', JSON.stringify(postData), {headers: headers});
+  }
+
+  writeQuestionToDb(postData: QuestionWithEvaluationCriteriasDTO){
     const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     return this.http.post<QuestionDto>(this.url + 'questions/newQuestion', JSON.stringify(postData), {headers: headers});
   }
