@@ -43,8 +43,11 @@ import {ArchivedExamsComponent} from "./components/archived-exams/archived-exams
 import { QuillModule } from 'ngx-quill';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {CreateQuestionDialog} from "./components/questions-collection/create_question/questions-collection.create_question_dialog";
+import { StartExamComponent } from './components/exam-editor/start-exam/start-exam.component';
+import {NgxFileDropModule} from "ngx-file-drop";
+import {MatListModule} from "@angular/material/list";
+import { CorrectionQuestionViewComponent } from './components/correction-question-view/correction-question-view.component';
 import {CorrectionOverviewComponent} from "./components/correction-overview/correction-overview.component";
-
 
 
 @NgModule({
@@ -64,41 +67,44 @@ import {CorrectionOverviewComponent} from "./components/correction-overview/corr
     CreateQuestionDialog,
     ExamEditorComponent,
     DeleteExamDialog,
+    StartExamComponent,
+    CorrectionQuestionViewComponent,
     CorrectionOverviewComponent,
-
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatDialogModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatGridListModule,
-    MatCardModule,
-    MatButtonToggleModule,
-    HttpClientModule,
-    FormsModule,
-    MatOptionModule,
-    MatSelectModule,
-    MatExpansionModule,
-    MatCheckboxModule,
-    MatProgressBarModule,
-    DragDropModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatDialogModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    ReactiveFormsModule,
-    QuillModule.forRoot(),
-    MatSnackBarModule,
-    MatTableModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatDialogModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatGridListModule,
+        MatCardModule,
+        MatButtonToggleModule,
+        HttpClientModule,
+        FormsModule,
+        MatOptionModule,
+        MatSelectModule,
+        MatExpansionModule,
+        MatCheckboxModule,
+        MatProgressBarModule,
+        DragDropModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatDialogModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        ReactiveFormsModule,
+        QuillModule.forRoot(),
+        MatSnackBarModule,
+        MatTableModule,
+        NgxFileDropModule,
+        MatListModule,
+    ],
   providers: [
     UserService,
     {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},

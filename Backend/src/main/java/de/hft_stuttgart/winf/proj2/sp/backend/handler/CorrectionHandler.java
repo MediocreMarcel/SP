@@ -4,7 +4,6 @@ import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbCorrection;
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbExam;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.CorrectionDTO;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.ExamDto;
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.RequestCorrectionDTO;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.UserDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -48,16 +47,16 @@ public class CorrectionHandler {
     }
 
     /**
-     * Endpoint to load the correction. Will return null if something goes wrong
+     * Endpoint to load all corrections of a exam. Will return null if something goes wrong
      *
-     * @param request request object that contains the matr Number of the student and the question id
-     * @return List of correctionDtos to this question and matr nr
+     * @param request exam of which the corrections should be loaded
+     * @return List of correctionDtos grouped in a list
      */
     @Path("load")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<CorrectionDTO> loadCorrection(RequestCorrectionDTO request) {
+    public List<List<CorrectionDTO>> loadCorrections(ExamDto request) {
         try {
             DbCorrection dbAccess = new DbCorrection();
             return dbAccess.getCorrection(request);

@@ -1,7 +1,7 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.db_access;
 
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.CorrectionDTO;
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.RequestCorrectionDTO;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.ExamDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.util.ResultSetMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,7 +9,10 @@ import org.apache.logging.log4j.Logger;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class DbCorrection extends DbConnector {
 
@@ -55,22 +58,26 @@ public class DbCorrection extends DbConnector {
     }
 
     /**
-     * Load the correction of a matrNumber/questionId pair.
-     * @param request a matrNumber/questionId pair to query
-     * @return list of corrections
+     * Load the all corrections of a exam
+     * @param request exam which should be queried
+     * @return list of list of corrections
      * @throws SQLException thrown if something sql related goes wrong
      */
-    public List<CorrectionDTO> getCorrection(RequestCorrectionDTO request) throws SQLException {
+    public List<List<CorrectionDTO>> getCorrection(ExamDto request) throws SQLException {
+        List<List<CorrectionDTO>> returnList = new ArrayList<>();
         ResultSetMapper rsMapper = new ResultSetMapper();
-        PreparedStatement getCorrection = conn.prepareStatement("SELECT * FROM is_corrected WHERE question_id = ? AND matr_nr = ?");
-        getCorrection.setInt(1, request.getQuestionId());
-        getCorrection.setInt(2, request.getMatrNumber());
+        PreparedStatement getCorrection = conn.prepareStatement("SELECT * FROM is_corrected WHERE exam_id = ?");
+        getCorrection.setInt(1, request.getExam_id());
         try {
-            return rsMapper.mapResultSetToObject(getCorrection.executeQuery(), CorrectionDTO.class);
+            List<CorrectionDTO> allCorrections = rsMapper.mapResultSetToObject(getCorrection.executeQuery(), CorrectionDTO.class);
+            List<Map<Integer,List<CorrectionDTO>>> groupedInMap =  allCorrections.stream().collect(Collectors.groupingBy(CorrectionDTO::getMatrNr, Collectors.groupingBy(CorrectionDTO::getQuestionId))).entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
+            for (Map<Integer, List<CorrectionDTO>> entry: groupedInMap) {
+                returnList.addAll(entry.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList()));
+            }
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
             e.printStackTrace();
             logger.error(e);
         }
-        return null;
+        return returnList;
     }
 }

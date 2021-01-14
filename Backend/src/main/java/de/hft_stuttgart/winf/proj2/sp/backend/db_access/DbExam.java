@@ -107,6 +107,7 @@ public class DbExam extends DbConnector {
 
     /**
      * Drops all questions in contains that belong to a certain exam
+     *
      * @param examId examid of the exam of which the questions should be deleted
      * @throws SQLException thrown if there is an sql error
      */
@@ -142,23 +143,24 @@ public class DbExam extends DbConnector {
 
     /**
      * Gets All exams which is already corrected. Only that exams that user have access too.
+     *
      * @param user the user for whom the exams should be searched
      * @return List of all corrected exams
-     * @throws SQLException
+     * @throws SQLException thrown if something sql related goes wrong
      */
     public List<ExamDto> getExamsforArchiv(UserDto user) throws SQLException {
         ResultSetMapper resultSetMapper = new ResultSetMapper();
 
         PreparedStatement selectArchivedExams = conn.prepareStatement("SELECT * FROM exams e inner join modules m on m.module_id = e.module_id " +
                 "inner join is_reading r on m.module_id = r.module_id inner join users u on r.user_id = u.user_id WHERE u.user_id = ? and e.status = 'corrected' ");
-        selectArchivedExams.setInt(1,user.getUser_id());
+        selectArchivedExams.setInt(1, user.getUser_id());
         ResultSet rs = selectArchivedExams.executeQuery();
 
         try {
-            List<ExamDto> exams =  resultSetMapper.mapResultSetToObject(rs, ExamDto.class);
+            List<ExamDto> exams = resultSetMapper.mapResultSetToObject(rs, ExamDto.class);
             QuestionsHandler questionsHandler = new QuestionsHandler();
             List<ModuleDto> modules = questionsHandler.getModulesByUser(user);
-            for (ExamDto exam: exams) {
+            for (ExamDto exam : exams) {
                 exam.setModule(modules.stream().filter(x -> x.getModule_id() == exam.getModuleId()).findFirst().get());
             }
             return exams;
@@ -170,6 +172,59 @@ public class DbExam extends DbConnector {
     }
 
     /**
+     * Starts a exam by inserting the students into the db and changing the state of the exam in the db
+     *
+     * @param startExamDTO
+     * @return boolean if insertion was successful
+     * @throws SQLException thrown if something sql related goes wrong
+     */
+    public boolean startExam(StartExamDTO startExamDTO) throws SQLException {
+        DbQuestions questionDB = new DbQuestions();
+        List<QuestionWithEvaluationCriteriasDTO> questionsWithCriteria = questionDB.getQuestionsWithRatingCriteria(startExamDTO.getExam());
+
+        this.conn.setAutoCommit(false);
+        PreparedStatement examStatus = this.conn.prepareStatement("UPDATE exams SET status = 'in_correction' WHERE exam_id = ?");
+        examStatus.setInt(1, startExamDTO.getExam().getExam_id());
+        if (examStatus.executeUpdate() <= 0) {
+            this.conn.rollback();
+            this.conn.setAutoCommit(true);
+            return false;
+        }
+
+        PreparedStatement insertStudent = this.conn.prepareStatement("REPLACE INTO students (matr_nr, course_shortname) VALUES (?,?)");
+        PreparedStatement insertCorrection = this.conn.prepareStatement("INSERT INTO is_corrected (matr_nr, exam_id, question_id, criteria_id, status) VALUES (?,?,?,?,?)");
+        for (StudentDTO student : startExamDTO.getStudents()) {
+            insertStudent.setInt(1, student.getMatrNumber());
+            insertStudent.setString(2, student.getCourseShortName());
+            if (insertStudent.executeUpdate() <= 0) {
+                this.conn.rollback();
+                this.conn.setAutoCommit(true);
+                return false;
+            }
+
+            for (QuestionWithEvaluationCriteriasDTO questionWithCriteria: questionsWithCriteria) {
+                for (QuestionCriteriaDTO criteria: questionWithCriteria.getEvaluationCriterias()){
+                    insertCorrection.setInt(1, student.getMatrNumber());
+                    insertCorrection.setInt(2, startExamDTO.getExam().getExam_id());
+                    insertCorrection.setInt(3, questionWithCriteria.getQuestionId());
+                    insertCorrection.setInt(4, criteria.getCriteriaId());
+                    insertCorrection.setString(5, "pending");
+                    if (insertCorrection.executeUpdate() <= 0){
+                        this.conn.rollback();
+                        this.conn.setAutoCommit(true);
+                        return false;
+                    }
+                }
+            }
+
+        }
+        this.conn.commit();
+        this.conn.setAutoCommit(true);
+        return true;
+    }
+
+    /**
+     * Gets all Examen that are redy for correction from a user
      *
      * @param user the user for whom the exams should be searched
      * @return List of all exams which have the state 'in_correction'

@@ -16,4 +16,9 @@ public class QuestionWithEvaluationCriteriasDTO extends ExamQuestionDTO {
 
     public QuestionWithEvaluationCriteriasDTO() {
     }
+
+    public QuestionWithEvaluationCriteriasDTO(Integer position, List<QuestionCriteriaDTO> evaluationCriterias) {
+        super(position);
+        this.evaluationCriterias = evaluationCriterias;
+    }
 }

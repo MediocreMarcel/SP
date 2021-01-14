@@ -7,6 +7,7 @@ import {QuestionWithEvaluationCriteriasDTO} from "../models/QuestionDto";
 import {CorrectionDTO} from "../models/CorrectionDTO";
 import {CorrectionService} from "../../services/correction/correction.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-correction-question-view',
@@ -17,17 +18,17 @@ export class CorrectionQuestionViewComponent implements OnInit {
   //Variables containing not changeable information
   exam: ExamDTO;
   questions: QuestionWithEvaluationCriteriasDTO[] = [];
-  students: number[] = [123456, 654321, 258963];
+  students: number[] = [];
 
   //local storage of corrections
   availableCorrections: CorrectionDTO[][] = [];
 
   //variables containing the information that is currently displayed
-  currentQuestion: QuestionWithEvaluationCriteriasDTO;
+  currentQuestion: QuestionWithEvaluationCriteriasDTO = null;
   currentCorrection: CorrectionDTO[] = [];
   //indexes of the current displayed information in relation to the constant variables
-  currentStudentIndex:number = 0;
-  currentQuestionIndex:number = 0;
+  currentStudentIndex: number = 0;
+  currentQuestionIndex: number = 0;
 
   //variables for the html table
   tableHeader = ["RatingCriteria", "MaxPoints", "scoredPoints", "fullPointsCheckpoints"];
@@ -43,7 +44,7 @@ export class CorrectionQuestionViewComponent implements OnInit {
    * @param correctionService
    * @param snackBar
    */
-  constructor(private questionService: CreateQuestionService, private correctionService: CorrectionService, private snackBar: MatSnackBar) {
+  constructor(private questionService: CreateQuestionService, private correctionService: CorrectionService, private snackBar: MatSnackBar, private router:Router) {
   }
 
   /**
@@ -51,12 +52,24 @@ export class CorrectionQuestionViewComponent implements OnInit {
    */
   ngOnInit(): void {
     this.exam = new ExamDTO(8, "SS 20", "2020-12-20", "2020-12-20", "in_correction", 120, new ModuleDTO(17, new CourseDTO("Wirtschaftsinformatic B.Sc.", 0), "ModulName"));
-    this.questionService.getQuestionsWithRatingCriteriaFromDb(this.exam).subscribe(u => {
-      this.questions = u;
-      this.currentQuestion = this.questions[0];
-      this.loadCorrection();
-    });
+    this.correctionService.getCorrection(this.exam).subscribe(u => {
+      this.availableCorrections = u;
+      console.log(this.availableCorrections);
+      //fill students array
+      var studentSet = new Set();
+      this.availableCorrections.forEach(u => studentSet.add(u[0].matrNr));
+      // @ts-ignore
+      studentSet.forEach(u => this.students.push(u));
 
+      //load questions
+      this.questionService.getQuestionsWithRatingCriteriaFromDb(this.exam).subscribe(u => {
+        u.sort((a, b) => a.position - b.position);//sort by position
+        this.questions = u;
+        console.log(this.questions);
+        this.currentQuestion = this.questions[0];
+        this.loadCorrection();
+      });
+    });
   }
 
   /**
@@ -105,6 +118,11 @@ export class CorrectionQuestionViewComponent implements OnInit {
    * saves the correction to the local storage (availableCorrections) and the db
    */
   saveCurrentCorrection() {
+    //Add Comment to all corrections
+    this.currentCorrection.forEach(u => u.comment = this.currentCorrection[0].comment);
+    //change status
+    this.currentCorrection.forEach(u => u.status = "in_progress");
+
     //if list does not contain current question
     if (this.availableCorrections.length == 0 || this.availableCorrections.find(u => u[0].questionId == this.currentQuestion.questionId && u[0].matrNr == this.students[this.currentStudentIndex]) == undefined) {
       this.availableCorrections.push(this.currentCorrection);
@@ -153,10 +171,10 @@ export class CorrectionQuestionViewComponent implements OnInit {
     this.currentStudentIndex--;
     //check for underflow
     if (this.currentStudentIndex < 0) {
-      if (this.previousQuestion()){//if underflow and there is a previous question set the student index to max and reduce the question index
+      if (this.previousQuestion()) {//if underflow and there is a previous question set the student index to max and reduce the question index
         this.currentStudentIndex = this.students.length - 1;
       } else { //restore old value
-        this.currentStudentIndex ++;
+        this.currentStudentIndex++;
       }
     }
     this.loadCorrection();
@@ -181,27 +199,18 @@ export class CorrectionQuestionViewComponent implements OnInit {
    * if not found it checks if the db contains this correction. If not it creates a new one.
    */
   private loadCorrection() {
-    //if current correction is empty, generate a correction
-    if (this.currentCorrection.length == 0) {
-      this.clearCurrentCorrection();
-      return;
-    }
-
     //check if correction is in local storage
     let foundCorrection = this.availableCorrections.find(u => u[0].questionId == this.currentQuestion.questionId && u[0].matrNr == this.students[this.currentStudentIndex]);
     if (foundCorrection == undefined) {//if not in localstorage, load the correction from db
-      this.correctionService.getCorrection(this.students[this.currentStudentIndex], this.questions[this.currentQuestionIndex]).subscribe(u => {
-        if (u.length > 0) { //if the db returns corrections add them to the array
-          this.availableCorrections.push(u);
-        }
-        foundCorrection = this.availableCorrections.find(corrections => corrections[0].questionId == this.currentQuestion.questionId && corrections[0].matrNr == this.students[this.currentStudentIndex]);//check if the correction is now in the local storage
-        if (foundCorrection == undefined) {//if now also not in localstorage create new correction
-          this.clearCurrentCorrection();
-          return;
+      this.snackBar.open("Etwas ist schiefgelaufen. Bitte Korrektur neu laden!")
+    } else {
+      this.currentCorrection = foundCorrection;//if correction is in localstorage, load it
+      this.currentCorrection.forEach(u => {
+        if (u.reachedPoints == undefined) {
+          u.reachedPoints = 0;
         }
       });
-    } else{
-      this.currentCorrection = foundCorrection;//if correction is in localstorage, load it
+
     }
 
   }
@@ -222,20 +231,30 @@ export class CorrectionQuestionViewComponent implements OnInit {
    * @return percent value of the currection progress
    */
   getCorrectionProgress() {
-    return this.availableCorrections.length/(this.questions.length*this.students.length)*100;
+    let availableCorrections = this.availableCorrections.reduce((a,b) => a + b.reduce((aInner,bInner) => aInner+1,0),0);
+    let correctedCorrections = this.availableCorrections.reduce((a,b) => a + b.reduce((aInner,bInner) => aInner+(bInner.status=="in_progress"?1:0),0),0);
+    return correctedCorrections/availableCorrections*100;
   }
 
   /**
    * get the sum of the achieved points of a student as a string in the format x from y points
    * @return string of the current points from a student
    */
-  getSumOfPointsFromStudent(){
+  getSumOfPointsFromStudent() {
     let sum = 0;
-    this.availableCorrections.forEach( u => {
-      if (u[0].matrNr == this.students[this.currentStudentIndex]){
+    this.availableCorrections.forEach(u => {
+      if (u[0].matrNr == this.students[this.currentStudentIndex]) {
         sum += u.reduce((accumulator, current) => accumulator + current.reachedPoints, 0);
       }
     });
     return sum + " von " + this.exam.totalPoints;
+  }
+
+  /**
+   * saves the exam and leaves
+   */
+  saveAndLeave() {
+    this.saveCurrentCorrection();
+    this.router.navigate(["/home"]);
   }
 }

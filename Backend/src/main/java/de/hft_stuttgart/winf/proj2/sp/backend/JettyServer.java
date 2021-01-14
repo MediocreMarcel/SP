@@ -48,7 +48,8 @@ public class JettyServer {
         serHol.setInitOrder(1);
         serHol.setInitParameter(ServerProperties.PROVIDER_PACKAGES,
                 "de.hft_stuttgart.winf.proj2.sp.backend.handler");
-        serHol.setInitParameter(ServerProperties.PROVIDER_CLASSNAMES, "com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider");
+        serHol.setInitParameter(ServerProperties.PROVIDER_CLASSNAMES, "com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider, org.glassfish.jersey.media.multipart.MultiPartFeature");
+
 
         FilterHolder filterHolder = ctx.addFilter(org.eclipse.jetty.servlets.CrossOriginFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
 
