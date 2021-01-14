@@ -33,8 +33,8 @@
 
         <mat-grid-tile
           *ngFor="let tile of tiles">
-          <mat-card id="matCardModuleTitle" class="tile" (click)="navigateToQuestionsCollection(tile)">
-            <mat-card-title class="tileTitle">{{tile.definition}}</mat-card-title>
+          <mat-card  class="tile" (click)="navigateToQuestionsCollection(tile)" >
+            <mat-card-title id="{{tile.definition}}" class="tileTitle">{{tile.definition}}</mat-card-title>
             <mat-card-subtitle class="tileSubtitle">{{tile.course.courseName}}</mat-card-subtitle>
           </mat-card>
         </mat-grid-tile>
