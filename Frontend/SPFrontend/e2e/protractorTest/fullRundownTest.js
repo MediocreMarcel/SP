@@ -101,10 +101,15 @@ describe('full rundown test', function(){
 
     browser.sleep(2000);
 
-
-    var examExamEditor= element(by.cssContainingText('.mat-button-wrapper', 'Erstellen')).click();
+    var examExamEditor= element(by.id('createExamEditorButton')).click();
 
     browser.sleep(1000);
+
+    let expectCheckExam= element(by.id('Exam Test')).getText().
+    then(function (attr) {
+      expect(attr).toBe("Exam Test")
+
+    });
 
 
 
