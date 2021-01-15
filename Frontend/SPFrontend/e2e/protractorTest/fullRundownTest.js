@@ -129,17 +129,38 @@ describe('full rundown test', function(){
 
     var saveExamButton= element(by.id('saveExamButton')).click();
 
-
     let startExamButton= element(by.id('startExamButton')).click();
 
-    var selectFileButton= element(by.id('selectFileButton')).click();
+    let selectFileButton= element(by.id('selectFileButton')).click();
 
-    browser.sleep(2000);
+    browser.sleep(10000);
+
+    let startExamStudentButton= element(by.id('startExamStudentButton')).click();
+
+    let expectCheckExam= element(by.id('Exam Test')).getText().
+      then(function (attr) {
+        expect(attr).toBe("Exam Test")
+
+    });
 
 
+  });
 
-    //var filePath = 'C:/Users/Fede10204/Desktop/testDoc.xls';
-    //element(by.className('ngx-file-drop__content')).sendKeys(filePath);
+  it('exam correction Test', async() => {
+
+    let correctExamButtonNav= element(by.id('correctExamButtonNav')).click();
+
+    let selectExamCorrect= element(by.id('Exam Test')).click();
+
+    let questionCheckbox= element(by.id('questionCheckbox')).click();
+
+    var i;
+
+    for (i = 0; i < 3; i++){
+      let nextStudentButton= element(by.id('nextStudentButton')).click();
+      browser.sleep(500);
+    }
+
 
   });
 
