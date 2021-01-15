@@ -29,7 +29,7 @@ public class DbQuestions extends DbConnector {
      * @return list of all questions
      * @throws SQLException thrown if server is unavailable or some problem with the server accrues
      */
-    public List<QuestionsDto> getQuestions(ModuleDto module) throws SQLException {
+    public List<QuestionWithEvaluationCriteriasDTO> getQuestions(ModuleDto module) throws SQLException {
 
         if (module == null || module.getModule_id() == null) {
             return null;
@@ -41,7 +41,11 @@ public class DbQuestions extends DbConnector {
         ResultSet rs = selectQuestions.executeQuery();
 
         try {
-            return resultSetMapper.mapResultSetToObject(rs, QuestionsDto.class);
+            List<QuestionWithEvaluationCriteriasDTO> questions = resultSetMapper.mapResultSetToObject(rs, QuestionWithEvaluationCriteriasDTO.class);
+            for (QuestionWithEvaluationCriteriasDTO question: questions) {
+                question.setEvaluationCriterias(getEvaluationCriteria(question));
+            }
+            return questions;
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
             e.printStackTrace();
             logger.error(e);
@@ -205,6 +209,25 @@ public class DbQuestions extends DbConnector {
         PreparedStatement selectQuestions = conn.prepareStatement("SELECT * FROM rating_criteria WHERE question_id = ?");
         selectQuestions.setInt(1, question.getQuestionId());
         return resultSetMapper.mapResultSetToObject(selectQuestions.executeQuery(), QuestionCriteriaDTO.class);
+    }
+
+    public boolean updateQuestion(QuestionWithEvaluationCriteriasDTO question) throws SQLException {
+        conn.setAutoCommit(false);
+
+        PreparedStatement updateQuestion = conn.prepareStatement("UPDATE questions SET deleted = ? WHERE question_id = ?");
+        updateQuestion.setInt(1, 1);
+        updateQuestion.setInt(2, question.getQuestionId());
+
+        if (updateQuestion.executeUpdate() <= 0) {
+            logger.warn("Could not update element : " + question);
+            System.err.println("Could not update element : " + question);
+            conn.rollback();
+            conn.setAutoCommit(true);
+            return false;
+        }
+        conn.commit();
+        conn.setAutoCommit(true);
+        return true;
     }
 }
 

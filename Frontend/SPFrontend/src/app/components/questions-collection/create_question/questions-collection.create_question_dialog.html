@@ -87,6 +87,7 @@
 
   <mat-dialog-actions align="end">
     <button mat-flat-button mat-dialog-close>Abbrechen</button>
-    <button mat-flat-button (click)="writeQuestion()" color="primary">Erstellen</button>
+    <button mat-flat-button (click)="writeQuestion()" color="primary" *ngIf="!isEditing">Erstellen</button>
+    <button mat-flat-button (click)="updateQuestion()" color="primary" *ngIf="isEditing">Ändern</button>
   </mat-dialog-actions>
 </div>
