@@ -13,6 +13,11 @@ export class PdfService {
   constructor(private http: HttpClient) {
   }
 
+  /**
+   *
+   * @param postData
+   *
+   */
   previewPDF(postData: SaveExamAndQuestionsDTO) {
     let headerOptions = new HttpHeaders({
       'Content-Type': 'application/json',

@@ -44,6 +44,7 @@ export class ExamEditorComponent implements OnInit {
   currentExamPoints: number;
   selectedModule: string;
   semester: string;
+  pdfSrc: any ;
 
 
   /**
@@ -73,6 +74,7 @@ export class ExamEditorComponent implements OnInit {
       localStorage.setItem("currentExamForExamEditor", JSON.stringify(this.exam));
     }
 
+
     //load questions
     this.questionService.getQuestionsFromDb(this.exam.module).subscribe(retVal => {
         let pipe = new GroupByPipe();
@@ -99,6 +101,8 @@ export class ExamEditorComponent implements OnInit {
         }));
       });
       this.calculateCurrentPoints();
+      //load preview
+      this.loadPreview();
     });
 
     this.moduleService.getModulesForUser(this.userService.getUser()).subscribe(modules => {
@@ -107,6 +111,7 @@ export class ExamEditorComponent implements OnInit {
     });
 
     this.dateOfExam = new FormControl(new Date(this.exam.exam_date));
+
 
   }
 
@@ -145,7 +150,6 @@ export class ExamEditorComponent implements OnInit {
       }
       this.calculateCurrentPoints();
     }
-
   }
 
   /**
@@ -168,12 +172,7 @@ export class ExamEditorComponent implements OnInit {
       (error) => {
         this.snackBar.open("Fehler beim Speichern! Bitte erneut versuchen!", "Schließen", {duration: 8000})
       });
-    this.pdfService.previewPDF(new SaveExamAndQuestionsDTO(this.exam, this.examContent)).subscribe((response) => {
-        let file = new Blob([response], {type: 'application/pdf'});
-        var fileURL = URL.createObjectURL(file);
-        window.open(fileURL);
-      }
-    );
+
   }
 
   /**
@@ -202,5 +201,14 @@ export class ExamEditorComponent implements OnInit {
     });
   }
 
+  loadPreview() {
+    this.pdfService.previewPDF(new SaveExamAndQuestionsDTO(this.exam, this.examContent)).subscribe((response) => {
+        let file = new Blob([response], {type: 'application/pdf'});
+        var fileURL = URL.createObjectURL(file);
+        //window.open(fileURL);
+        this.pdfSrc= fileURL ;
+      }
+    );
+  }
 }
 

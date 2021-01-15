@@ -93,3 +93,9 @@ mat-grid-tile {
   color: rgba(0,0,0,.54);
   font-size: 0.85em;
 }
+
+.pdf-viewer{
+  height:100%;
+  width: 100%;
+  display: inline-block;
+}

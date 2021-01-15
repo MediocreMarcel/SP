@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <mat-form-field style="width:100%; margin-top: 10px;">
   <mat-label>Klausurname</mat-label>
-  <input matInput input="text" [(ngModel)]="exam.title" (ngModelChange)="exam.title = $event" class="examTitleInput">
+  <input matInput input="text" [(ngModel)]="exam.title" (ngModelChange)="exam.title = $event" (change)="loadPreview()" class="examTitleInput">
 </mat-form-field>
 
 <mat-card>
@@ -11,25 +11,26 @@
         <mat-form-field class="infoHeaderInput">
           <mat-label>Gesamtpunkte</mat-label>
           <input matInput type="number" min="0" [(ngModel)]="exam.totalPoints"
-                 (ngModelChange)="exam.totalPoints = $event">
+                 (ngModelChange)="exam.totalPoints = $event"  (change)="loadPreview()">
         </mat-form-field>
       </mat-grid-tile>
 
       <mat-grid-tile>
         <mat-form-field class="infoHeaderInput">
-        <mat-label>Studiengang</mat-label>
-        <mat-select [(value)]="selectedModule">
-          <mat-option *ngFor="let module of availableModules" value="{{JSON.stringify(module)}}">{{module.definition}}</mat-option>
-        </mat-select>
+          <mat-label>Studiengang</mat-label>
+          <mat-select [(value)]="selectedModule" (change)="loadPreview()">
+            <mat-option *ngFor="let module of availableModules"
+                        value="{{JSON.stringify(module)}}">{{module.definition}}</mat-option>
+          </mat-select>
         </mat-form-field>
       </mat-grid-tile>
 
       <mat-grid-tile>
-        <mat-form-field class="infoHeaderInput">
+        <mat-form-field class="infoHeaderInput" >
           <mat-label>Datum der Klausur</mat-label>
-          <input matInput [matDatepicker]="examDatePicker" [formControl]="dateOfExam">
-          <mat-datepicker-toggle matSuffix [for]="examDatePicker"></mat-datepicker-toggle>
-          <mat-datepicker #examDatePicker></mat-datepicker>
+          <input matInput [matDatepicker]="examDatePicker" [formControl]="dateOfExam"  (dateInput)="loadPreview()" >
+          <mat-datepicker-toggle matSuffix [for]="examDatePicker" ></mat-datepicker-toggle>
+          <mat-datepicker #examDatePicker> </mat-datepicker>
         </mat-form-field>
       </mat-grid-tile>
 
@@ -48,7 +49,8 @@
       <mat-grid-tile>
         <!-- Buttons Vorschau + Speichern + Verwerfen: Pop-ups für Speichern + Verwerfen?! -->
         <button mat-raised-button class="infoHeaderButton" (click)="saveExam()">Speichern</button>
-        <button mat-raised-button class="infoHeaderButton" color="primary" (click)="startExam()">Prüfung starten</button>
+        <button mat-raised-button class="infoHeaderButton" color="primary" (click)="startExam()">Prüfung starten
+        </button>
         <button mat-raised-button class="infoHeaderButton" color="warn" (click)="deleteExam()">Verwerfen</button>
       </mat-grid-tile>
     </mat-grid-list>
@@ -74,7 +76,7 @@
                   [cdkDropListData]=questionsByCategory
                   [cdkDropListConnectedTo]="[examList]"
                   class="question-drag-n-drop-list"
-                  (cdkDropListDropped)="drop($event)">
+                  (cdkDropListDropped)="drop($event);loadPreview()">
                   <div cdkDrag [cdkDragDisabled]="question.questionId == -1"
                        *ngFor="let question of questionsByCategory">
                     <div class="question-holder-disabled"
@@ -112,7 +114,8 @@
               [cdkDropListData]="examContent"
               [cdkDropListConnectedTo]='questionCategories'
               class="question-drag-n-drop-list"
-              (cdkDropListDropped)="drop($event)"
+              (cdkDropListDropped)="drop($event);loadPreview();"
+              (cdkDropListSorted)="loadPreview()"
             >
               <div cdkDrag
                    *ngFor="let question of examContent">
@@ -135,9 +138,18 @@
 
       <mat-grid-tile>
         <div class="examCreatorWrapperDiv">
-          <mat-card style="height: 90%;">
+          <mat-card style="height: auto;">
             <mat-card-title>Vorschau</mat-card-title>
-            <mat-card-content></mat-card-content>
+            <mat-card class="content-card" style="width:auto; height: 100%;">
+              <pdf-viewer [src]="pdfSrc"
+                          [render-text]="true"
+                          [autoresize]="true"
+                          [original-size]="false"
+                          [fit-to-page]="true"
+
+                          class="pdf-viewer">
+              </pdf-viewer>
+            </mat-card>
           </mat-card>
         </div>
       </mat-grid-tile>
