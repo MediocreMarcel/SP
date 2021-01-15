@@ -112,7 +112,7 @@ public class DbQuestions extends DbConnector {
      * @return boolean weather the deletion was successful
      * @throws SQLException hrown if server is unavailable or some problem with the server accrues
      */
-    public boolean deleteQuestions(List<QuestionsDto> questions) throws SQLException {
+    public boolean deleteQuestions(List<QuestionWithEvaluationCriteriasDTO> questions) throws SQLException {
         conn.setAutoCommit(false);
 
         for (QuestionsDto question : questions) {

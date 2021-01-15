@@ -30,9 +30,9 @@ export class CreateQuestionService {
     return this.http.post<QuestionDto>(this.url + 'questions/newQuestion', JSON.stringify(postData), {headers: headers});
   }
 
-  deleteQuestions(questions: QuestionDto[]){
+  deleteQuestions(questionWithEvaluationCriteriasDTOS: QuestionWithEvaluationCriteriasDTO[]){
     const headers = new HttpHeaders().set('Content-Type', 'application/json;');
-    return this.http.post(this.url + 'questions/deleteQuestions', JSON.stringify(questions), { headers: headers });//http request, since http delete does not work with a body
+    return this.http.post(this.url + 'questions/deleteQuestions', JSON.stringify(questionWithEvaluationCriteriasDTOS), { headers: headers });//http request, since http delete does not work with a body
   }
 
   getExamQuestionsFromDb(postData: ExamDTO){

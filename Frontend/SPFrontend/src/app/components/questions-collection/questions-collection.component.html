@@ -17,7 +17,7 @@
               Neue Frage hinzufügen
             </mat-card-subtitle>
           </mat-card>
-          <mat-card class="tile" style="width:25%;"(click)="deleteSelection()">
+          <mat-card class="tile" style="width:25%;" (click)="deleteSelection()">
             <mat-card-title>
             <span mat-align-tabs="center" class="material-icons centerIcon" style="font-size: 25pt">
               delete
@@ -40,28 +40,32 @@
               </mat-panel-description>
             </mat-expansion-panel-header>
 
-            <mat-card *ngFor="let question of questionCategory.value " style="background: #f5f5f6; margin-bottom: 0.7%;">
-              <div class="checkboxAndCardContainer">
-                <section>
-                  <mat-checkbox (change)="checkboxChanged(question)">
-                  </mat-checkbox>
-                </section>
-                <mat-card class="checkboxCard">
-                  <mat-card-title>
-                    <div class="questionName">
-                      {{question.questionName}}
-                      <mat-icon aria-hidden="false" aria-label="Example home icon" (click)="hideQuestion(question)">accessible_forward</mat-icon>
-                    </div>
-                  </mat-card-title>
-                  <mat-card-subtitle>
-                    {{question.shortName}}
-                  </mat-card-subtitle>
-                  <mat-card-content>
-                    <p [innerHTML]="question.questionText"></p>
-                  </mat-card-content>
-                </mat-card>
-              </div>
-            </mat-card>
+            <div *ngIf="(questions.)">
+              <mat-card *ngFor="let question of questionCategory.value "style="background: #f5f5f6; margin-bottom: 0.7%;">
+                <div class="checkboxAndCardContainer">
+                  <section>
+                    <mat-checkbox (change)="checkboxChanged(question)">
+                    </mat-checkbox>
+                  </section>
+                  <mat-card class="checkboxCard">
+                    <mat-card-title>
+                      <div class="questionName">
+                        {{question.questionName}}
+                        <mat-icon aria-hidden="false" aria-label="Example home icon" (click)="hideQuestion(question)">
+                          accessible_forward
+                        </mat-icon>
+                      </div>
+                    </mat-card-title>
+                    <mat-card-subtitle>
+                      {{question.shortName}}
+                    </mat-card-subtitle>
+                    <mat-card-content>
+                      <p [innerHTML]="question.questionText"></p>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </mat-card>
+            </div>
           </mat-expansion-panel>
         </mat-accordion>
       </mat-card-content>

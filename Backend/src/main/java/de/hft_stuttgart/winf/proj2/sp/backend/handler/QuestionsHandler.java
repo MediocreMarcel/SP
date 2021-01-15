@@ -147,7 +147,7 @@ public class QuestionsHandler {
     @Path("deleteQuestions")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteQuestions(List<QuestionsDto> questions) {
+    public Response deleteQuestions(List<QuestionWithEvaluationCriteriasDTO> questions) {
         try {
             DbQuestions dbAccess = new DbQuestions();
             if (dbAccess.deleteQuestions(questions)) {
