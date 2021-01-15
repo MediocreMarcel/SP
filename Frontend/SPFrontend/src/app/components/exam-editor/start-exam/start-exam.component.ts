@@ -76,6 +76,8 @@ export class StartExamComponent implements OnInit {
    * starts the exam with the imported students
    */
   startExam() {
+    //adapt points if not same
+    this.exam.totalPoints = this.questionPoints;
     this.examService.startExam(this.exam, this.students).subscribe((response) => {
         this.router.navigate(["/home"]);
         this.dialogRef.close();
