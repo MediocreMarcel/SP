@@ -108,7 +108,7 @@ export class CorrectionSummeryComponent implements OnInit {
    * calculates the correction progress
    */
   calculateProgress() {
-    return (this.corrections.reduce((counter, currentValue) => counter + (currentValue[0].status == "in_progress" ? 1 : 0), 0) / (this.questionsWithAVG.length * this.students.length)) * 100;
+    return (this.corrections.reduce((counter, currentValue) => counter + (currentValue[0].status == "in_progress" || currentValue[0].status == "corrected" ? 1 : 0), 0) / (this.questionsWithAVG.length * this.students.length)) * 100;
   }
 
   /**

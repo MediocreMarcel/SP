@@ -64,7 +64,7 @@ export class CorrectionQuestionViewComponent implements OnInit {
       this.exam = state;
     }
 
-    if (this.exam == undefined  || Object.keys(this.exam).length == 0) {
+    if (this.exam == undefined || Object.keys(this.exam).length == 0) {
       let moduleJSON = localStorage.getItem("currentCorrectionExam");
       if (moduleJSON == null) {
         this.router.navigate(["/correction-overview"]);
@@ -159,7 +159,11 @@ export class CorrectionQuestionViewComponent implements OnInit {
     //Add Comment to all corrections
     this.currentCorrection.forEach(u => u.comment = this.currentCorrection[0].comment);
     //change status
-    this.currentCorrection.forEach(u => u.status = "in_progress");
+    this.currentCorrection.forEach(u => {
+      if (u.status != "corrected"){
+        u.status = "in_progress";
+      }
+    });
 
     //if list does not contain current question
     if (this.availableCorrections.length == 0 || this.availableCorrections.find(u => u[0].questionId == this.currentQuestion.questionId && u[0].matrNr == this.students[this.currentStudentIndex]) == undefined) {
@@ -176,14 +180,6 @@ export class CorrectionQuestionViewComponent implements OnInit {
       (error) => {
         this.snackBar.open("Letze Bewertung konnte nicht gespeichert werden!", "Schließen", {duration: 8000})
       });
-  }
-
-  /**
-   * clears the correction and creates new objects for all evaluation criteria of the current Question to correct
-   */
-  clearCurrentCorrection() {
-    this.currentCorrection = [];
-    this.currentQuestion.evaluationCriterias.forEach((u, i) => this.currentCorrection.push(new CorrectionDTO(this.currentQuestion.questionId, this.currentQuestion.evaluationCriterias[i], this.students[this.currentStudentIndex], "", 0, "in_progress", this.exam.exam_id)));
   }
 
   /**
@@ -270,7 +266,7 @@ export class CorrectionQuestionViewComponent implements OnInit {
    */
   getCorrectionProgress() {
     let availableCorrections = this.availableCorrections.reduce((a, b) => a + b.reduce((aInner, bInner) => aInner + 1, 0), 0);
-    let correctedCorrections = this.availableCorrections.reduce((a, b) => a + b.reduce((aInner, bInner) => aInner + (bInner.status == "in_progress" ? 1 : 0), 0), 0);
+    let correctedCorrections = this.availableCorrections.reduce((a, b) => a + b.reduce((aInner, bInner) => aInner + (bInner.status == "in_progress" || bInner.status == "corrected" ? 1 : 0), 0), 0);
     return correctedCorrections / availableCorrections * 100;
   }
 
@@ -294,5 +290,13 @@ export class CorrectionQuestionViewComponent implements OnInit {
   saveAndLeave() {
     this.saveCurrentCorrection();
     this.router.navigate(["/home"]);
+  }
+
+  /**
+   * saves the current correction and navigates to the summery
+   */
+  saveAndRedirectToSummery() {
+    this.saveCurrentCorrection();
+    this.router.navigate(["/correction-summery"], {state: this.exam});
   }
 }
