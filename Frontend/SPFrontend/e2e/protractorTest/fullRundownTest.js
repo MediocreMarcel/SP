@@ -129,7 +129,17 @@ describe('full rundown test', function(){
 
     var saveExamButton= element(by.id('saveExamButton')).click();
 
+
+    let startExamButton= element(by.id('startExamButton')).click();
+
+    var selectFileButton= element(by.id('selectFileButton')).click();
+
     browser.sleep(2000);
+
+
+
+    //var filePath = 'C:/Users/Fede10204/Desktop/testDoc.xls';
+    //element(by.className('ngx-file-drop__content')).sendKeys(filePath);
 
   });
 
