@@ -137,9 +137,11 @@ describe('full rundown test', function(){
 
     let startExamStudentButton= element(by.id('startExamStudentButton')).click();
 
+    let correctExamButtonNav= element(by.id('correctExamButtonNav')).click();
+
     let expectCheckExam= element(by.id('Exam Test')).getText().
-      then(function (attr) {
-        expect(attr).toBe("Exam Test")
+    then(function (attr) {
+      expect(attr).toBe("Exam Test")
 
     });
 
@@ -148,7 +150,6 @@ describe('full rundown test', function(){
 
   it('exam correction Test', async() => {
 
-    let correctExamButtonNav= element(by.id('correctExamButtonNav')).click();
 
     let selectExamCorrect= element(by.id('Exam Test')).click();
 
