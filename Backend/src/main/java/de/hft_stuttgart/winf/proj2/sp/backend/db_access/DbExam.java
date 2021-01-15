@@ -191,11 +191,12 @@ public class DbExam extends DbConnector {
             return false;
         }
 
-        PreparedStatement insertStudent = this.conn.prepareStatement("REPLACE INTO students (matr_nr, course_shortname) VALUES (?,?)");
+        PreparedStatement insertStudent = this.conn.prepareStatement("INSERT INTO students (matr_nr, course_shortname) VALUES (?,?) ON DUPLICATE KEY UPDATE course_shortname = ?");
         PreparedStatement insertCorrection = this.conn.prepareStatement("INSERT INTO is_corrected (matr_nr, exam_id, question_id, criteria_id, status) VALUES (?,?,?,?,?)");
         for (StudentDTO student : startExamDTO.getStudents()) {
             insertStudent.setInt(1, student.getMatrNumber());
             insertStudent.setString(2, student.getCourseShortName());
+            insertStudent.setString(3, student.getCourseShortName());
             if (insertStudent.executeUpdate() <= 0) {
                 this.conn.rollback();
                 this.conn.setAutoCommit(true);
