@@ -36,7 +36,7 @@ public class DbQuestions extends DbConnector {
         }
 
         ResultSetMapper resultSetMapper = new ResultSetMapper();
-        PreparedStatement selectQuestions = conn.prepareStatement("SELECT * FROM questions qs INNER JOIN modules m  ON qs.module_id = m.module_id WHERE m.module_id = ?");
+        PreparedStatement selectQuestions = conn.prepareStatement("SELECT * FROM questions qs INNER JOIN modules m  ON qs.module_id = m.module_id WHERE m.module_id = ? AND qs.deleted = 0");
         selectQuestions.setInt(1, module.getModule_id());
         ResultSet rs = selectQuestions.executeQuery();
 

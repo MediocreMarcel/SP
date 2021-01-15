@@ -114,7 +114,7 @@ public class QuestionsHandler {
     }
 
     /**
-     * Updates Question-deletion state in the database
+     * Updates Question-deletion state in the database to 1
      *
      * @param question question that should be updated as deleted
      * @return returns question if insert was successful

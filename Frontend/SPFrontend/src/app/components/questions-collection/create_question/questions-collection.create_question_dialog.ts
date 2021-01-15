@@ -45,7 +45,7 @@ export class CreateQuestionDialog {
    */
   writeQuestion() {
     if (this.isNeededInformationFilledIn()){
-      this.service.writeQuestionToDb(new QuestionWithEvaluationCriteriasDTO(null, this.questionName, this.questionText, this.totalPointsEval(), this.shortName, this.category, this.module.module_id, -1, this.evaluationCriterias)).subscribe();
+      this.service.writeQuestionToDb(new QuestionWithEvaluationCriteriasDTO(null, this.questionName, this.questionText, this.totalPointsEval(), this.shortName, this.category, this.module.module_id, -1, this.evaluationCriterias, 0)).subscribe();
       this.dialogRef.close();
     } else{
       this.snackBar.open("Bitte alle Felder ausfüllen!", "Schließen", {duration: 4000});
@@ -97,10 +97,13 @@ export class CreateQuestionDialog {
       this.evaluationCriterias.length > 0;
   }
 
+  /**
+   * marks specific question as changed. Old question gets flagged as deleted and no-longer appears in questionpool. Edited question is created as a replacement
+   */
   updateQuestion() {
     if (this.isNeededInformationFilledIn()){
-      this.service.writeQuestionUpdateToDb(new QuestionWithEvaluationCriteriasDTO(this.id, this.questionName, this.questionText, this.totalPointsEval(), this.shortName, this.category, this.module.module_id, -1, this.evaluationCriterias)).subscribe();
-      this.service.writeQuestionToDb(new QuestionWithEvaluationCriteriasDTO(null, this.questionName, this.questionText, this.totalPointsEval(), this.shortName, this.category, this.module.module_id, -1, this.evaluationCriterias)).subscribe();
+      this.service.writeQuestionUpdateToDb(new QuestionWithEvaluationCriteriasDTO(this.id, this.questionName, this.questionText, this.totalPointsEval(), this.shortName, this.category, this.module.module_id, -1, this.evaluationCriterias, 0)).subscribe();
+      this.service.writeQuestionToDb(new QuestionWithEvaluationCriteriasDTO(null, this.questionName, this.questionText, this.totalPointsEval(), this.shortName, this.category, this.module.module_id, -1, this.evaluationCriterias, 0)).subscribe();
       this.dialogRef.close();
     } else{
       this.snackBar.open("Bitte alle Felder ausfüllen!", "Schließen", {duration: 4000});

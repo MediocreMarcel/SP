@@ -75,6 +75,10 @@ export class QuestionsCollectionComponent implements OnInit {
     });
   }
 
+  /**
+   * Opens new createQuestion-Dialog prefilled with the specific question-data of the question to be changed
+   * @param question question that is subjected to be changed
+   */
   hideQuestion(question) {
     console.log(question);
     const dialogRef = this.dialog.open(CreateQuestionDialog, {
