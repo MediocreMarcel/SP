@@ -21,8 +21,7 @@ public class PdfHandler {
 
 
     /**
-     * Ues the Pdf_generator.savePdfDocument() - Method to print an exam with a cover sheet and a page for every question
-     *
+     * Use the Pdf_generator.savePdfDocument() - Method to print an exam with a cover sheet and a page for every question
      * @param exam SaveExamAndQuestionsDTO: Needs object to search
      * @return No return apart from Response
      */
@@ -48,8 +47,10 @@ public class PdfHandler {
     }
 
     /**
-     * @param exam
-     * @return
+     * Use the Pdf_generator.previewPdfDocument() to generate an PDF as an ByteArrayOutputStream. The out is then parsed to the Frontend
+     * so it can be used to display the PDF in lifetime.
+     * @param exam SaveExamAndQuestionsDTO: Needs object to search
+     * @return No return apart from Response
      */
     @Path("pdfPreview")
     @POST
@@ -59,7 +60,7 @@ public class PdfHandler {
         try {
             if (exam != null) {
                 ByteArrayOutputStream out = Pdf_generator.previewPdfDocument(exam.getExam(), exam.getQuestions());
-                System.out.println("Test");
+
                 return Response.ok(out.toByteArray(), MediaType.APPLICATION_OCTET_STREAM).header("content-disposition", "attachment; filename = doc.pdf").build();
             } else {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();

@@ -14,8 +14,8 @@ export class PdfService {
   }
 
   /**
-   *
-   * @param postData
+   * Service for the PDFViewer. We get the PDF form the Backend.
+   * @param SaveExamAndQuestionsDTO
    *
    */
   previewPDF(postData: SaveExamAndQuestionsDTO) {

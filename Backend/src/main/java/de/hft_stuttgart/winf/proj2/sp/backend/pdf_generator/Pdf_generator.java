@@ -36,6 +36,12 @@ public class Pdf_generator {
     private static final Paragraph placeholder = new Paragraph("\n");
     private static final LineSeparator separator = new LineSeparator(new SolidLine(1)).setMarginTop(5);
 
+    /**
+     *
+     * @param exam Exam Object List from the Question that need to be displayed in the PDF
+     * @param questions List from the Question that need to be displayed in the PDF
+     * @throws FileNotFoundException
+     */
     public static void savePdfDocument(ExamDto exam, List<ExamQuestionDTO> questions) throws FileNotFoundException {
         //Setting Filename, preparing document
         final String filename = "PDF/Exam_" + exam.getExam_id() + "_" + exam.getTitle() + ".pdf ";
@@ -48,6 +54,13 @@ public class Pdf_generator {
         writeExam(pdfDocument,document,exam,questions);
     }
 
+    /**
+     *
+     * @param exam Exam Object List from the Question that need to be displayed in the PDF
+     * @param questions List from the Question that need to be displayed in the PDF
+     * @return ByteArrayOutputStream from the PDF that is generated
+     * @throws FileNotFoundException
+     */
     public static ByteArrayOutputStream previewPdfDocument(ExamDto exam, List<ExamQuestionDTO> questions) throws FileNotFoundException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         final PdfWriter previewWriter = new PdfWriter(out);
