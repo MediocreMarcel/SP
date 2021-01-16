@@ -1,6 +1,9 @@
+
+
 describe('full rundown test', function(){
 
-
+  var d = new Date(); // for now
+  var ident = d.getHours().toString() + ":" + d.getMinutes().toString() + "_" + d.getDate() + "/" + d.getMonth()+1 + "/" + d.getFullYear() ;
 
   browser.get('http://localhost:4200/login')
 
@@ -26,7 +29,7 @@ describe('full rundown test', function(){
 
     let courseSelectButton= element(by.id('courseSelection')).click();
 
-    let moduleName= element(by.id('moduleName')).sendKeys('Module Test');
+    let moduleName= element(by.id('moduleName')).sendKeys('Test' + ident);
 
     let courseSelect= element(by.cssContainingText(".mat-option-text", "Wirtschaftsinformatik (B.Sc.)")).click();
 
@@ -47,11 +50,11 @@ describe('full rundown test', function(){
 
   it('create question Test', async() => {
 
-    let chooseModule= element(by.id("Module Test")).click();
+    let chooseModule= element(by.id("Test" + ident)).click();
 
     let createQuestionButton = element(by.id('createQuestionButton')).click();
 
-    let questionName= element(by.id('questionNameInput')).sendKeys('TestQuestion1');
+    let questionName= element(by.id('questionNameInput')).sendKeys('TestQuestion' + ident);
 
     let questionNameShort= element(by.id('questionNameShortInput')).sendKeys('TesQuest');
 
@@ -67,13 +70,13 @@ describe('full rundown test', function(){
 
     let writeQuestionButton = element(by.id('writeQuestionButton')).click();
 
-    browser.sleep(1000);
+    browser.sleep(5000);
 
     let openQuestionTab = element(by.id('TestCategory')).click();
 
-    let expectCheckQuestion= element(by.id('TestQuestion1')).getText().
+    let expectCheckQuestion= element(by.id('TestQuestion' + ident)).getText().
     then(function (attr) {
-      expect(attr).toBe("TestQuestion1")
+      expect(attr).toBe("TestQuestion" + ident)
 
     });
 
@@ -88,11 +91,11 @@ describe('full rundown test', function(){
 
     browser.sleep(1000);
 
-    var examTitle = element(by.id('examTitleInput')).sendKeys('Exam Test');
+    var examTitle = element(by.id('examTitleInput')).sendKeys('Test' + ident);
 
     var selectExamModule= element(by.id('moduleSelectionButton')).click();
 
-    var selectExamModuleButton= element(by.id('Module Test')).click();
+    var selectExamModuleButton= element(by.id('Test' + ident)).click();
 
     var examPoints = element(by.id('examPointsInput')).sendKeys('100');
 
@@ -105,9 +108,9 @@ describe('full rundown test', function(){
 
     browser.sleep(1000);
 
-    let expectCheckExam= element(by.id('Exam Test')).getText().
+    let expectCheckExam= element(by.id('Test' + ident)).getText().
     then(function (attr) {
-      expect(attr).toBe("Exam Test")
+      expect(attr).toBe("Test" + ident)
 
     });
 
@@ -117,11 +120,11 @@ describe('full rundown test', function(){
 
   it('exam editor Test', async() => {
 
-    var selectExam= element(by.id('Exam Test')).click();
+    var selectExam= element(by.id('Test' + ident)).click();
 
     browser.sleep(2000);
 
-    var dragQuestion = element(by.id('TestQuestion1'));
+    var dragQuestion = element(by.id('TestQuestion' + ident));
 
     var dropQuestion = element(by.id('questionDropList'));
 
@@ -139,11 +142,12 @@ describe('full rundown test', function(){
 
     let correctExamButtonNav= element(by.id('correctExamButtonNav')).click();
 
-    let expectCheckExam= element(by.id('Exam Test')).getText().
+    let expectCheckExam= element(by.id('Test' + ident)).getText().
     then(function (attr) {
-      expect(attr).toBe("Exam Test")
+      expect(attr).toBe("Test" + ident)
 
     });
+
 
 
   });
@@ -151,7 +155,7 @@ describe('full rundown test', function(){
   it('exam correction Test', async() => {
 
 
-    let selectExamCorrect= element(by.id('Exam Test')).click();
+    let selectExamCorrect= element(by.id('Test' + ident)).click();
 
     let questionCheckbox= element(by.id('questionCheckbox')).click();
 
@@ -166,4 +170,11 @@ describe('full rundown test', function(){
   });
 
 
+
+
+
+
 });
+
+
+
