@@ -91,7 +91,7 @@ public class DbCorrection extends DbConnector {
      */
     public List<QuestionWithAveragePointsDTO> getAverageCorrectionByQuestion(ExamDto exam) throws SQLException {
         ResultSetMapper rsMapper = new ResultSetMapper();
-        PreparedStatement getAvg = conn.prepareStatement("SELECT q.question_id, q.name, q.question_text, q.default_points, q.short_name, q.module_id, q.category, SUM(reached_points)/(SELECT COUNT(DISTINCT s.matr_nr) FROM students s NATURAL JOIN is_corrected ic WHERE ic.exam_id = ?) AS 'AVG' FROM is_corrected ic INNER JOIN questions q ON ic.question_id = q.question_id WHERE exam_id = ? GROUP BY ic.question_id");
+        PreparedStatement getAvg = conn.prepareStatement("SELECT q.question_id, q.name, q.question_text, q.default_points, q.short_name, q.module_id, q.category, (SELECT `position` FROM `contains` WHERE question_id = q.question_id) AS 'position', SUM(reached_points)/(SELECT COUNT(DISTINCT s.matr_nr) FROM students s NATURAL JOIN is_corrected ic WHERE ic.exam_id = ?) AS 'AVG' FROM is_corrected ic INNER JOIN questions q ON ic.question_id = q.question_id WHERE exam_id = ? GROUP BY ic.question_id");
 
         getAvg.setInt(1, exam.getExam_id());
         getAvg.setInt(2, exam.getExam_id());

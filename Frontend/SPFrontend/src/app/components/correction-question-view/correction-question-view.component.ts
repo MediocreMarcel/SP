@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ExamDTO} from "../models/ExamDTO";
-import {ModuleDTO} from "../models/ModuleDTO";
-import {CourseDTO} from "../models/CourseDTO";
 import {CreateQuestionService} from "../../services/question/create-question.service";
 import {QuestionWithEvaluationCriteriasDTO} from "../models/QuestionDto";
 import {CorrectionDTO} from "../models/CorrectionDTO";
@@ -88,6 +86,7 @@ export class CorrectionQuestionViewComponent implements OnInit {
       this.questionService.getQuestionsWithRatingCriteriaFromDb(this.exam).subscribe(u => {
         u.sort((a, b) => a.position - b.position);//sort by position
         this.questions = u;
+        console.log(this.questions);
 
         if ("student" in state) {//jump to user if requested
           this.currentStudentIndex = this.students.findIndex(u => u == state.student.matrNumber);

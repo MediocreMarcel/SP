@@ -59,6 +59,7 @@ export class CorrectionSummeryComponent implements OnInit {
     this.correctionService.getCorrectedQuestionsAVG(this.exam).subscribe(u => {
       this.questionsWithAVG = u;
       this.questionsWithAVG.sort((a,b) => a.question.position-b.question.position);
+      console.log(this.questionsWithAVG);
     });
     //get students
     this.studentService.getExamParticipants(this.exam).subscribe(u => this.students = u);
@@ -100,7 +101,7 @@ export class CorrectionSummeryComponent implements OnInit {
   /**
    * calculates the average grade
    */
-  getGradeAvg() {
+  getGradeAvg() : number{
     return -1*((this.getSumOfAvg()*5/ this.getSumOfQuestionPoints())-6);
   }
 
