@@ -24,7 +24,6 @@ describe('full rundown test', function(){
     await element(by.id('addQuestionButton')).click();
 
     await element(by.id('createModuleButton')).click();
-//
 
     let courseSelectButton= element(by.id('courseSelection')).click();
 
