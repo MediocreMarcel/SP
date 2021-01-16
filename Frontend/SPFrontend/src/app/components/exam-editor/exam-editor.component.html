@@ -47,8 +47,8 @@
 
       <mat-grid-tile>
         <!-- Buttons Vorschau + Speichern + Verwerfen: Pop-ups für Speichern + Verwerfen?! -->
-        <button mat-raised-button class="infoHeaderButton" (click)="saveExam()">Speichern</button>
-        <button mat-raised-button class="infoHeaderButton" color="primary" (click)="startExam()">Prüfung starten</button>
+        <button id="saveExamButton" mat-raised-button class="infoHeaderButton" (click)="saveExam()">Speichern</button>
+        <button id="startExamButton" mat-raised-button class="infoHeaderButton" color="primary" (click)="startExam()">Prüfung starten</button>
         <button mat-raised-button class="infoHeaderButton" color="warn" (click)="deleteExam()">Verwerfen</button>
       </mat-grid-tile>
     </mat-grid-list>
@@ -81,7 +81,7 @@
                          *ngIf="question.questionId == -1">{{question.questionName}}</div>
                     <mat-expansion-panel *ngIf="question.questionId != -1">
                       <mat-expansion-panel-header>
-                        <mat-panel-title>
+                        <mat-panel-title id="{{question.questionName}}">
                           {{question.questionName}}
                         </mat-panel-title>
                         <mat-panel-description>
@@ -104,9 +104,10 @@
       <mat-grid-tile>
         <div class="examCreatorWrapperDiv">
           <mat-card>
-            <mat-card-title>Klausur</mat-card-title>
+            <mat-card-title >Klausur</mat-card-title>
 
             <div
+              id="questionDropList"
               cdkDropList
               #examList="cdkDropList"
               [cdkDropListData]="examContent"

@@ -10,7 +10,7 @@
 <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="droppedFile($event)" *ngIf="!uploaded">
   <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
     LSF Exel Export hier ablegen oder importieren
-    <button mat-raised-button class="infoHeaderButton" style="margin-left: 5%" (click)="openFileSelector()">Datei Auswählen</button>
+    <button id="selectFileButton" mat-raised-button class="infoHeaderButton" style="margin-left: 5%" (click)="openFileSelector()">Datei Auswählen</button>
   </ng-template>
 </ngx-file-drop>
 
@@ -20,6 +20,6 @@
     <mat-list-item role="listitem" class="studentList" *ngFor="let student of students">{{student.matrNumber}} | {{student.courseShortName}}</mat-list-item>
   </mat-list>
   <br>
-  <button mat-raised-button class="infoHeaderButton" color="warn" style="margin-top: 2%" (click)="startExam()">Prüfung starten</button>
+  <button mat-raised-button id="startExamStudentButton" class="infoHeaderButton" color="warn" style="margin-top: 2%" (click)="startExam()">Prüfung starten</button>
 </div>
 
