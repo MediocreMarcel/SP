@@ -211,6 +211,12 @@ public class DbQuestions extends DbConnector {
         return resultSetMapper.mapResultSetToObject(selectQuestions.executeQuery(), QuestionCriteriaDTO.class);
     }
 
+    /**
+     * When editing a question, old question is marked as deleted but not erased from DB
+     * @param question question to me marked as deleted
+     * @return true if DB-Access succeeded, false is failed
+     * @throws SQLException thrown if server is unavailable or some problem with the server accrues
+     */
     public boolean updateQuestion(QuestionWithEvaluationCriteriasDTO question) throws SQLException {
         conn.setAutoCommit(false);
 
