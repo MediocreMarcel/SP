@@ -1,5 +1,3 @@
-
-
 describe('full rundown test', function(){
 
   var d = new Date(); // for now
