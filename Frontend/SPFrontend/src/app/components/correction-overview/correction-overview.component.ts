@@ -23,7 +23,7 @@ export class CorrectionOverviewComponent implements OnInit {
    * @param exam exam which should be corrected
    */
   navigateToCorrection(exam: ExamDTO) {
-    this.router.navigate(['/correction-question'], {state: exam});
+    this.router.navigate(['/correction-summery'], {state: exam});
   }
 
   /**

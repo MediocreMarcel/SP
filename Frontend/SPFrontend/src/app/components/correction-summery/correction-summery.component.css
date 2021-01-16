@@ -1,0 +1,19 @@
+.infoHeaderInput{
+  width: 95%;
+}
+
+.blackInput {
+  color: black;
+}
+
+.vertical-full{
+  display:flex;
+  flex-direction: column;
+  justify-content: space-evenly !important;
+}
+
+.bar-header {
+  margin: 0 10px 0 0;
+  color: rgba(0, 0, 0, .54);
+  font-size: 0.85em;
+}

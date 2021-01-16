@@ -150,4 +150,25 @@ public class ExamHandler {
 
     }
 
+    /**
+     * archives a exam
+     * @param exam Exam that should be archived
+     * @return HTTP Status if archiving was successful (200 OK) or did fail (409 Conflict)
+     */
+    @Path("archive")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response archiveExam(ExamDto exam){
+        try {
+            DbExam dbAccess = new DbExam();
+            dbAccess.archiveExam(exam);
+            return Response.ok().build();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.logger.error(e);
+            return Response.status(Response.Status.CONFLICT).build();
+        }
+
+    }
+
 }

@@ -44,7 +44,7 @@ export class CorrectionQuestionViewComponent implements OnInit {
    * @param correctionService
    * @param snackBar
    */
-  constructor(private questionService: CreateQuestionService, private correctionService: CorrectionService, private snackBar: MatSnackBar, private router:Router) {
+  constructor(private questionService: CreateQuestionService, private correctionService: CorrectionService, private snackBar: MatSnackBar, private router: Router) {
   }
 
   /**
@@ -54,8 +54,17 @@ export class CorrectionQuestionViewComponent implements OnInit {
     //Loads and saves exam
     let state = history.state;
     delete state.navigationId;
-    this.exam = state;
-    if (this.exam == undefined) {
+
+    console.log(state);
+
+    //check if jump to wish is present
+    if ("student" in state) {
+      this.exam = state.exam;
+    } else {
+      this.exam = state;
+    }
+
+    if (this.exam == undefined  || Object.keys(this.exam).length == 0) {
       let moduleJSON = localStorage.getItem("currentCorrectionExam");
       if (moduleJSON == null) {
         this.router.navigate(["/correction-overview"]);
@@ -79,8 +88,23 @@ export class CorrectionQuestionViewComponent implements OnInit {
       this.questionService.getQuestionsWithRatingCriteriaFromDb(this.exam).subscribe(u => {
         u.sort((a, b) => a.position - b.position);//sort by position
         this.questions = u;
-        console.log(this.questions);
-        this.currentQuestion = this.questions[0];
+
+        if ("student" in state) {//jump to user if requested
+          this.currentStudentIndex = this.students.findIndex(u => u == state.student.matrNumber);
+          this.currentQuestionIndex = this.questions.findIndex(u => u.questionId == state.question.question.questionId);
+          this.currentQuestion = this.questions[this.currentQuestionIndex];
+        } else { //find first not corrected criteria
+          outerLoop: for (let i = 0; i < this.questions.length; i++) {
+            for (let j = 0; j < this.students.length; j++) {
+              if (this.availableCorrections.find(u => u[0].questionId == this.questions[i].questionId && u[0].matrNr == this.students[j])[0].status == "pending") {
+                this.currentQuestionIndex = i;
+                this.currentStudentIndex = j;
+                break outerLoop;
+              }
+            }
+          }
+          this.currentQuestion = this.questions[this.currentQuestionIndex];
+        }
         this.loadCorrection();
       });
     });
@@ -171,7 +195,7 @@ export class CorrectionQuestionViewComponent implements OnInit {
     if (this.currentQuestionIndex >= this.questions.length) {
       console.log("correction finished");
       this.currentQuestionIndex--;
-      //TODO what to do if finished correction
+      this.router.navigate(["/correction-summery"], {state: this.exam})
       return;
     }
     this.currentQuestion = this.questions[this.currentQuestionIndex];
@@ -216,7 +240,7 @@ export class CorrectionQuestionViewComponent implements OnInit {
     //check if correction is in local storage
     let foundCorrection = this.availableCorrections.find(u => u[0].questionId == this.currentQuestion.questionId && u[0].matrNr == this.students[this.currentStudentIndex]);
     if (foundCorrection == undefined) {//if not in localstorage, load the correction from db
-      this.snackBar.open("Etwas ist schiefgelaufen. Bitte Korrektur neu laden!")
+      this.snackBar.open("Etwas ist schiefgelaufen. Bitte Korrektur neu laden!", "", {duration: 1000})
     } else {
       this.currentCorrection = foundCorrection;//if correction is in localstorage, load it
       this.currentCorrection.forEach(u => {
@@ -245,9 +269,9 @@ export class CorrectionQuestionViewComponent implements OnInit {
    * @return percent value of the currection progress
    */
   getCorrectionProgress() {
-    let availableCorrections = this.availableCorrections.reduce((a,b) => a + b.reduce((aInner,bInner) => aInner+1,0),0);
-    let correctedCorrections = this.availableCorrections.reduce((a,b) => a + b.reduce((aInner,bInner) => aInner+(bInner.status=="in_progress"?1:0),0),0);
-    return correctedCorrections/availableCorrections*100;
+    let availableCorrections = this.availableCorrections.reduce((a, b) => a + b.reduce((aInner, bInner) => aInner + 1, 0), 0);
+    let correctedCorrections = this.availableCorrections.reduce((a, b) => a + b.reduce((aInner, bInner) => aInner + (bInner.status == "in_progress" ? 1 : 0), 0), 0);
+    return correctedCorrections / availableCorrections * 100;
   }
 
   /**

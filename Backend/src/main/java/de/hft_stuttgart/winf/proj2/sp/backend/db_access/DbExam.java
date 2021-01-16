@@ -254,6 +254,35 @@ public class DbExam extends DbConnector {
         }
     }
 
+    /**
+     * Changes the state of the exams and the containing corrections to corrected
+     * @param exam exam that should be archived
+     * @return boolean whether the update was successfully
+     * @throws SQLException thrown if something sql related goes wrong
+     */
+    public boolean archiveExam(ExamDto exam) throws SQLException {
+        conn.setAutoCommit(false);
+
+        PreparedStatement updateCorrection = conn.prepareStatement("UPDATE is_corrected SET status = 'corrected' WHERE exam_id = ?");
+        updateCorrection.setInt(1, exam.getExam_id());
+        if(updateCorrection.executeUpdate() <= 0){
+            conn.rollback();
+            conn.setAutoCommit(true);
+            return false;
+        }
+
+        PreparedStatement updateExam = conn.prepareStatement("UPDATE exams SET status = 'corrected' WHERE exam_id = ?");
+        updateExam.setInt(1, exam.getExam_id());
+        if(updateExam.executeUpdate() <= 0){
+            conn.rollback();
+            conn.setAutoCommit(true);
+            return false;
+        }
+        conn.commit();
+        conn.setAutoCommit(true);
+        return true;
+
+    }
 }
 
 

@@ -22,12 +22,9 @@ export class ArchivedExamsComponent implements AfterViewInit, OnInit {
   displayedColumns = ['exam_id', 'title', 'creation_date', 'exam_date', 'totalPoints'  ];
 
 
-  public tableData: ExamDTO[];
+  public tableData: ExamDTO[] = [];
   constructor(private service: ExamArchiveServiceService, private userService: UserService ) {
     this.loadExams();
-
-
-
   }
 
   /**
@@ -36,17 +33,13 @@ export class ArchivedExamsComponent implements AfterViewInit, OnInit {
    */
   loadExams() {
     this.service.getExamsFromArchivForUser(this.userService.getUser()).subscribe(u => {
-
-
-       this.tableData = u;
+      this.tableData = u;
       this.dataSource = new ArchivedExamsDataSource(this.tableData);
-      this.loadDataIntoTable()
+      this.loadDataIntoTable();
     });
   }
 
   ngOnInit() {
-
-
 
   }
 
