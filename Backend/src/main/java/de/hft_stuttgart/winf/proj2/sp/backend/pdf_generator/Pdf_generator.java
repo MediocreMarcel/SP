@@ -37,7 +37,7 @@ public class Pdf_generator {
     private static final LineSeparator separator = new LineSeparator(new SolidLine(1)).setMarginTop(5);
 
     /**
-     *
+     *  Prints a PDF-File under PDF/Exam_ID_Title.pdf with a exam cover sheet and page for every question
      * @param exam Exam Object List from the Question that need to be displayed in the PDF
      * @param questions List from the Question that need to be displayed in the PDF
      * @throws FileNotFoundException
@@ -55,7 +55,7 @@ public class Pdf_generator {
     }
 
     /**
-     *
+     *  Prints a PDF-File ByteArrayOutputStream under PDF/Exam_ID_Title.pdf with a exam cover sheet and page for every question
      * @param exam Exam Object List from the Question that need to be displayed in the PDF
      * @param questions List from the Question that need to be displayed in the PDF
      * @return ByteArrayOutputStream from the PDF that is generated
