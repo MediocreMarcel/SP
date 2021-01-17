@@ -1,12 +1,14 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.lsf;
 
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.CorrectionDTO;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.ExamDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.StudentDTO;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.io.*;
+import java.util.*;
 
 public class LsfExcelUtil {
 
@@ -77,5 +79,47 @@ public class LsfExcelUtil {
         }
 
         return student;
+    }
+
+    public void writeIntoExcel(ExamDto exam, InputStream file) {
+
+        int counter = 0;
+
+        boolean startRow = false;
+        boolean endRow = false;
+
+        try {
+            Workbook workbook = new HSSFWorkbook(file);
+            DataFormatter dataFormatter = new DataFormatter();
+            Iterator<Sheet> sheets = workbook.sheetIterator();
+
+            while (sheets.hasNext()) {
+                Sheet sh = sheets.next();
+                Iterator<Row> iterator = sh.iterator();
+                while (iterator.hasNext()) {
+                    Row row = iterator.next();
+                    Iterator<Cell> cellIterator = row.iterator();
+                    Cell rowCell = cellIterator.next();
+                    String rowCellValue = dataFormatter.formatCellValue(rowCell);
+                    if (rowCellValue.equals("bewertung")) {
+                        System.out.println("test");
+                    }
+                    if(rowCellValue.equals("pdatum")){
+                        System.out.println("test2");
+                    }
+
+                }
+            }
+            workbook.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getGradeAvg(List<List<CorrectionDTO>> correction) {
+
+    }
+
+    public void getSumOfAvg(List<List<CorrectionDTO>> correction){
     }
 }

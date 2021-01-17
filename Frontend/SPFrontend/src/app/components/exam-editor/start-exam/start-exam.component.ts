@@ -57,6 +57,7 @@ export class StartExamComponent implements OnInit {
 
         const formData = new FormData()
         formData.append('excel', file, droppedFile.relativePath);
+        formData.append('exam', JSON.stringify(this.exam));
 
         this.lsfService.uploadLsfParticipantList(formData).subscribe((response) => {
             response.forEach(u => this.students.push(u));

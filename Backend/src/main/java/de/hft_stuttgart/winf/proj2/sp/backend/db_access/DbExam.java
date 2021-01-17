@@ -7,6 +7,7 @@ import de.hft_stuttgart.winf.proj2.sp.backend.util.ResultSetMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -281,6 +282,17 @@ public class DbExam extends DbConnector {
         conn.commit();
         conn.setAutoCommit(true);
         return true;
+
+    }
+
+    public boolean uploadLsfExcel(InputStream uploadedInputStream, ExamDto exam) throws SQLException {
+        PreparedStatement uploadLsfExcel = conn.prepareStatement("UPDATE exams SET lsf = ? WHERE exam_id = ?");
+        uploadLsfExcel.setBlob(1, uploadedInputStream);
+        uploadLsfExcel.setInt(2, exam.getExam_id());
+        return uploadLsfExcel.executeUpdate() > 0;
+    }
+
+    public void getExcelByExamId(ExamDto exam) {
 
     }
 }
