@@ -97,8 +97,8 @@
               <!-- Symbol Column -->
               <ng-container matColumnDef="fullPointsCheckpoints">
                 <th mat-header-cell *matHeaderCellDef> Volle Punktzahl?</th>
-                <td mat-cell *matCellDef="let element; let i = index">
-                  <mat-checkbox id="questionCheckbox" class="example-margin"
+                <td mat-cell *matCellDef="let i = index">
+                  <mat-checkbox id="questionCheckbox_{{i}}" class="example-margin"
                                 [(ngModel)]="currentQuestion.evaluationCriterias[i].points == currentCorrection[i].reachedPoints"
                                 (change)="fullPoints(i, $event.checked)"></mat-checkbox>
                 </td>
