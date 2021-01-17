@@ -2,12 +2,14 @@ package de.hft_stuttgart.winf.proj2.sp.backend.db_access;
 
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.CorrectionDTO;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.ExamDto;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.QuestionWithAveragePointsDTO;
 import de.hft_stuttgart.winf.proj2.sp.backend.util.ResultSetMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,4 +82,29 @@ public class DbCorrection extends DbConnector {
         }
         return returnList;
     }
+
+    /**
+     * Gets all questions from the db together with the average of the scored points
+     * @param exam exam which should be queried
+     * @return List of questions with the avg value. Null if the resultset could not be mapped
+     * @throws SQLException thrown if something sql related goes wrong
+     */
+    public List<QuestionWithAveragePointsDTO> getAverageCorrectionByQuestion(ExamDto exam) throws SQLException {
+        ResultSetMapper rsMapper = new ResultSetMapper();
+        PreparedStatement getAvg = conn.prepareStatement("SELECT q.question_id, q.name, q.question_text, q.default_points, q.short_name, q.module_id, q.category, (SELECT `position` FROM `contains` WHERE question_id = q.question_id) AS 'position', SUM(reached_points)/(SELECT COUNT(DISTINCT s.matr_nr) FROM students s NATURAL JOIN is_corrected ic WHERE ic.exam_id = ?) AS 'AVG' FROM is_corrected ic INNER JOIN questions q ON ic.question_id = q.question_id WHERE exam_id = ? GROUP BY ic.question_id");
+
+        getAvg.setInt(1, exam.getExam_id());
+        getAvg.setInt(2, exam.getExam_id());
+        ResultSet rs = getAvg.executeQuery();
+
+        try {
+            return rsMapper.mapResultSetToObject(rs, QuestionWithAveragePointsDTO.class);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+            e.printStackTrace();
+            logger.error(e);
+        }
+        return null;
+    }
+
+
 }

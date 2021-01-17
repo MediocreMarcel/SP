@@ -1,8 +1,8 @@
 <h1>Neues Modul erstellen</h1>
 <mat-form-field class="module-form-input">
   <mat-label>Modulname</mat-label>
-  <input matInput type="text" [(ngModel)]="moduleName">
-  <button mat-button *ngIf="moduleName" matSuffix mat-icon-button aria-label="Clear" (click)="moduleName=''">
+  <input id="moduleName" matInput type="text" [(ngModel)]="moduleName">
+  <button  mat-button *ngIf="moduleName" matSuffix mat-icon-button aria-label="Clear" (click)="moduleName=''">
     <mat-icon>close</mat-icon>
   </button>
 </mat-form-field>
@@ -11,12 +11,12 @@
 
 <mat-form-field class="course-form-input">
   <mat-label>Studiengang</mat-label>
-  <mat-select [(ngModel)]="selectedCourse">
-    <mat-option *ngFor="let course of courses" value="{{JSON.stringify(course)}}">{{course.courseName}}</mat-option>
+  <mat-select id="courseSelection" [(ngModel)]="selectedCourse">
+    <mat-option  *ngFor="let course of courses" value="{{JSON.stringify(course)}}">{{course.courseName}}</mat-option>
   </mat-select>
 </mat-form-field>
 
 <mat-dialog-actions align="end">
   <button mat-flat-button mat-dialog-close >Abbrechen</button>
-  <button mat-flat-button (click)="createModule();" color="primary">Erstellen</button>
+  <button id="addModule" mat-flat-button (click)="createModule();" color="primary">Erstellen</button>
 </mat-dialog-actions>

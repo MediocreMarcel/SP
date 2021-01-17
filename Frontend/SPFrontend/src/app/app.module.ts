@@ -49,6 +49,7 @@ import {MatListModule} from "@angular/material/list";
 import { CorrectionQuestionViewComponent } from './components/correction-question-view/correction-question-view.component';
 import {PdfViewerModule} from 'ng2-pdf-viewer';
 import {CorrectionOverviewComponent} from "./components/correction-overview/correction-overview.component";
+import { CorrectionSummeryComponent } from './components/correction-summery/correction-summery.component';
 
 
 @NgModule({
@@ -71,6 +72,7 @@ import {CorrectionOverviewComponent} from "./components/correction-overview/corr
     StartExamComponent,
     CorrectionQuestionViewComponent,
     CorrectionOverviewComponent,
+    CorrectionSummeryComponent,
   ],
     imports: [
         BrowserModule,

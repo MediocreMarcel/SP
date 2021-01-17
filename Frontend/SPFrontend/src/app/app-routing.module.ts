@@ -10,6 +10,7 @@ import {ExamOverviewComponent} from "./components/exam-overview/exam-overview.co
 import {ArchivedExamsComponent} from "./components/archived-exams/archived-exams.component";
 import {CorrectionOverviewComponent} from "./components/correction-overview/correction-overview.component";
 import {CorrectionQuestionViewComponent} from "./components/correction-question-view/correction-question-view.component";
+import {CorrectionSummeryComponent} from "./components/correction-summery/correction-summery.component";
 
 
 const routes: Routes = [
@@ -23,6 +24,7 @@ const routes: Routes = [
   {path: 'exam-editor', component: ExamEditorComponent, canActivate: [AuthGuard]},
   {path: 'correction-overview', component: CorrectionOverviewComponent, canActivate: [AuthGuard]},
   {path: 'correction-question', component: CorrectionQuestionViewComponent, canActivate: [AuthGuard]},
+  {path: 'correction-summery', component: CorrectionSummeryComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({

@@ -6,21 +6,17 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-/**
- * This Class is for defining the students to import students via the LSF-Excel file
- */
 @AllArgsConstructor
 @Getter
-@ToString
+@ToString(callSuper = true)
 @EqualsAndHashCode
-public class StudentDTO {
+public class QuestionWithAveragePointsDTO {
 
-    @Column("matr_nr")
-    private Integer matrNumber;
-    @Column("course_shortname")
-    private String courseShortName;
+    @Column(value="question", isObject = true)
+    private ExamQuestionDTO question;
+    @Column("AVG")
+    private double avg;
 
-    public StudentDTO(){
+    public QuestionWithAveragePointsDTO() {
     }
 }
-

@@ -1,0 +1,120 @@
+<app-navbar></app-navbar>
+<mat-card>
+  <mat-card>
+    <mat-grid-list cols="2" rowHeight="14:1">
+
+      <mat-grid-tile>
+        <mat-form-field class="infoHeaderInput">
+          <mat-label>Title</mat-label>
+          <input matInput type="text" min="0" [(ngModel)]="exam.title" disabled="true" class="blackInput">
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field class="infoHeaderInput">
+          <mat-label>Modul</mat-label>
+          <input matInput type="text" min="0" [(ngModel)]="exam.module.definition" disabled="true" class="blackInput">
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field class="infoHeaderInput">
+          <mat-label>Gesamtpunkte</mat-label>
+          <input matInput type="text" min="0" [(ngModel)]="exam.totalPoints" disabled="true" class="blackInput">
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field class="infoHeaderInput">
+          <mat-label>Prüfungsdatum</mat-label>
+          <input matInput type="text" min="0" [(ngModel)]="exam.exam_date" disabled="true" class="blackInput">
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile colspan="2">
+        <div style="padding: 0 1% 0 1%; width: 100%">
+          <p class="bar-header">Korrekturfortschritt</p>
+
+          <!-- Progress Bar soll prozentuele Abhänigkeit zu Gesamtpunkte darstellen -- currentPercentage = (currentPoints/maxPoints)*100-->
+          <mat-progress-bar mode="determinate" value="{{calculateProgress()}}"></mat-progress-bar>
+        </div>
+
+      </mat-grid-tile>
+
+    </mat-grid-list>
+
+    <mat-card class="content-card row-hoizontal" style="margin-top: 1%">
+      <mat-card>
+        <mat-grid-list cols="3">
+          <mat-grid-tile colspan="2">
+            <table mat-table [dataSource]="questionsWithAVG" matSort class="mat-elevation-z8"
+                   style="width: 100%; height: 90%;">
+
+              <!-- Position Column -->
+              <ng-container matColumnDef="RatingCriteria">
+                <th mat-header-cell *matHeaderCellDef> Frage</th>
+                <td mat-cell *matCellDef="let element"> {{element.question.questionName}} </td>
+                <td mat-footer-cell *matFooterCellDef><b>Gesammtpunktzahl</b></td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="MaxPoints">
+                <th mat-header-cell *matHeaderCellDef> Erreichbare Punkte</th>
+                <td mat-cell *matCellDef="let element">{{element.question.questionPoints}}</td>
+                <td mat-footer-cell *matFooterCellDef><b>{{getSumOfQuestionPoints()}}</b></td>
+              </ng-container>
+
+              <!-- Weight Column -->
+              <ng-container matColumnDef="scoredPoints">
+                <th mat-header-cell *matHeaderCellDef> Durschnitt (Punkte)</th>
+                <td mat-cell *matCellDef="let element">{{element.avg | number: '1.2'}}</td>
+                <td mat-footer-cell *matFooterCellDef><b>{{getSumOfAvg()}}</b></td>
+              </ng-container>
+
+              <ng-container matColumnDef="grade">
+                <th mat-header-cell *matHeaderCellDef> Durschnitt (Note)</th>
+                <td mat-cell *matCellDef="let element"></td>
+                <td mat-footer-cell *matFooterCellDef><b>{{getGradeAvg() | number : '1.0-2'}}</b></td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="tableHeader"></tr>
+              <tr mat-row *matRowDef="let row; columns: tableHeader;"></tr>
+              <tr mat-footer-row *matFooterRowDef="tableFooter"></tr>
+            </table>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-card class="content-card vertical-full" style="width: 90%; height: 82%;">
+              <mat-card>
+                <mat-form-field class="infoHeaderInput">
+                  <mat-label>Aufgabe</mat-label>
+                  <mat-select [(value)]="jumpToQuestion">
+                    <mat-option *ngFor="let question of questionsWithAVG; let i = index" [value]="question">
+                      Aufgabe {{i + 1}}: {{question.question.shortName}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field class="infoHeaderInput">
+                  <mat-label>Student</mat-label>
+                  <mat-select [(value)]="jumpToUser">
+                    <mat-option *ngFor="let student of students" [value]="student">
+                      {{student.matrNumber}} | {{student.courseShortName}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <button mat-raised-button style="width: 96%" (click)="jumpTo()">Springen</button>
+              </mat-card>
+
+              <mat-card>
+                <button mat-raised-button style="width: 96%" (click)="exportLSFExcel()" *ngIf="calculateProgress()==100">LSF Excel exportieren</button>
+                <button mat-raised-button style="width: 96%; margin-top: 5%" (click)="endCorrection()" *ngIf="calculateProgress()==100">Korrektur beenden</button>
+                <button mat-raised-button style="width: 96%" (click)="startCorrection()" *ngIf="calculateProgress()<100">Korrektur starten</button>
+              </mat-card>
+
+            </mat-card>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </mat-card>
+
+    </mat-card>
+  </mat-card>
+</mat-card>

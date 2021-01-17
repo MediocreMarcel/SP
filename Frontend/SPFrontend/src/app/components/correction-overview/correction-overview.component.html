@@ -19,10 +19,17 @@
 
     <mat-card class="content-card">
       <mat-grid-list cols="6" rowHeight="1:1">
+        <mat-grid-tile colspan="6"
+          *ngIf="tiles.length == 0">
+          <mat-car>
+            <mat-card-title class="tileTitle">Momentan liegen keine Korrekturen vor!</mat-card-title>
+            <mat-card-subtitle class="tileSubtitle">Starten Sie eine Klausur, damit diese hier erscheint</mat-card-subtitle>
+          </mat-car>
+        </mat-grid-tile>
         <mat-grid-tile
           *ngFor="let tile of tiles">
           <mat-card class="tile" (click)="navigateToCorrection(tile)">
-            <mat-card-title class="tileTitle">{{tile.title}}</mat-card-title>
+            <mat-card-title id="{{tile.title}}" class="tileTitle">{{tile.title}}</mat-card-title>
             <mat-card-subtitle class="tileSubtitle">{{tile.module.definition}}</mat-card-subtitle>
           </mat-card>
         </mat-grid-tile>

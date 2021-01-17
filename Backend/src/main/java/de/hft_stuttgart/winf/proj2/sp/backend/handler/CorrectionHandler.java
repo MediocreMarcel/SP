@@ -4,6 +4,7 @@ import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbCorrection;
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbExam;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.CorrectionDTO;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.ExamDto;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.QuestionWithAveragePointsDTO;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.UserDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -87,5 +88,24 @@ public class CorrectionHandler {
         return null;
     }
 
+    /**
+     * Gets corrected questions together with the average scored points in the queried exam
+     * @param exam exam that should be queried
+     * @return list of questions
+     */
+    @Path("getCorrectedQuestionsAVG")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<QuestionWithAveragePointsDTO> getAverageCorrectionByQuestion(ExamDto exam){
+        try {
+            DbCorrection dbAccess = new DbCorrection();
+            return dbAccess.getAverageCorrectionByQuestion(exam);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.logger.error(e);
+        }
+        return null;
+    }
 
 }

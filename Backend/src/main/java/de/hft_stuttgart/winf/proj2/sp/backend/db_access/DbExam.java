@@ -191,11 +191,12 @@ public class DbExam extends DbConnector {
             return false;
         }
 
-        PreparedStatement insertStudent = this.conn.prepareStatement("REPLACE INTO students (matr_nr, course_shortname) VALUES (?,?)");
+        PreparedStatement insertStudent = this.conn.prepareStatement("INSERT INTO students (matr_nr, course_shortname) VALUES (?,?) ON DUPLICATE KEY UPDATE course_shortname = ?");
         PreparedStatement insertCorrection = this.conn.prepareStatement("INSERT INTO is_corrected (matr_nr, exam_id, question_id, criteria_id, status) VALUES (?,?,?,?,?)");
         for (StudentDTO student : startExamDTO.getStudents()) {
             insertStudent.setInt(1, student.getMatrNumber());
             insertStudent.setString(2, student.getCourseShortName());
+            insertStudent.setString(3, student.getCourseShortName());
             if (insertStudent.executeUpdate() <= 0) {
                 this.conn.rollback();
                 this.conn.setAutoCommit(true);
@@ -253,6 +254,35 @@ public class DbExam extends DbConnector {
         }
     }
 
+    /**
+     * Changes the state of the exams and the containing corrections to corrected
+     * @param exam exam that should be archived
+     * @return boolean whether the update was successfully
+     * @throws SQLException thrown if something sql related goes wrong
+     */
+    public boolean archiveExam(ExamDto exam) throws SQLException {
+        conn.setAutoCommit(false);
+
+        PreparedStatement updateCorrection = conn.prepareStatement("UPDATE is_corrected SET status = 'corrected' WHERE exam_id = ?");
+        updateCorrection.setInt(1, exam.getExam_id());
+        if(updateCorrection.executeUpdate() <= 0){
+            conn.rollback();
+            conn.setAutoCommit(true);
+            return false;
+        }
+
+        PreparedStatement updateExam = conn.prepareStatement("UPDATE exams SET status = 'corrected' WHERE exam_id = ?");
+        updateExam.setInt(1, exam.getExam_id());
+        if(updateExam.executeUpdate() <= 0){
+            conn.rollback();
+            conn.setAutoCommit(true);
+            return false;
+        }
+        conn.commit();
+        conn.setAutoCommit(true);
+        return true;
+
+    }
 }
 
 

@@ -18,4 +18,7 @@ export class ExamArchiveServiceService {
     return this.http.post<ExamDTO[]>(this.url + "exams/getExamsfromArchiv", JSON.stringify(user), {headers: this.headers});
   }
 
+  archiveExam(exam: ExamDTO) {
+    return this.http.post<ExamDTO[]>(this.url + "exams/archive", JSON.stringify(exam), {headers: this.headers});
+  }
 }
