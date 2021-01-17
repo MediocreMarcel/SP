@@ -8,6 +8,8 @@ import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {StudentDTO} from "../../models/StudentDTO";
 import {CreateOverviewExamService} from "../../../services/exam/create-overview-exam.service";
 import {Router} from "@angular/router";
+import {SaveExamAndQuestionsDTO} from "../../models/SaveExamAndQuestionsDTO";
+import {PdfService} from "../../../services/pdf/pdf.service";
 
 @Component({
   selector: 'app-start-exam',
@@ -28,7 +30,7 @@ export class StartExamComponent implements OnInit {
    * loads needed Data and gets required modules from angular via constructor injection
    * @param data data from exam editor containing the exam dto and the question dto list
    */
-  constructor(@Inject(MAT_DIALOG_DATA) private data: any, private lsfService: LsfService, private examService: CreateOverviewExamService, private snackBar: MatSnackBar, private router: Router, private dialogRef: MatDialogRef<StartExamComponent>) {
+  constructor(@Inject(MAT_DIALOG_DATA) private data: any, private lsfService: LsfService, private examService: CreateOverviewExamService, private snackBar: MatSnackBar, private router: Router, private dialogRef: MatDialogRef<StartExamComponent>, private pdfService: PdfService) {
     this.exam = data.exam;
     this.examContent = data.questions;
     this.questionPoints = this.examContent.reduce(((previousValue, currentValue) => previousValue + currentValue.questionPoints), 0);
@@ -80,6 +82,11 @@ export class StartExamComponent implements OnInit {
     //adapt points if not same
     this.exam.totalPoints = this.questionPoints;
     this.examService.startExam(this.exam, this.students).subscribe((response) => {
+      this.pdfService.previewPDF(new SaveExamAndQuestionsDTO(this.exam, this.examContent)).subscribe((response) => {
+          let file = new Blob([response], {type: 'application/pdf'});
+          var fileURL = URL.createObjectURL(file);
+          window.open(fileURL);
+      });
         this.router.navigate(["/home"]);
         this.dialogRef.close();
       },
