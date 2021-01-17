@@ -7,7 +7,7 @@
     <mat-card class="content-card">
       <mat-card-content class="card-content">
         <mat-card class="row header-accordion">
-          <mat-card class="tile" style="width:25%;" (click)="createQuestion()">
+          <mat-card id="createQuestionButton" class="tile" style="width:25%;" (click)="createQuestion()">
             <mat-card-title>
             <span mat-align-tabs="center" class="material-icons centerIcon" style="font-size: 25pt">
               add_circle
@@ -32,7 +32,7 @@
         <mat-accordion>
           <mat-expansion-panel *ngFor="let questionCategory of questions | groupBy: 'category'">
             <mat-expansion-panel-header>
-              <mat-panel-title>
+              <mat-panel-title id="{{questionCategory.key}}">
                 {{questionCategory.key}}
               </mat-panel-title>
               <mat-panel-description>
@@ -47,8 +47,8 @@
                   </mat-checkbox>
                 </section>
                 <mat-card class="checkboxCard">
-                  <mat-card-title>
-                    <div class="questionName">
+                  <mat-card-title >
+                    <div class="questionName" id="{{question.questionName}}">
                       {{question.questionName}}
                       <mat-icon aria-hidden="false" aria-label="Example home icon" (click)="hideQuestion(question)">edit</mat-icon>
                     </div>

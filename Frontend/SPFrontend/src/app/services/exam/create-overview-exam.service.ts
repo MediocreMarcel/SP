@@ -5,6 +5,7 @@ import {environment} from "../../../environments/environment";
 import {CreateExamDTO, ExamDTO} from "../../components/models/ExamDTO";
 import {SaveExamAndQuestionsDTO} from "../../components/models/SaveExamAndQuestionsDTO";
 import {DeleteExamDTO} from "../../components/models/DeleteExamDTO";
+import {StudentDTO} from "../../components/models/StudentDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,10 @@ export class CreateOverviewExamService {
 
   deleteExam(deleteExamDTO: DeleteExamDTO){
     return this.http.post(this.url + "exams/delete", JSON.stringify(deleteExamDTO), {headers: this.headers, observe: 'response'});
+  }
+
+  startExam(exam: ExamDTO, students: StudentDTO[]){
+    return this.http.post(this.url + "exams/start", JSON.stringify({exam: exam, students: students}), {headers: this.headers, observe: 'response'});
   }
 
 }

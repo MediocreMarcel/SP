@@ -204,7 +204,7 @@ public class DbQuestions extends DbConnector {
      * @throws InstantiationException
      * @throws IllegalAccessException
      */
-    private List<QuestionCriteriaDTO> getEvaluationCriteria(QuestionsDto question) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public List<QuestionCriteriaDTO> getEvaluationCriteria(QuestionsDto question) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         ResultSetMapper resultSetMapper = new ResultSetMapper();
         PreparedStatement selectQuestions = conn.prepareStatement("SELECT * FROM rating_criteria WHERE question_id = ?");
         selectQuestions.setInt(1, question.getQuestionId());

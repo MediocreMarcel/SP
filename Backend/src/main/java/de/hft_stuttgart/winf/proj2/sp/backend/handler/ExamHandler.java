@@ -129,4 +129,46 @@ public class ExamHandler {
         return Response.ok().build();
     }
 
+    /**
+     * starts a exam
+     * @param startExamDTO Object containing a ExamDTO and a list of StudentDTO objects
+     * @return HTTP Status if start was successful (200 OK) or did fail (409 Conflict)
+     */
+    @Path("start")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response startExam(StartExamDTO startExamDTO){
+        try {
+            DbExam dbAccess = new DbExam();
+            dbAccess.startExam(startExamDTO);
+            return Response.ok().build();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.logger.error(e);
+            return Response.status(Response.Status.CONFLICT).build();
+        }
+
+    }
+
+    /**
+     * archives a exam
+     * @param exam Exam that should be archived
+     * @return HTTP Status if archiving was successful (200 OK) or did fail (409 Conflict)
+     */
+    @Path("archive")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response archiveExam(ExamDto exam){
+        try {
+            DbExam dbAccess = new DbExam();
+            dbAccess.archiveExam(exam);
+            return Response.ok().build();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.logger.error(e);
+            return Response.status(Response.Status.CONFLICT).build();
+        }
+
+    }
+
 }

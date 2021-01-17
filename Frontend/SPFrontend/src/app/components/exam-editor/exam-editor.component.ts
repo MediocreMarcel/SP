@@ -5,7 +5,6 @@ import {CreateQuestionService} from "../../services/question/create-question.ser
 import {GroupByPipe} from "../pipes/group-by.pipe";
 import {ExamDTO} from "../models/ExamDTO";
 import {Router} from "@angular/router";
-import {DatePipe} from "@angular/common";
 import {FormControl} from "@angular/forms";
 import {CreateOverviewExamService} from "../../services/exam/create-overview-exam.service";
 import {SaveExamAndQuestionsDTO} from "../models/SaveExamAndQuestionsDTO";
@@ -15,6 +14,7 @@ import {ModuleService} from "../../services/module/module.service";
 import {UserService} from "../../shared/user.service";
 import {ModuleDTO} from "../models/ModuleDTO";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {StartExamComponent} from "./start-exam/start-exam.component";
 
 @Component({
   selector: 'app-create-question',
@@ -180,5 +180,20 @@ export class ExamEditorComponent implements OnInit {
       }
     });
   }
+
+  /**
+   * Opens the start exam dialog
+   */
+  startExam() {
+    this.saveExam();
+    const dialogRef = this.dialog.open(StartExamComponent, {
+      width: '30%',
+      data: {
+        exam: this.exam,
+        questions: this.examContent
+      }
+    });
+  }
+
 }
 

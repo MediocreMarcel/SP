@@ -15,10 +15,10 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class StudentDTO {
 
-    @Column("matrNr")
-    private Integer matrNr;
-    @Column("stg")
-    private String stg;
+    @Column("matr_nr")
+    private Integer matrNumber;
+    @Column("course_shortname")
+    private String courseShortName;
 
     public StudentDTO(){
     }

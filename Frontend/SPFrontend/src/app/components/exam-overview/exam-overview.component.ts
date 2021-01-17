@@ -17,6 +17,13 @@ export class ExamOverviewComponent implements OnInit {
   sortBy: string = "name";
   tiles: ExamDTO[];
 
+  /**
+   * starts the loadExam method and receives the needed modules from Angular via constructor injection
+   * @param service
+   * @param dialog
+   * @param userService
+   * @param router
+   */
   constructor(private service: CreateOverviewExamService, public dialog: MatDialog, private userService: UserService, private router: Router) {
     this.loadExams();
   }
@@ -24,20 +31,29 @@ export class ExamOverviewComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * loads all exams for this user from the db
+   */
   loadExams() {
     this.service.getExamsForUser(this.userService.getUser()).subscribe(u => {
-
-      this.tiles = u;
+      this.tiles = u.filter(item =>  item.status=="in_creation");
       if (this.tiles.length > 0) {
         this.sortChanged();
       }
     });
   }
 
+  /**
+   * navigates to the exam editor page and passes the current exam
+   * @param exam
+   */
   navigateToExamEditor(exam: ExamDTO) {
     this.router.navigate(['/exam-editor'], {state: exam});
   }
 
+  /**
+   * Resorts the shown exams
+   */
   public sortChanged() {
     if (this.sortBy === "name") {
       this.tiles.sort((a, b) => a.title.localeCompare(b.title));
@@ -46,6 +62,9 @@ export class ExamOverviewComponent implements OnInit {
     }
   }
 
+  /**
+   * Opens the crate a Exam Dialog
+   */
   openCreateDialog() {
     const dialogRef = this.dialog.open(CreateExamDialog, {
       width: '50%',
@@ -75,12 +94,21 @@ export class CreateExamDialog {
   JSON: JSON;
   examPoints: number;
 
-
+  /**
+   * Constructor gets needed data. Also recives needed modules from Angular via constructor instruction
+   * @param service
+   * @param dialogRef
+   * @param userService
+   * @param moduleService
+   */
   constructor(private service: CreateOverviewExamService, private dialogRef: MatDialogRef<CreateExamDialog>, private userService: UserService, private moduleService: ModuleService) {
-  this.JSON = JSON;
+    this.JSON = JSON;
     moduleService.getModulesForUser(this.userService.getUser()).subscribe(modules => this.available_modules = modules);
   }
 
+  /**
+   * creates a examen and saves it to the db
+   */
   createExam() {
     this.service.createNewExam(new CreateExamDTO(this.title, new Date().getTime(), Date.parse(this.exam_date), this.userService.getUser(), this.examPoints, JSON.parse(this.selectedModule)));
     this.dialogRef.close();

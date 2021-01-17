@@ -2,7 +2,7 @@
   <h1>Neue Frage erstellen</h1>
   <mat-form-field class="input question-form-input">
     <mat-label>Frage Name</mat-label>
-    <input matInput type="text" [(ngModel)]="questionName">
+    <input id="questionNameInput" matInput type="text" [(ngModel)]="questionName">
     <button mat-button *ngIf="questionName" matSuffix mat-icon-button aria-label="Clear" (click)="questionName=''">
       <mat-icon>close</mat-icon>
     </button>
@@ -12,7 +12,7 @@
 
   <mat-form-field class="input shortQuestion-form-input">
     <mat-label>Frage Kurzname</mat-label>
-    <input matInput type="text" [(ngModel)]="shortName">
+    <input id="questionNameShortInput" matInput type="text" [(ngModel)]="shortName">
     <button mat-button *ngIf="shortName" matSuffix mat-icon-button aria-label="Clear" (click)="shortName=''">
       <mat-icon>close</mat-icon>
     </button>
@@ -22,7 +22,7 @@
 
   <mat-form-field class="input shortQuestion-form-input">
     <mat-label>Kategorie</mat-label>
-    <input matInput type="text" [(ngModel)]="category">
+    <input id="questionCategoryInput" matInput type="text" [(ngModel)]="category">
     <button mat-button *ngIf="category" matSuffix mat-icon-button aria-label="Clear" (click)="category=null">
       <mat-icon>close</mat-icon>
     </button>
@@ -31,7 +31,7 @@
   <br>
 
   <h2 style="">Fragen Text</h2>
-  <quill-editor [styles]="{height: '200px'}" [(ngModel)]="questionText"></quill-editor>
+  <quill-editor id="questionTextInput" [styles]="{height: '200px'}" [(ngModel)]="questionText"></quill-editor>
 
   <br>
 
@@ -68,15 +68,16 @@
   <div style="margin-top: 0.3%;">
     <mat-form-field class="evaluationInput">
       <mat-label>Bewertungskriterium</mat-label>
-      <input matInput #evalCriteria>
+      <input
+        id="criteriaInput" matInput #evalCriteria>
     </mat-form-field>
 
     <mat-form-field class="evaluationInput" style="padding-right: 2%">
       <mat-label>Punkte</mat-label>
-      <input type="number" min="1" matInput #evalCriteriaPoints>
+      <input id="pointsInput" type="number" min="1" matInput #evalCriteriaPoints>
     </mat-form-field>
 
-    <button mat-mini-fab (click)="addEvaluationCriteria(evalCriteria.value, evalCriteriaPoints.valueAsNumber)"
+    <button id="addEvaluationCriteriaButton" mat-mini-fab (click)="addEvaluationCriteria(evalCriteria.value, evalCriteriaPoints.valueAsNumber)"
             style="background-color: #3f51b5">
       <mat-icon>add_circle</mat-icon>
     </button>
@@ -88,6 +89,6 @@
   <mat-dialog-actions align="end">
     <button mat-flat-button mat-dialog-close>Abbrechen</button>
     <button mat-flat-button (click)="writeQuestion()" color="primary" *ngIf="!isEditing">Erstellen</button>
-    <button mat-flat-button (click)="updateQuestion()" color="primary" *ngIf="isEditing">Ändern</button>
+    <button mat-flat-button (click)="updateQuestion()" color="primary" *ngIf="isEditing" id="writeQuestionButton">Ändern</button>
   </mat-dialog-actions>
 </div>

@@ -1,8 +1,11 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.handler;
 
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbCorrection;
+import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbExam;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.CorrectionDTO;
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.RequestCorrectionDTO;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.ExamDto;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.QuestionWithAveragePointsDTO;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.UserDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,16 +48,16 @@ public class CorrectionHandler {
     }
 
     /**
-     * Endpoint to load the correction. Will return null if something goes wrong
+     * Endpoint to load all corrections of a exam. Will return null if something goes wrong
      *
-     * @param request request object that contains the matr Number of the student and the question id
-     * @return List of correctionDtos to this question and matr nr
+     * @param request exam of which the corrections should be loaded
+     * @return List of correctionDtos grouped in a list
      */
     @Path("load")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<CorrectionDTO> loadCorrection(RequestCorrectionDTO request) {
+    public List<List<CorrectionDTO>> loadCorrections(ExamDto request) {
         try {
             DbCorrection dbAccess = new DbCorrection();
             return dbAccess.getCorrection(request);
@@ -64,4 +67,45 @@ public class CorrectionHandler {
         }
         return null;
     }
+    /**
+     * Endpoint to get all exams that are in the state in_correction for every user
+     *
+     * @param user user for whom the search should be performed for. Passed as JSON in the request.
+     * @return List of exams that are in state in_correction. Returned in the endpoint as JSON with an array. If something goes wrong null will be returned
+     */
+    @Path("getExamsforCorrection")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<ExamDto> getExamsforCorrection(UserDto user) {
+        try {
+            DbExam dbAccess = new DbExam();
+            return dbAccess.getExamsforCorrectedOverview(user);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.logger.error(e);
+        }
+        return null;
+    }
+
+    /**
+     * Gets corrected questions together with the average scored points in the queried exam
+     * @param exam exam that should be queried
+     * @return list of questions
+     */
+    @Path("getCorrectedQuestionsAVG")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<QuestionWithAveragePointsDTO> getAverageCorrectionByQuestion(ExamDto exam){
+        try {
+            DbCorrection dbAccess = new DbCorrection();
+            return dbAccess.getAverageCorrectionByQuestion(exam);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            this.logger.error(e);
+        }
+        return null;
+    }
+
 }

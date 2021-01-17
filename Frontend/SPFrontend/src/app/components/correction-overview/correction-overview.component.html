@@ -1,0 +1,42 @@
+
+<app-navbar></app-navbar>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title style="font-size: xx-large; margin-top: 3%">Klausur korrigieren</mat-card-title>
+    <mat-card-subtitle style="font-size: x-large; margin-top: 2%">Hier können Sie Ihre Klausuren korrigieren.
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p style="text-align: center">
+      Sortierung nach:
+      <mat-button-toggle-group name="sortBy" aria-label="Sort by" (change)="sortBy=$event.value;sortChanged();"
+                               value="name">
+        <mat-button-toggle value="name">Namen</mat-button-toggle>
+        <mat-button-toggle value="module">Modulen</mat-button-toggle>
+      </mat-button-toggle-group>
+    </p>
+
+    <mat-card class="content-card">
+      <mat-grid-list cols="6" rowHeight="1:1">
+        <mat-grid-tile colspan="6"
+          *ngIf="tiles.length == 0">
+          <mat-car>
+            <mat-card-title class="tileTitle">Momentan liegen keine Korrekturen vor!</mat-card-title>
+            <mat-card-subtitle class="tileSubtitle">Starten Sie eine Klausur, damit diese hier erscheint</mat-card-subtitle>
+          </mat-car>
+        </mat-grid-tile>
+        <mat-grid-tile
+          *ngFor="let tile of tiles">
+          <mat-card class="tile" (click)="navigateToCorrection(tile)">
+            <mat-card-title id="{{tile.title}}" class="tileTitle">{{tile.title}}</mat-card-title>
+            <mat-card-subtitle class="tileSubtitle">{{tile.module.definition}}</mat-card-subtitle>
+          </mat-card>
+        </mat-grid-tile>
+
+      </mat-grid-list>
+    </mat-card>
+
+  </mat-card-content>
+
+</mat-card>
