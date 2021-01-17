@@ -1,44 +1,42 @@
 describe('full rundown test', function(){
 
   var d = new Date(); // for now
-  var ident = d.getHours().toString() + ":" + d.getMinutes().toString() + "_" + d.getDate() + "/" + d.getMonth()+1 + "/" + d.getFullYear() ;
+  var ident = d.getHours().toString() + ":" + d.getMinutes().toString() + "_" +
+    d.getDate() + "/" + d.getMonth()+1 + "/" + d.getFullYear() ;
 
   browser.get('http://localhost:4200/login')
 
-  it('login test', async() => {
+  it('login test', function() {
 
-    await element(by.id('userNameInputField')).sendKeys('123456');
+     element(by.id('userNameInputField')).sendKeys('123456');
 
-    await element(by.id('userPasswordInputField')).sendKeys('test');
+     element(by.id('userPasswordInputField')).sendKeys('test');
 
-    await element(by.id('loginButton')).click().
+     element(by.id('loginButton')).click().
       then(async() => {
-        expect(await browser.getCurrentUrl()).toEqual("http://localhost:4200/home")
+        expect(await browser.getCurrentUrl()).toEqual("http://localhost:4200/home" +1)
       });
 
   });
 
 
-  it('create Module Test', async() => {
+  it('create Module Test', function()  {
 
-    await element(by.id('addQuestionButton')).click();
+     element(by.id('addQuestionButton')).click();
 
-    await element(by.id('createModuleButton')).click();
+     element(by.id('createModuleButton')).click();
 
-    let courseSelectButton= element(by.id('courseSelection')).click();
+     element(by.id('courseSelection')).click();
 
-    let moduleName= element(by.id('moduleName')).sendKeys('Test' + ident);
+     element(by.id('moduleName')).sendKeys('Test' + ident);
 
-    let courseSelect= element(by.cssContainingText(".mat-option-text", "Wirtschaftsinformatik (B.Sc.)")).click();
+     element(by.cssContainingText(".mat-option-text", "Wirtschaftsinformatik (B.Sc.)")).click();
 
-    browser.sleep(1000);
+     element(by.id('addModule')).click()
 
-    let addModule= element(by.id('addModule')).click()
-
-
-     let expectCheckModule= element(by.id('Module Test')).getText().
+      element(by.id('Test' + ident)).getText().
         then(function (attr) {
-          expect(attr).toBe("Module Test")
+          expect(attr).toBe("Test" + ident)
 
         });
 
@@ -46,33 +44,31 @@ describe('full rundown test', function(){
 
 
 
-  it('create question Test', async() => {
+  it('create question Test', function() {
 
-    let chooseModule= element(by.id("Test" + ident)).click();
+     element(by.id("Test" + ident)).click();
 
-    let createQuestionButton = element(by.id('createQuestionButton')).click();
+     element(by.id('createQuestionButton')).click();
 
-    let questionName= element(by.id('questionNameInput')).sendKeys('TestQuestion' + ident);
+     element(by.id('questionNameInput')).sendKeys('TestQuestion' + ident);
 
-    let questionNameShort= element(by.id('questionNameShortInput')).sendKeys('TesQuest');
+     element(by.id('questionNameShortInput')).sendKeys('TesQuest');
 
-    let questionCategory= element(by.id('questionCategoryInput')).sendKeys('TestCategory');
+     element(by.id('questionCategoryInput')).sendKeys('TestCategory');
 
-    let questionText= element(by.className('ql-editor ql-blank')).sendKeys('Lorem Ipsum Lorem Ipsum');
+     element(by.className('ql-editor ql-blank')).sendKeys('Lorem Ipsum Lorem Ipsum');
 
-    let questionCriteria= element(by.id('criteriaInput')).sendKeys('Criteria Test');
+     element(by.id('criteriaInput')).sendKeys('Criteria Test');
 
-    let questionPoint= element(by.id('pointsInput')).sendKeys('10');
+     element(by.id('pointsInput')).sendKeys('10');
 
-    let evalCritButton = element(by.id('addEvaluationCriteriaButton')).click();
+     element(by.id('addEvaluationCriteriaButton')).click();
 
-    let writeQuestionButton = element(by.id('writeQuestionButton')).click();
+     element(by.id('writeQuestionButton')).click();
 
-    browser.sleep(5000);
+     element(by.id('TestCategory')).click();
 
-    let openQuestionTab = element(by.id('TestCategory')).click();
-
-    let expectCheckQuestion= element(by.id('TestQuestion' + ident)).getText().
+     element(by.id('TestQuestion' + ident)).getText().
     then(function (attr) {
       expect(attr).toBe("TestQuestion" + ident)
 
@@ -81,32 +77,25 @@ describe('full rundown test', function(){
   });
 
 
-  it('create exam Test', async() => {
+  it('create exam Test', function() {
 
-    var exam= element(by.id('createExamButtonNav')).click();
+     element(by.id('createExamButtonNav')).click();
 
-    var exam= element(by.id('examEditorButton')).click();
+     element(by.id('examEditorButton')).click();
 
-    browser.sleep(1000);
+     element(by.id('examTitleInput')).sendKeys('Test' + ident);
 
-    var examTitle = element(by.id('examTitleInput')).sendKeys('Test' + ident);
+     element(by.id('moduleSelectionButton')).click();
 
-    var selectExamModule= element(by.id('moduleSelectionButton')).click();
+     element(by.id('Test' + ident)).click();
 
-    var selectExamModuleButton= element(by.id('Test' + ident)).click();
+     element(by.id('examPointsInput')).sendKeys('100');
 
-    var examPoints = element(by.id('examPointsInput')).sendKeys('100');
+     element(by.id('examDateInput')).sendKeys('Thu Jan 14 2021 00:00:00 GMT+0');
 
-    var dataPick = element(by.id('examDateInput')).sendKeys('Thu Jan 14 2021 00:00:00 GMT+0');
+     element(by.id('createExamEditorButton')).click();
 
-
-    browser.sleep(2000);
-
-    var examExamEditor= element(by.id('createExamEditorButton')).click();
-
-    browser.sleep(1000);
-
-    let expectCheckExam= element(by.id('Test' + ident)).getText().
+     element(by.id('Test' + ident)).getText().
     then(function (attr) {
       expect(attr).toBe("Test" + ident)
 
@@ -116,31 +105,31 @@ describe('full rundown test', function(){
 
   });
 
-  it('exam editor Test', async() => {
+  it('exam editor Test', function() {
 
-    var selectExam= element(by.id('Test' + ident)).click();
+     element(by.id('Test' + ident)).click();
 
-    browser.sleep(2000);
+    let dragQuestion = element(by.id('TestQuestion' + ident));
 
-    var dragQuestion = element(by.id('TestQuestion' + ident));
-
-    var dropQuestion = element(by.id('questionDropList'));
+    let dropQuestion= element(by.id('questionDropList'));
 
     browser.actions().mouseDown(dragQuestion.getWebElement()).mouseMove(dropQuestion.getWebElement()).mouseUp().perform();
 
-    var saveExamButton= element(by.id('saveExamButton')).click();
+     element(by.id('saveExamButton')).click();
 
-    let startExamButton= element(by.id('startExamButton')).click();
+     element(by.id('startExamButton')).click();
 
-    let selectFileButton= element(by.id('selectFileButton')).click();
+     element(by.id('selectFileButton')).click();
 
-    browser.sleep(10000);
 
-    let startExamStudentButton= element(by.id('startExamStudentButton')).click();
+    browser.sleep(15000);
 
-    let correctExamButtonNav= element(by.id('correctExamButtonNav')).click();
 
-    let expectCheckExam= element(by.id('Test' + ident)).getText().
+     element(by.id('startExamStudentButton')).click();
+
+     element(by.id('correctExamButtonNav')).click();
+
+     element(by.id('Test' + ident)).getText().
     then(function (attr) {
       expect(attr).toBe("Test" + ident)
 
@@ -150,19 +139,27 @@ describe('full rundown test', function(){
 
   });
 
-  it('exam correction Test', async() => {
+  it('exam correction Test', function() {
 
 
-    let selectExamCorrect= element(by.id('Test' + ident)).click();
+     element(by.id('Test' + ident)).click();
 
-    let questionCheckbox= element(by.id('questionCheckbox')).click();
+     element(by.id('startCorrectureButton')).click();
 
-    var i;
+    let i;
 
-    for (i = 0; i < 3; i++){
-      let nextStudentButton= element(by.id('nextStudentButton')).click();
-      browser.sleep(500);
+    for (i = 0; i < 2; i++){
+        element(by.id('questionCheckbox')).click();
+       element(by.id('nextStudentButton')).click();
+
     }
+     element(by.id('endCorrectureButton')).click();
+
+     element(by.id('Test' + ident)).getText().
+    then(function (attr) {
+      expect(attr).toBe("Test" + ident)
+
+    });
 
 
   });
