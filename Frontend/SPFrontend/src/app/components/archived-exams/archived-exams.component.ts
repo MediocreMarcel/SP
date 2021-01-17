@@ -19,6 +19,7 @@ export class ArchivedExamsComponent implements AfterViewInit, OnInit {
   @ViewChild(MatTable) table: MatTable<ExamDTO>;
   dataSource: ArchivedExamsDataSource;
 
+
   /** Columns displayed in the table.  */
   displayedColumns = ['exam_id', 'title', 'creation_date', 'exam_date', 'totalPoints', 'editButton'];
 
@@ -27,6 +28,7 @@ export class ArchivedExamsComponent implements AfterViewInit, OnInit {
   constructor(private service: ExamArchiveServiceService, private userService: UserService, private router: Router) {
     this.loadExams();
   }
+
 
   /**
    * Get the Data for the Table from backend, where we get every exam with the status 'corrected'.

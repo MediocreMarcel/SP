@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {QuestionWithEvaluationCriteriasDTO, ExamQuestionDTO, QuestionDto} from "../../components/models/QuestionDto";
 import {environment} from "../../../environments/environment";
 import {ModuleDTO} from "../../components/models/ModuleDTO";
 import {ExamDTO} from "../../components/models/ExamDTO";
+import {SaveExamAndQuestionsDTO} from "../../components/models/SaveExamAndQuestionsDTO";
 
 
 @Injectable({
@@ -13,7 +14,9 @@ export class CreateQuestionService {
 
   url = environment.BaseUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
+
 
   /**
    * HTTP-Request to Backend. Gets Questions for a specific Module
@@ -24,6 +27,7 @@ export class CreateQuestionService {
     return this.http.post<QuestionWithEvaluationCriteriasDTO[]>(this.url + 'questions/getQuestion', JSON.stringify(postData), {headers: headers});
   }
 
+
   /**
    * HTTP-Request to Backend. Gets Questions with rating-criteria from a specific Exam
    * @param postData Exam for which questions should be retrieved
@@ -33,6 +37,7 @@ export class CreateQuestionService {
     return this.http.post<QuestionWithEvaluationCriteriasDTO[]>(this.url + 'questions/getQuestionsWithRatingCriteria', JSON.stringify(postData), {headers: headers});
   }
 
+
   /**
    * HTTP-Request to Backend. Question subject to be written to DB.
    * @param postData Question abiding to DTO subjected to be written to DB
@@ -41,6 +46,7 @@ export class CreateQuestionService {
     const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
     return this.http.post<QuestionDto>(this.url + 'questions/newQuestion', JSON.stringify(postData), {headers: headers});
   }
+
 
   /**
    * HTTP-Request to Backend. Question(s) subject to deletion are sent to backend
