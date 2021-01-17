@@ -81,9 +81,9 @@ describe('full rundown test', function(){
 
      element(by.id('questionNameInput')).sendKeys('TestQuestion' + ident);
 
-     element(by.id('questionNameShortInput')).sendKeys('TesQuest');
+     element(by.id('questionNameShortInput')).sendKeys(ident);
 
-     element(by.id('questionCategoryInput')).sendKeys('TestCategory');
+     element(by.id('questionCategoryInput')).sendKeys("TestCategory");
 
      element(by.className('ql-editor ql-blank')).sendKeys('Lorem Ipsum Lorem Ipsum');
 
@@ -93,13 +93,15 @@ describe('full rundown test', function(){
 
      element(by.id('addEvaluationCriteriaButton')).click();
 
-     element(by.id('writeQuestionButton')).click();
+    element(by.id('writeQuestionButton')).click();
 
-     element(by.id('TestCategory')).click();
+    element(by.id("TestCategory")).click();
 
-     element(by.id('TestQuestion' + ident)).getText().
+    browser.sleep(1000)
+
+     element(by.id(ident)).getText().
     then(function (attr) {
-      expect(attr).toBe("TestQuestion" + ident)
+      expect(attr).toBe(ident)
 
     });
 
@@ -151,7 +153,7 @@ describe('full rundown test', function(){
     /**
      * drags a question into the drop zone to add it to the exam
      */
-    browser.actions().mouseDown(dragQuestion.getWebElement()).mouseMove(dropQuestion.getWebElement()).mouseUp().perform();
+     browser.actions().mouseDown(dragQuestion.getWebElement()).mouseMove(dropQuestion.getWebElement()).mouseUp().perform();
 
      element(by.id('saveExamButton')).click();
 
