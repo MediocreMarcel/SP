@@ -84,6 +84,27 @@ public class DbCorrection extends DbConnector {
     }
 
     /**
+     * Load the all corrections of a exam as a map
+     * @param request exam which should be queried
+     * @return list of list of corrections mapped by student
+     * @throws SQLException thrown if something sql related goes wrong
+     */
+    public Map<Integer,List<CorrectionDTO>> getCorrectionAsMap(ExamDto request) throws SQLException {
+        ResultSetMapper rsMapper = new ResultSetMapper();
+        PreparedStatement getCorrection = conn.prepareStatement("SELECT * FROM is_corrected WHERE exam_id = ?");
+        getCorrection.setInt(1, request.getExam_id());
+        try {
+            List<CorrectionDTO> allCorrections = rsMapper.mapResultSetToObject(getCorrection.executeQuery(), CorrectionDTO.class);
+            return allCorrections.stream().collect(Collectors.groupingBy(CorrectionDTO::getMatrNr));
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+            e.printStackTrace();
+            logger.error(e);
+            return null;
+        }
+    }
+
+
+    /**
      * Gets all questions from the db together with the average of the scored points
      * @param exam exam which should be queried
      * @return List of questions with the avg value. Null if the resultset could not be mapped

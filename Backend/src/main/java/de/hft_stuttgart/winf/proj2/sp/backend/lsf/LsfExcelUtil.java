@@ -1,14 +1,16 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.lsf;
 
-import de.hft_stuttgart.winf.proj2.sp.backend.dto.CorrectionDTO;
+import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.ExamDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.StudentDTO;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.StudentWithGradeDTO;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 
-import java.io.*;
-import java.util.*;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class LsfExcelUtil {
 
@@ -81,12 +83,15 @@ public class LsfExcelUtil {
         return student;
     }
 
-    public void writeIntoExcel(ExamDto exam, InputStream file) {
+    public ByteOutputStream writeIntoExcel(ExamDto exam, InputStream file, List<StudentWithGradeDTO> studentsWithGrade) {
+
+        ByteOutputStream bout = new ByteOutputStream();
 
         int counter = 0;
 
         boolean startRow = false;
         boolean endRow = false;
+
 
         try {
             Workbook workbook = new HSSFWorkbook(file);
@@ -97,29 +102,44 @@ public class LsfExcelUtil {
                 Sheet sh = sheets.next();
                 Iterator<Row> iterator = sh.iterator();
                 while (iterator.hasNext()) {
+                    counter = 0;
                     Row row = iterator.next();
                     Iterator<Cell> cellIterator = row.iterator();
                     Cell rowCell = cellIterator.next();
                     String rowCellValue = dataFormatter.formatCellValue(rowCell);
-                    if (rowCellValue.equals("bewertung")) {
-                        System.out.println("test");
+                    if (rowCellValue.equals("endHISsheet")) {
+                        endRow = true;
                     }
-                    if(rowCellValue.equals("pdatum")){
-                        System.out.println("test2");
+                    if (startRow == true && endRow == false) {
+
+                        int matNr = Integer.valueOf(rowCellValue);
+                        while (cellIterator.hasNext() && counter < 8) {
+                            counter = counter + 1;
+
+                            Cell cell = cellIterator.next();
+                            String cellValue = dataFormatter.formatCellValue(cell);
+
+                            if (counter == 6) {
+                                cell.setCellValue(studentsWithGrade.stream().filter(x -> x.getMatrNumber().compareTo(matNr) == 0).findFirst().get().getGrade());
+                            }
+                            if (counter == 8) {
+                                cell.setCellValue(exam.getExam_date());
+                            }
+                        }
+                    }
+                    if (rowCellValue.equals("mtknr")) {
+                        startRow = true;
                     }
 
                 }
             }
+            workbook.write(bout);
             workbook.close();
-        } catch (IOException e) {
+            return bout;
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
-    public void getGradeAvg(List<List<CorrectionDTO>> correction) {
-
-    }
-
-    public void getSumOfAvg(List<List<CorrectionDTO>> correction){
-    }
 }

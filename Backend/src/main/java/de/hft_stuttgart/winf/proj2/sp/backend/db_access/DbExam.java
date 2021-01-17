@@ -292,7 +292,12 @@ public class DbExam extends DbConnector {
         return uploadLsfExcel.executeUpdate() > 0;
     }
 
-    public void getExcelByExamId(ExamDto exam) {
+    public InputStream getExcelByExamId(ExamDto exam) throws SQLException {
+        PreparedStatement getExcel = conn.prepareStatement("SELECT lsf FROM exams WHERE exam_id = ?");
+        getExcel.setInt(1, exam.getExam_id());
+        ResultSet rs = getExcel.executeQuery();
+        rs.next();
+        return rs.getBlob("lsf").getBinaryStream();
 
     }
 }

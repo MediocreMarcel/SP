@@ -4,12 +4,14 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
+import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbCorrection;
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbExam;
 import de.hft_stuttgart.winf.proj2.sp.backend.db_access.DbStudents;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.CorrectionDTO;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.ExamDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.StudentDTO;
+import de.hft_stuttgart.winf.proj2.sp.backend.dto.StudentWithGradeDTO;
 import de.hft_stuttgart.winf.proj2.sp.backend.lsf.LsfExcelUtil;
 import javassist.bytecode.ByteArray;
 import org.apache.logging.log4j.LogManager;
@@ -17,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
+import javax.print.attribute.standard.Media;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -27,7 +30,9 @@ import javax.ws.rs.core.Response;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Path("lsf")
 public class LsfHandler {
@@ -69,25 +74,34 @@ public class LsfHandler {
     @Path("student_export")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/vnd.ms-excel")
     public Response exportStudent(ExamDto exam) {
         try {
             DbCorrection correction = new DbCorrection();
-            List<List<CorrectionDTO>> corr = correction.getCorrection(exam);
-            for (List<CorrectionDTO> lo : corr) {
-                for (CorrectionDTO o : lo) {
-                    System.out.println(o);
-                }
-            }
             DbExam dbAccess = new DbExam();
-            dbAccess.getExcelByExamId(exam);
+
+            Map<Integer, List<CorrectionDTO>> corr = correction.getCorrectionAsMap(exam);
+
             LsfExcelUtil lsfExcelUtil = new LsfExcelUtil();
-            return Response.ok().build();
-
-
+            ByteOutputStream out = lsfExcelUtil.writeIntoExcel(exam, dbAccess.getExcelByExamId(exam),getGradesByStudent(corr, exam));
+            return Response.ok(out.toByteArray(),MediaType.APPLICATION_OCTET_STREAM).header("content-disposition", "attachment; filename = lsfExport.xls").build();
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error(e);
         }
-        return Response.ok().build();
+        return Response.status(500).build();
+    }
+
+    private List<StudentWithGradeDTO> getGradesByStudent(Map<Integer, List<CorrectionDTO>> corr, ExamDto exam) {
+        List<StudentWithGradeDTO> studentsWithGrade = new ArrayList<>();
+        for (Map.Entry<Integer, List<CorrectionDTO>> entry : corr.entrySet()) {
+            int sumPoints = 0;
+            for (CorrectionDTO innerCorrection: entry.getValue()) {
+                sumPoints+=innerCorrection.getReachedPoints();
+            }
+            studentsWithGrade.add(new StudentWithGradeDTO(entry.getKey(), -1*((sumPoints*5/ exam.getTotalPoints())-6)));
+        }
+        System.out.println(studentsWithGrade);
+        return studentsWithGrade;
     }
 }
