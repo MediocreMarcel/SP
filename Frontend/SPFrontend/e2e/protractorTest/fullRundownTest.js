@@ -195,7 +195,7 @@ describe('full rundown test', function(){
     let i;
 
     for (i = 0; i < 2; i++){
-        element(by.id('questionCheckbox')).click();
+        element(by.id('questionCheckbox_0')).click();
        element(by.id('nextStudentButton')).click();
 
     }
