@@ -6,6 +6,7 @@ import {ArchivedExamsDataSource} from './archived-exams-datasource';
 import {ExamArchiveServiceService} from "../../services/exam-archiv/exam-archive-service.service";
 import {UserService} from "../../shared/user.service";
 import {ExamDTO} from "../models/ExamDTO";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-archived-exams',
@@ -19,11 +20,11 @@ export class ArchivedExamsComponent implements AfterViewInit, OnInit {
   dataSource: ArchivedExamsDataSource;
 
   /** Columns displayed in the table.  */
-  displayedColumns = ['exam_id', 'title', 'creation_date', 'exam_date', 'totalPoints'  ];
+  displayedColumns = ['exam_id', 'title', 'creation_date', 'exam_date', 'totalPoints', 'editButton'];
 
 
   public tableData: ExamDTO[] = [];
-  constructor(private service: ExamArchiveServiceService, private userService: UserService ) {
+  constructor(private service: ExamArchiveServiceService, private userService: UserService, private router: Router) {
     this.loadExams();
   }
 
@@ -54,5 +55,13 @@ export class ArchivedExamsComponent implements AfterViewInit, OnInit {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
+  }
+
+  /**
+   * Opens the correction Dialog for a exam
+   * @param exam exam that should be opened in the correctin view
+   */
+  editCorrection(exam: ExamDTO) {
+    this.router.navigate(["/correction-summery"], {state: exam});
   }
 }

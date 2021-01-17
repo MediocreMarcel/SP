@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <mat-card>
   <mat-card>
-    <mat-grid-list cols="2" rowHeight="17:1">
+    <mat-grid-list cols="2" rowHeight="14:1">
 
       <mat-grid-tile>
         <mat-form-field class="infoHeaderInput">
@@ -67,14 +67,14 @@
               <!-- Weight Column -->
               <ng-container matColumnDef="scoredPoints">
                 <th mat-header-cell *matHeaderCellDef> Durschnitt (Punkte)</th>
-                <td mat-cell *matCellDef="let element">{{element.avg}}</td>
+                <td mat-cell *matCellDef="let element">{{element.avg | number: '1.2'}}</td>
                 <td mat-footer-cell *matFooterCellDef><b>{{getSumOfAvg()}}</b></td>
               </ng-container>
 
               <ng-container matColumnDef="grade">
                 <th mat-header-cell *matHeaderCellDef> Durschnitt (Note)</th>
                 <td mat-cell *matCellDef="let element"></td>
-                <td mat-footer-cell *matFooterCellDef><b>{{getGradeAvg()}}</b></td>
+                <td mat-footer-cell *matFooterCellDef><b>{{getGradeAvg() | number : '1.0-2'}}</b></td>
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="tableHeader"></tr>

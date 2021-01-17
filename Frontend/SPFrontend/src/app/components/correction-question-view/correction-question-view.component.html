@@ -5,7 +5,7 @@
   </mat-card-header>
   <mat-card-content>
     <mat-card>
-      <mat-grid-list cols="3" rowHeight="11:1">
+      <mat-grid-list cols="3" rowHeight="9:1">
 
         <mat-grid-tile>
           <mat-form-field class="infoHeaderInput">
@@ -143,9 +143,12 @@
         </mat-card>
 
         <mat-card class="content-card" style="width: auto; margin-top: 1%">
-          <button id="nextStudentButton" mat-raised-button class="controlButtons" style="width: 96%" (click)="nextStudent()">Nächster Prüfling</button>
-          <button mat-raised-button class="controlButtons" style="width: 96%" (click)="previousStudent()">Vorheriger Prüfling</button>
-          <button mat-raised-button class="controlButtons" style="width: 96%" (click)="saveAndLeave()">Korrektur pausieren</button>
+
+          <button mat-raised-button class="controlButtons" style="width: 96%" (click)="nextStudent()">Speichern und Nächster Prüfling</button>
+          <button mat-raised-button class="controlButtons" style="width: 96%" (click)="previousStudent()">Speichern und Vorheriger Prüfling</button>
+          <button mat-raised-button class="controlButtons" style="width: 96%" (click)="saveAndLeave()" *ngIf="getCorrectionProgress()!=100">Speichern und Korrektur pausieren</button>
+          <button mat-raised-button class="controlButtons" style="width: 96%" (click)="saveAndRedirectToSummery()" *ngIf="getCorrectionProgress()==100">Speichern und zur Übersicht</button>
+
         </mat-card>
       </mat-card>
     </mat-card>
