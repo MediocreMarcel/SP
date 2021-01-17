@@ -4,9 +4,10 @@ name: 'Unit Tests'
 # events but only for the main branch
 on:
   push:
-    branches: [ main ]
+    branches: [ SP-80 ]
   pull_request:
-    branches: [ main ]
+    branches: [ SP-80 ]
+
 
 jobs:
   # Build Backend and Deploy it
@@ -43,5 +44,27 @@ jobs:
 #        uses: actions/setup-node@v1
 #        with:
 #          node-version: '12.x'
-#      - name: 'angular test'
-#         run: npm run --prefix Frontend/SPFrontend test
+#      - name: 'npm-install'
+#        run: npm install
+#        working-directory: Frontend/SPFrontend
+#
+#      - name: 'install angular'
+#        run: npm install -g @angular/cli
+#        working-directory: Frontend/SPFrontend
+#
+#      - name: 'Install protractor'
+#        run: npm install -g protractor
+#        working-directory: Frontend/SPFrontend
+#
+#
+#      - name: 'update protractor webdriver'
+#        run: webdriver-manager update
+#        working-directory: Frontend/SPFrontend
+#
+#      - name: 'Install firefox addon'
+#        run: npm install protractor-firefox-support --save
+#        working-directory: Frontend/SPFrontend
+#
+#      - name: 'run protractor'
+#        run: protractor protractor.conf.js
+#        working-directory: Frontend/SPFrontend/e2e/
