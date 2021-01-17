@@ -14,7 +14,7 @@ describe('full rundown test', function(){
 
      element(by.id('loginButton')).click().
       then(async() => {
-        expect(await browser.getCurrentUrl()).toEqual("http://localhost:4200/home" +1)
+        expect(await browser.getCurrentUrl()).toEqual("http://localhost:4200/home")
       });
 
   });
