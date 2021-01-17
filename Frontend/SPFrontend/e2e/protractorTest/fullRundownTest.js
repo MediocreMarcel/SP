@@ -1,17 +1,42 @@
+/**
+ This class describes a test to test the functionality of the main functions
+ when modifications are done to theapplication
+ */
+
+/**
+ * start of test
+ */
 describe('full rundown test', function(){
 
+  /**
+   * unique identifier that consits of the current date and time when the test ist started.
+   * The identifier will be added through the test to newly added objects
+   * @type {Date}
+   */
   var d = new Date(); // for now
-  var ident = d.getHours().toString() + ":" + d.getMinutes().toString() + "_" + d.getDate() + "/" + d.getMonth()+1 + "/" + d.getFullYear() ;
+  var ident = d.getHours().toString() + ":" + d.getMinutes().toString() + "_" +
+    d.getDate() + "/" + d.getMonth()+1 + "/" + d.getFullYear() ;
 
+  /**
+   * connection to the login page
+   */
   browser.get('http://localhost:4200/login')
 
-  it('login test', async() => {
 
-    await element(by.id('userNameInputField')).sendKeys('123456');
+  /**
+   * tests the login with the test user
+   */
+  it('login test', function() {
 
-    await element(by.id('userPasswordInputField')).sendKeys('test');
+     element(by.id('userNameInputField')).sendKeys('123456');
 
-    await element(by.id('loginButton')).click().
+     element(by.id('userPasswordInputField')).sendKeys('test');
+
+
+    /**
+     * checks if the redirection to the home page was executed correctly
+     */
+    element(by.id('loginButton')).click().
       then(async() => {
         expect(await browser.getCurrentUrl()).toEqual("http://localhost:4200/home")
       });
@@ -19,94 +44,92 @@ describe('full rundown test', function(){
   });
 
 
-  it('create Module Test', async() => {
+  /**
+   * test for the creation of a new module
+   */
+  it('create Module Test', function()  {
 
-    await element(by.id('addQuestionButton')).click();
+     element(by.id('addQuestionButton')).click();
 
-    await element(by.id('createModuleButton')).click();
+     element(by.id('createModuleButton')).click();
 
-    let courseSelectButton= element(by.id('courseSelection')).click();
+     element(by.id('courseSelection')).click();
 
-    let moduleName= element(by.id('moduleName')).sendKeys('Test' + ident);
+     element(by.id('moduleName')).sendKeys('Test' + ident);
 
-    let courseSelect= element(by.cssContainingText(".mat-option-text", "Wirtschaftsinformatik (B.Sc.)")).click();
+     element(by.cssContainingText(".mat-option-text", "Wirtschaftsinformatik (B.Sc.)")).click();
 
-    browser.sleep(1000);
+     element(by.id('addModule')).click()
 
-    let addModule= element(by.id('addModule')).click()
-
-
-     let expectCheckModule= element(by.id('Module Test')).getText().
+      element(by.id('Test' + ident)).getText().
         then(function (attr) {
-          expect(attr).toBe("Module Test")
+          expect(attr).toBe("Test" + ident)
 
         });
 
   });
 
 
+  /**
+   * test for the creation of a new question
+   */
+  it('create question Test', function() {
 
-  it('create question Test', async() => {
+     element(by.id("Test" + ident)).click();
 
-    let chooseModule= element(by.id("Test" + ident)).click();
+     element(by.id('createQuestionButton')).click();
 
-    let createQuestionButton = element(by.id('createQuestionButton')).click();
+     element(by.id('questionNameInput')).sendKeys('TestQuestion' + ident);
 
-    let questionName= element(by.id('questionNameInput')).sendKeys('TestQuestion' + ident);
+     element(by.id('questionNameShortInput')).sendKeys(ident);
 
-    let questionNameShort= element(by.id('questionNameShortInput')).sendKeys('TesQuest');
+     element(by.id('questionCategoryInput')).sendKeys("TestCategory");
 
-    let questionCategory= element(by.id('questionCategoryInput')).sendKeys('TestCategory');
+     element(by.className('ql-editor ql-blank')).sendKeys('Lorem Ipsum Lorem Ipsum');
 
-    let questionText= element(by.className('ql-editor ql-blank')).sendKeys('Lorem Ipsum Lorem Ipsum');
+     element(by.id('criteriaInput')).sendKeys('Criteria Test');
 
-    let questionCriteria= element(by.id('criteriaInput')).sendKeys('Criteria Test');
+     element(by.id('pointsInput')).sendKeys('10');
 
-    let questionPoint= element(by.id('pointsInput')).sendKeys('10');
+     element(by.id('addEvaluationCriteriaButton')).click();
 
-    let evalCritButton = element(by.id('addEvaluationCriteriaButton')).click();
+    element(by.id('writeQuestionButton')).click();
 
-    let writeQuestionButton = element(by.id('writeQuestionButton')).click();
+    element(by.id("TestCategory")).click();
 
-    browser.sleep(5000);
+    browser.sleep(1000)
 
-    let openQuestionTab = element(by.id('TestCategory')).click();
-
-    let expectCheckQuestion= element(by.id('TestQuestion' + ident)).getText().
+     element(by.id(ident)).getText().
     then(function (attr) {
-      expect(attr).toBe("TestQuestion" + ident)
+      expect(attr).toBe(ident)
 
     });
 
   });
 
 
-  it('create exam Test', async() => {
+  /**
+   * test for creation of a new exam
+   */
+  it('create exam Test', function() {
 
-    var exam= element(by.id('createExamButtonNav')).click();
+     element(by.id('createExamButtonNav')).click();
 
-    var exam= element(by.id('examEditorButton')).click();
+     element(by.id('examEditorButton')).click();
 
-    browser.sleep(1000);
+     element(by.id('examTitleInput')).sendKeys('Test' + ident);
 
-    var examTitle = element(by.id('examTitleInput')).sendKeys('Test' + ident);
+     element(by.id('moduleSelectionButton')).click();
 
-    var selectExamModule= element(by.id('moduleSelectionButton')).click();
+     element(by.id('Test' + ident)).click();
 
-    var selectExamModuleButton= element(by.id('Test' + ident)).click();
+     element(by.id('examPointsInput')).sendKeys('100');
 
-    var examPoints = element(by.id('examPointsInput')).sendKeys('100');
+     element(by.id('examDateInput')).sendKeys('Thu Jan 14 2021 00:00:00 GMT+0');
 
-    var dataPick = element(by.id('examDateInput')).sendKeys('Thu Jan 14 2021 00:00:00 GMT+0');
+     element(by.id('createExamEditorButton')).click();
 
-
-    browser.sleep(2000);
-
-    var examExamEditor= element(by.id('createExamEditorButton')).click();
-
-    browser.sleep(1000);
-
-    let expectCheckExam= element(by.id('Test' + ident)).getText().
+     element(by.id('Test' + ident)).getText().
     then(function (attr) {
       expect(attr).toBe("Test" + ident)
 
@@ -116,31 +139,40 @@ describe('full rundown test', function(){
 
   });
 
-  it('exam editor Test', async() => {
+  /**
+   * test for adding question to the new exam and starting the exam
+   */
+  it('exam editor Test', function() {
 
-    var selectExam= element(by.id('Test' + ident)).click();
+     element(by.id('Test' + ident)).click();
 
-    browser.sleep(2000);
+    let dragQuestion = element(by.id('TestQuestion' + ident));
 
-    var dragQuestion = element(by.id('TestQuestion' + ident));
+    let dropQuestion= element(by.id('questionDropList'));
 
-    var dropQuestion = element(by.id('questionDropList'));
+    /**
+     * drags a question into the drop zone to add it to the exam
+     */
+     browser.actions().mouseDown(dragQuestion.getWebElement()).mouseMove(dropQuestion.getWebElement()).mouseUp().perform();
 
-    browser.actions().mouseDown(dragQuestion.getWebElement()).mouseMove(dropQuestion.getWebElement()).mouseUp().perform();
+     element(by.id('saveExamButton')).click();
 
-    var saveExamButton= element(by.id('saveExamButton')).click();
+     element(by.id('startExamButton')).click();
 
-    let startExamButton= element(by.id('startExamButton')).click();
+     element(by.id('selectFileButton')).click();
 
-    let selectFileButton= element(by.id('selectFileButton')).click();
+    /**
+     * is neccessary to bea able to add the external file
+     * into the browser window via the file browser
+     */
+    browser.sleep(15000);
 
-    browser.sleep(10000);
 
-    let startExamStudentButton= element(by.id('startExamStudentButton')).click();
+     element(by.id('startExamStudentButton')).click();
 
-    let correctExamButtonNav= element(by.id('correctExamButtonNav')).click();
+     element(by.id('correctExamButtonNav')).click();
 
-    let expectCheckExam= element(by.id('Test' + ident)).getText().
+     element(by.id('Test' + ident)).getText().
     then(function (attr) {
       expect(attr).toBe("Test" + ident)
 
@@ -150,25 +182,34 @@ describe('full rundown test', function(){
 
   });
 
-  it('exam correction Test', async() => {
+  /**
+   * simulates the correction of the test exam
+   */
+  it('exam correction Test', function() {
 
 
-    let selectExamCorrect= element(by.id('Test' + ident)).click();
+     element(by.id('Test' + ident)).click();
 
-    let questionCheckbox= element(by.id('questionCheckbox')).click();
+     element(by.id('startCorrectureButton')).click();
 
-    var i;
+    let i;
 
-    for (i = 0; i < 3; i++){
-      let nextStudentButton= element(by.id('nextStudentButton')).click();
-      browser.sleep(500);
+    for (i = 0; i < 2; i++){
+        element(by.id('questionCheckbox_0')).click();
+       element(by.id('nextStudentButton')).click();
+
     }
+     element(by.id('endCorrectureButton')).click();
+
+     element(by.id('Test' + ident)).getText().
+    then(function (attr) {
+      expect(attr).toBe("Test" + ident)
+
+
+    });
 
 
   });
-
-
-
 
 
 

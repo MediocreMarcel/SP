@@ -121,7 +121,7 @@
                    *ngFor="let question of examContent">
                 <mat-expansion-panel>
                   <mat-expansion-panel-header>
-                    <mat-panel-title>
+                    <mat-panel-title id="{{question.questionName}}">
                       {{question.questionName}}
                     </mat-panel-title>
                     <mat-panel-description>
