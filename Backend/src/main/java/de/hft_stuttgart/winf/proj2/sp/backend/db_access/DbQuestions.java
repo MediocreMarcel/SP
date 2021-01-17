@@ -29,19 +29,23 @@ public class DbQuestions extends DbConnector {
      * @return list of all questions
      * @throws SQLException thrown if server is unavailable or some problem with the server accrues
      */
-    public List<QuestionsDto> getQuestions(ModuleDto module) throws SQLException {
+    public List<QuestionWithEvaluationCriteriasDTO> getQuestions(ModuleDto module) throws SQLException {
 
         if (module == null || module.getModule_id() == null) {
             return null;
         }
 
         ResultSetMapper resultSetMapper = new ResultSetMapper();
-        PreparedStatement selectQuestions = conn.prepareStatement("SELECT * FROM questions qs INNER JOIN modules m  ON qs.module_id = m.module_id WHERE m.module_id = ?");
+        PreparedStatement selectQuestions = conn.prepareStatement("SELECT * FROM questions qs INNER JOIN modules m  ON qs.module_id = m.module_id WHERE m.module_id = ? AND qs.deleted = 0");
         selectQuestions.setInt(1, module.getModule_id());
         ResultSet rs = selectQuestions.executeQuery();
 
         try {
-            return resultSetMapper.mapResultSetToObject(rs, QuestionsDto.class);
+            List<QuestionWithEvaluationCriteriasDTO> questions = resultSetMapper.mapResultSetToObject(rs, QuestionWithEvaluationCriteriasDTO.class);
+            for (QuestionWithEvaluationCriteriasDTO question: questions) {
+                question.setEvaluationCriterias(getEvaluationCriteria(question));
+            }
+            return questions;
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
             e.printStackTrace();
             logger.error(e);
@@ -108,7 +112,7 @@ public class DbQuestions extends DbConnector {
      * @return boolean weather the deletion was successful
      * @throws SQLException hrown if server is unavailable or some problem with the server accrues
      */
-    public boolean deleteQuestions(List<QuestionsDto> questions) throws SQLException {
+    public boolean deleteQuestions(List<QuestionWithEvaluationCriteriasDTO> questions) throws SQLException {
         conn.setAutoCommit(false);
 
         for (QuestionsDto question : questions) {
@@ -205,6 +209,31 @@ public class DbQuestions extends DbConnector {
         PreparedStatement selectQuestions = conn.prepareStatement("SELECT * FROM rating_criteria WHERE question_id = ?");
         selectQuestions.setInt(1, question.getQuestionId());
         return resultSetMapper.mapResultSetToObject(selectQuestions.executeQuery(), QuestionCriteriaDTO.class);
+    }
+
+    /**
+     * When editing a question, old question is marked as deleted but not erased from DB
+     * @param question question to me marked as deleted
+     * @return true if DB-Access succeeded, false is failed
+     * @throws SQLException thrown if server is unavailable or some problem with the server accrues
+     */
+    public boolean updateQuestion(QuestionWithEvaluationCriteriasDTO question) throws SQLException {
+        conn.setAutoCommit(false);
+
+        PreparedStatement updateQuestion = conn.prepareStatement("UPDATE questions SET deleted = ? WHERE question_id = ?");
+        updateQuestion.setInt(1, 1);
+        updateQuestion.setInt(2, question.getQuestionId());
+
+        if (updateQuestion.executeUpdate() <= 0) {
+            logger.warn("Could not update element : " + question);
+            System.err.println("Could not update element : " + question);
+            conn.rollback();
+            conn.setAutoCommit(true);
+            return false;
+        }
+        conn.commit();
+        conn.setAutoCommit(true);
+        return true;
     }
 }
 

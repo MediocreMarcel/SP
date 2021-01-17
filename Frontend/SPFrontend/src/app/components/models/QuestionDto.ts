@@ -35,10 +35,12 @@ export class ExamQuestionDTO extends QuestionDto {
 export class QuestionWithEvaluationCriteriasDTO extends ExamQuestionDTO {
 
   evaluationCriterias: EvaluationCriteriaDTO[];
+  deleted: number;
 
-  constructor(questionID: number, questionName: string, questionText: string, questionPoints: number, shortName: string, category: string, module_ID: number, position: number, evaluationCriterias: EvaluationCriteriaDTO[]) {
+  constructor(questionID: number, questionName: string, questionText: string, questionPoints: number, shortName: string, category: string, module_ID: number, position: number, evaluationCriterias: EvaluationCriteriaDTO[], deleted: number) {
     super(questionID, questionName, questionText, questionPoints, shortName, category, module_ID, position);
     this.evaluationCriterias = evaluationCriterias;
+    this.deleted = deleted;
   }
 
 }

@@ -77,7 +77,7 @@ public class QuestionsHandler {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<QuestionsDto> getQuestions(ModuleDto module) {
+    public List<QuestionWithEvaluationCriteriasDTO> getQuestions(ModuleDto module) {
         try {
             DbQuestions dbAccess = new DbQuestions();
             return dbAccess.getQuestions(module);
@@ -113,6 +113,30 @@ public class QuestionsHandler {
         return null;
     }
 
+    /**
+     * Updates Question-deletion state in the database to 1
+     *
+     * @param question question that should be updated as deleted
+     * @return returns question if insert was successful
+     */
+    @Path("updateQuestion")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateQuestion(QuestionWithEvaluationCriteriasDTO question) {
+        try {
+            DbQuestions dbAccess = new DbQuestions();
+            if (dbAccess.updateQuestion(question)) {
+                return Response.ok().build();
+            } else {
+                return Response.status(Response.Status.CONFLICT).build();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error(e);
+        }
+        return Response.status(Response.Status.CONFLICT).build();
+    }
+
 
     /**
      * Deletes questions from the database. Deletes all questions. If something goes wrong there will be a rollback.
@@ -123,7 +147,7 @@ public class QuestionsHandler {
     @Path("deleteQuestions")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteQuestions(List<QuestionsDto> questions) {
+    public Response deleteQuestions(List<QuestionWithEvaluationCriteriasDTO> questions) {
         try {
             DbQuestions dbAccess = new DbQuestions();
             if (dbAccess.deleteQuestions(questions)) {

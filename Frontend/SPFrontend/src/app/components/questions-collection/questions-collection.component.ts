@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {QuestionDto} from "../models/QuestionDto";
+import {QuestionDto, QuestionWithEvaluationCriteriasDTO} from "../models/QuestionDto";
 import {Router} from "@angular/router";
 import {ModuleDTO} from "../models/ModuleDTO";
 import {CreateQuestionService} from "../../services/question/create-question.service";
@@ -13,10 +13,9 @@ import {CreateQuestionDialog} from "./create_question/questions-collection.creat
 })
 export class QuestionsCollectionComponent implements OnInit {
 
-  questions: QuestionDto[];
+  questions: QuestionWithEvaluationCriteriasDTO[];
 
-  selectedQuestions: QuestionDto[] = [];
-
+  selectedQuestions: QuestionWithEvaluationCriteriasDTO[] = [];
 
   module: ModuleDTO;
 
@@ -53,7 +52,7 @@ export class QuestionsCollectionComponent implements OnInit {
    * Adds or removes a checkbox from the data layer if event is triggered
    * @param question question that should be removed/added
    */
-  checkboxChanged(question: QuestionDto) {
+  checkboxChanged(question: QuestionWithEvaluationCriteriasDTO) {
     let deleted = false;
     this.selectedQuestions.forEach((element, index) => {
       if (element.questionId == question.questionId) {
@@ -72,6 +71,23 @@ export class QuestionsCollectionComponent implements OnInit {
   deleteSelection() {
     this.examService.deleteQuestions(this.selectedQuestions).subscribe(response => {
       this.selectedQuestions = [];
+      this.loadQuestions();
+    });
+  }
+
+  /**
+   * Opens new createQuestion-Dialog prefilled with the specific question-data of the question to be changed
+   * @param question question that is subjected to be changed
+   */
+  hideQuestion(question) {
+    console.log(question);
+    const dialogRef = this.dialog.open(CreateQuestionDialog, {
+      width: '50%',
+      height: '95%',
+      data: {module: this.module, question: question}
+    });
+
+    dialogRef.afterClosed().subscribe(create => {
       this.loadQuestions();
     });
   }
