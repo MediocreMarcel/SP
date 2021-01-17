@@ -1,24 +1,52 @@
+/**
+ This class describes a test to test the functionality of the main functions
+ when modifications are done to theapplication
+ */
+
+/**
+ * start of test
+ */
 describe('full rundown test', function(){
 
+  /**
+   * unique identifier that consits of the current date and time when the test ist started.
+   * The identifier will be added through the test to newly added objects
+   * @type {Date}
+   */
   var d = new Date(); // for now
   var ident = d.getHours().toString() + ":" + d.getMinutes().toString() + "_" +
     d.getDate() + "/" + d.getMonth()+1 + "/" + d.getFullYear() ;
 
+  /**
+   * connection to the login page
+   */
   browser.get('http://localhost:4200/login')
 
+
+  /**
+   * tests the login with the test user
+   */
   it('login test', function() {
 
      element(by.id('userNameInputField')).sendKeys('123456');
 
      element(by.id('userPasswordInputField')).sendKeys('test');
 
-     element(by.id('loginButton')).click().
+
+    /**
+     * checks if the redirection to the home page was executed correctly
+     */
+    element(by.id('loginButton')).click().
       then(async() => {
         expect(await browser.getCurrentUrl()).toEqual("http://localhost:4200/home")
       });
 
   });
 
+
+  /**
+   * test for the creation of a new module
+   */
   it('create Module Test', function()  {
 
      element(by.id('addQuestionButton')).click();
@@ -42,7 +70,9 @@ describe('full rundown test', function(){
   });
 
 
-
+  /**
+   * test for the creation of a new question
+   */
   it('create question Test', function() {
 
      element(by.id("Test" + ident)).click();
@@ -76,6 +106,9 @@ describe('full rundown test', function(){
   });
 
 
+  /**
+   * test for creation of a new exam
+   */
   it('create exam Test', function() {
 
      element(by.id('createExamButtonNav')).click();
@@ -104,6 +137,9 @@ describe('full rundown test', function(){
 
   });
 
+  /**
+   * test for adding question to the new exam and starting the exam
+   */
   it('exam editor Test', function() {
 
      element(by.id('Test' + ident)).click();
@@ -112,6 +148,9 @@ describe('full rundown test', function(){
 
     let dropQuestion= element(by.id('questionDropList'));
 
+    /**
+     * drags a question into the drop zone to add it to the exam
+     */
     browser.actions().mouseDown(dragQuestion.getWebElement()).mouseMove(dropQuestion.getWebElement()).mouseUp().perform();
 
      element(by.id('saveExamButton')).click();
@@ -120,7 +159,10 @@ describe('full rundown test', function(){
 
      element(by.id('selectFileButton')).click();
 
-
+    /**
+     * is neccessary to bea able to add the external file
+     * into the browser window via the file browser
+     */
     browser.sleep(15000);
 
 
@@ -138,6 +180,9 @@ describe('full rundown test', function(){
 
   });
 
+  /**
+   * simulates the correction of the test exam
+   */
   it('exam correction Test', function() {
 
 
@@ -162,10 +207,6 @@ describe('full rundown test', function(){
 
 
   });
-
-
-
-
 
 
 });
