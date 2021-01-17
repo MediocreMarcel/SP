@@ -106,8 +106,8 @@
 
               <mat-card>
                 <button mat-raised-button style="width: 96%" (click)="exportLSFExcel()" *ngIf="calculateProgress()==100">LSF Excel exportieren</button>
-                <button mat-raised-button style="width: 96%; margin-top: 5%" (click)="endCorrection()" *ngIf="calculateProgress()==100">Korrektur beenden</button>
-                <button mat-raised-button style="width: 96%" (click)="startCorrection()" *ngIf="calculateProgress()<100">Korrektur starten</button>
+                <button id="endCorrectureButton" mat-raised-button style="width: 96%; margin-top: 5%" (click)="endCorrection()" *ngIf="calculateProgress()==100">Korrektur beenden</button>
+                <button id="startCorrectureButton" mat-raised-button style="width: 96%" (click)="startCorrection()" *ngIf="calculateProgress()<100">Korrektur starten</button>
               </mat-card>
 
             </mat-card>
