@@ -10,6 +10,7 @@ import {CorrectionDTO} from "../models/CorrectionDTO";
 import {Router} from "@angular/router";
 import {ExamArchiveServiceService} from "../../services/exam-archiv/exam-archive-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {LsfService} from "../../services/lsf/lsf.service";
 
 @Component({
   selector: 'app-correction-summery',
@@ -37,8 +38,9 @@ export class CorrectionSummeryComponent implements OnInit {
    * @param router router provided by angular
    * @param examArchiveService archive service, provided by angular
    * @param snackBar snackbar provided by angular
+   * @param lsfService lsf service provided by angular
    */
-  constructor(private correctionService: CorrectionService, private studentService: StudentsService, private router: Router, private examArchiveService: ExamArchiveServiceService, private snackBar: MatSnackBar) {
+  constructor(private correctionService: CorrectionService, private studentService: StudentsService, private router: Router, private examArchiveService: ExamArchiveServiceService, private snackBar: MatSnackBar, private lsfService: LsfService) {
    //load and save exam in internal storage, if site is refreshed
     let state = history.state;
     delete state.navigationId;
@@ -123,7 +125,12 @@ export class CorrectionSummeryComponent implements OnInit {
    * exports the lsf excel
    */
   exportLSFExcel() {
-
+    this.lsfService.getLsfExcel(this.exam).subscribe((response) => {
+        let file = new Blob([response], {type: 'application/vnd.ms-excel'});
+        var fileURL = URL.createObjectURL(file);
+        window.open(fileURL);
+      }
+    );
   }
 
   /**

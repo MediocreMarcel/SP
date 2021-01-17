@@ -22,5 +22,9 @@ public class StudentDTO {
 
     public StudentDTO(){
     }
+
+    public StudentDTO(Integer matrNumber){
+        this.matrNumber = matrNumber;
+    }
 }
 
