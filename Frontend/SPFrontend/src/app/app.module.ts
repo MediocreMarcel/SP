@@ -47,6 +47,7 @@ import { StartExamComponent } from './components/exam-editor/start-exam/start-ex
 import {NgxFileDropModule} from "ngx-file-drop";
 import {MatListModule} from "@angular/material/list";
 import { CorrectionQuestionViewComponent } from './components/correction-question-view/correction-question-view.component';
+import {PdfViewerModule} from 'ng2-pdf-viewer';
 import {CorrectionOverviewComponent} from "./components/correction-overview/correction-overview.component";
 import { CorrectionSummeryComponent } from './components/correction-summery/correction-summery.component';
 
@@ -106,6 +107,7 @@ import { CorrectionSummeryComponent } from './components/correction-summery/corr
         MatTableModule,
         NgxFileDropModule,
         MatListModule,
+        PdfViewerModule,
     ],
   providers: [
     UserService,

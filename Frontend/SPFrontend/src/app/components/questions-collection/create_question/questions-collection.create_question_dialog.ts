@@ -24,9 +24,20 @@ export class CreateQuestionDialog {
   evaluationCriteriaHeader: string[] = ['Bewertungskriterium', 'Punkte', 'Löschen'];
   evaluationCriterias: EvaluationCriteriaDTO[] = [];
   allFieldsHaveValues: boolean = false;
+  id: number = undefined; //only used when updating question-deletion
+  isEditing: boolean = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) private data: any, private service: CreateQuestionService, private dialogRef: MatDialogRef<CreateQuestionDialog>, private snackBar: MatSnackBar) {
       this.module = data.module;
+      if(data.question != undefined){
+        this.questionName = data.question.questionName;
+        this.shortName = data.question.shortName;
+        this.questionText = data.question.questionText;
+        this.category = data.question.category;
+        this.evaluationCriterias = data.question.evaluationCriterias;
+        this.id = data.question.questionId;
+        this.isEditing = true;
+      }
   }
 
   /**
@@ -34,7 +45,7 @@ export class CreateQuestionDialog {
    */
   writeQuestion() {
     if (this.isNeededInformationFilledIn()){
-      this.service.writeQuestionToDb(new QuestionWithEvaluationCriteriasDTO(null, this.questionName, this.questionText, this.totalPointsEval(), this.shortName, this.category, this.module.module_id, -1, this.evaluationCriterias)).subscribe();
+      this.service.writeQuestionToDb(new QuestionWithEvaluationCriteriasDTO(null, this.questionName, this.questionText, this.totalPointsEval(), this.shortName, this.category, this.module.module_id, -1, this.evaluationCriterias, 0)).subscribe();
       this.dialogRef.close();
     } else{
       this.snackBar.open("Bitte alle Felder ausfüllen!", "Schließen", {duration: 4000});
@@ -84,5 +95,18 @@ export class CreateQuestionDialog {
       this.questionText != undefined &&
       this.category != undefined &&
       this.evaluationCriterias.length > 0;
+  }
+
+  /**
+   * marks specific question as changed. Old question gets flagged as deleted and no-longer appears in questionpool. Edited question is created as a replacement
+   */
+  updateQuestion() {
+    if (this.isNeededInformationFilledIn()){
+      this.service.writeQuestionUpdateToDb(new QuestionWithEvaluationCriteriasDTO(this.id, this.questionName, this.questionText, this.totalPointsEval(), this.shortName, this.category, this.module.module_id, -1, this.evaluationCriterias, 0)).subscribe();
+      this.service.writeQuestionToDb(new QuestionWithEvaluationCriteriasDTO(null, this.questionName, this.questionText, this.totalPointsEval(), this.shortName, this.category, this.module.module_id, -1, this.evaluationCriterias, 0)).subscribe();
+      this.dialogRef.close();
+    } else{
+      this.snackBar.open("Bitte alle Felder ausfüllen!", "Schließen", {duration: 4000});
+    }
   }
 }

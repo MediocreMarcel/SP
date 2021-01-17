@@ -3,6 +3,7 @@ package de.hft_stuttgart.winf.proj2.sp.backend.pdf_generator;
 
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.io.source.OutputStream;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -19,6 +20,8 @@ import de.hft_stuttgart.winf.proj2.sp.backend.dto.QuestionsDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.print.Doc;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -34,23 +37,48 @@ public class Pdf_generator {
     private static final LineSeparator separator = new LineSeparator(new SolidLine(1)).setMarginTop(5);
 
     /**
+     *  Prints a PDF-File under PDF/Exam_ID_Title.pdf with a exam cover sheet and page for every question
+     * @param exam Exam Object List from the Question that need to be displayed in the PDF
+     * @param questions List from the Question that need to be displayed in the PDF
+     * @throws FileNotFoundException
+     */
+    public static void savePdfDocument(ExamDto exam, List<ExamQuestionDTO> questions) throws FileNotFoundException {
+        //Setting Filename, preparing document
+        final String filename = "PDF/Exam_" + exam.getExam_id() + "_" + exam.getTitle() + ".pdf ";
+        final PdfWriter pdfWriter;
+        pdfWriter = new PdfWriter(filename);
+        final PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+        //create the Document
+        final Document document = new Document(pdfDocument);
+        logger.info("Exam " + exam.getExam_id() + ": " + filename + " created");
+        writeExam(pdfDocument,document,exam,questions);
+    }
+
+    /**
+     *  Prints a PDF-File ByteArrayOutputStream under PDF/Exam_ID_Title.pdf with a exam cover sheet and page for every question
+     * @param exam Exam Object List from the Question that need to be displayed in the PDF
+     * @param questions List from the Question that need to be displayed in the PDF
+     * @return ByteArrayOutputStream from the PDF that is generated
+     * @throws FileNotFoundException
+     */
+    public static ByteArrayOutputStream previewPdfDocument(ExamDto exam, List<ExamQuestionDTO> questions) throws FileNotFoundException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final PdfWriter previewWriter = new PdfWriter(out);
+        final PdfDocument pdfDocument = new PdfDocument(previewWriter);
+        Document document = new Document(pdfDocument);
+        writeExam(pdfDocument,document, exam, questions);
+        return out;
+    }
+
+
+    /**
      * Prints a PDF-File under PDF/Exam_ID_Title.pdf with a exam cover sheet and page for every question
      *
      * @param exam      ExamDto --> Exam Object
      * @param questions List<ExamQuestionDTO>    --> List of Question Objects
      * @throws FileNotFoundException if the filename cant be created in the directory
      */
-    public static void writeExam(ExamDto exam, List<ExamQuestionDTO> questions) throws FileNotFoundException {
-
-        //Setting Filename, preparing document
-        final String filename = "PDF/Exam_" + exam.getExam_id() + "_" + exam.getTitle() + ".pdf ";
-        final PdfWriter pdfWriter;
-        pdfWriter = new PdfWriter(filename);
-        final PdfDocument pdfDocument = new PdfDocument(pdfWriter);
-
-        //create the Document
-        final Document document = new Document(pdfDocument);
-        logger.info("Exam " + exam.getExam_id() + ": " + filename + " created");
+    public static void writeExam(PdfDocument pdfDocument, Document document , ExamDto exam, List<ExamQuestionDTO> questions) throws FileNotFoundException {
 
         //exam cover sheet
         try {
@@ -94,6 +122,7 @@ public class Pdf_generator {
         logger.info("Exam " + exam.getExam_id() + ": Bottom printed");
 
         logger.info("Exam " + exam.getExam_id() + ": printed successfully");
+        document.close();
     }
 
     /**
