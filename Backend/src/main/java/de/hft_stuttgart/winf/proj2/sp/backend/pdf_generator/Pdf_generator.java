@@ -74,8 +74,8 @@ public class Pdf_generator {
     /**
      * Prints a PDF-File under PDF/Exam_ID_Title.pdf with a exam cover sheet and page for every question
      *
-     * @param exam      ExamDto --> Exam Object
-     * @param questions List<ExamQuestionDTO>    --> List of Question Objects
+     * @param exam      ExamDto = Exam Object
+     * @param questions List of ExamQuestionDTO  List of Question Objects
      * @throws FileNotFoundException if the filename cant be created in the directory
      */
     public static void writeExam(PdfDocument pdfDocument, Document document , ExamDto exam, List<ExamQuestionDTO> questions) throws FileNotFoundException {
