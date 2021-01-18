@@ -27,7 +27,7 @@
       <mat-grid-tile>
         <mat-form-field class="infoHeaderInput">
           <mat-label>Prüfungsdatum</mat-label>
-          <input matInput type="text" min="0" [(ngModel)]="exam.exam_date" disabled="true" class="blackInput">
+          <input matInput type="text" min="0" [ngModel]="exam.exam_date | date: 'dd.MM.yyyy'" disabled="true" class="blackInput">
         </mat-form-field>
       </mat-grid-tile>
 
