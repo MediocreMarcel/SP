@@ -1,12 +1,12 @@
 package de.hft_stuttgart.winf.proj2.sp.backend.lsf;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.ExamDto;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.StudentDTO;
 import de.hft_stuttgart.winf.proj2.sp.backend.dto.StudentWithGradeDTO;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -83,9 +83,9 @@ public class LsfExcelUtil {
         return student;
     }
 
-    public ByteOutputStream writeIntoExcel(ExamDto exam, InputStream file, List<StudentWithGradeDTO> studentsWithGrade) {
+    public ByteArrayOutputStream writeIntoExcel(ExamDto exam, InputStream file, List<StudentWithGradeDTO> studentsWithGrade) {
 
-        ByteOutputStream bout = new ByteOutputStream();
+        ByteArrayOutputStream bout = new ByteArrayOutputStream();
 
         int counter = 0;
 
